@@ -24,10 +24,10 @@ export default function page() {
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
           <UserPlus className="text-3xl" />
-          <h1 className="text-2xl font-bold">Entry</h1>
+          <h1 className="text-2xl font-bold">প্রবেশ</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
-          Create a perfect roadmap for your learning
+        আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
@@ -69,7 +69,7 @@ export default function page() {
                     <div className="space-y-2 ">
                       <div className="space-y-2 ">
                         <Label className="text-xs" htmlFor="name">
-                          Name
+                        নাম
                         </Label>
                         <Input
                           id="name"
@@ -81,29 +81,29 @@ export default function page() {
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs" htmlFor="email">
-                          Email
+                        ঠিকানা
                         </Label>
                         <Input
-                          id="email"
-                          type="email"
+                          id="address"
+                          type="address"
                           className="w-1/2 border-[1px] border-gray-600"
-                          name="email"
+                          name="address"
                           required
                         />
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs" htmlFor="password">
-                          Password
+                        ক্যাফে ইউআরএল
                         </Label>
                         <Input
-                          type="password"
-                          id="password"
+                          type="cafe_url"
+                          id="cafe_url"
                           className="w-1/2 border-[1px] border-gray-600"
-                          name="password"
+                          name="cafe_url"
                           required
                         />
                       </div>
-                      <div className="space-y-2">
+                      {/* <div className="space-y-2">
                         <Label className="text-xs" htmlFor="password">
                           Mobile No
                         </Label>
@@ -114,8 +114,8 @@ export default function page() {
                           name="mobile"
                           required
                         />
-                      </div>
-                      <div className="space-y-2">
+                      </div> */}
+                      {/* <div className="space-y-2">
                         <Label className="text-xs" htmlFor="password">
                           Thana
                         </Label>
@@ -126,7 +126,7 @@ export default function page() {
                           name="thana"
                           required
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

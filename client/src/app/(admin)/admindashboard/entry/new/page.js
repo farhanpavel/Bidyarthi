@@ -32,10 +32,9 @@ export default function page() {
         <div>
           <Card className="border-[1px] border-gray-300">
             <CardHeader className="space-y-4">
-              <CardTitle>Police Details</CardTitle>
+              <CardTitle>ব্যবহারকারী বিবরণ</CardTitle>
               <CardDescription>
-                Please select the Post of the police and fill in the required
-                information.
+              ব্যবহারকারী বিবরণ: দয়া করে ব্যবহারকারীর পদ নির্বাচন করুন এবং প্রয়োজনীয় তথ্য পূর্ণ করুন।
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -47,26 +46,31 @@ export default function page() {
                     </Label>
                     <Select required>
                       <SelectTrigger id="framework">
-                        <SelectValue placeholder="Unassigned" />
+                        <SelectValue placeholder="এখনও নির্ধারিত নয়" />
                       </SelectTrigger>
                       <SelectContent position="popper">
-                        <SelectItem value="Sub Inspector">
-                          Sub Inspector
+                        <SelectItem value="Bus driver">
+                        বাস ড্রাইভার
                         </SelectItem>
-                        <SelectItem value="ASP">ASP</SelectItem>
+                        <SelectItem value="Club president">
+                        ক্লাব সভাপতি
+                        </SelectItem>
+                        <SelectItem value="Cafeteria chef ">
+                        ক্যান্টিন শেফ
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="flex flex-col space-y-6">
                     <div>
                       <h1 className="font-semibold text-sm">
-                        Enter Police Informations
+                      ব্যবহারকারীর তথ্য প্রদান করুন
                       </h1>
                     </div>
                     <div className="space-y-2 ">
                       <div className="space-y-2 ">
                         <Label className="text-xs" htmlFor="name">
-                          Name
+                        নাম
                         </Label>
                         <Input
                           id="name"
@@ -78,7 +82,7 @@ export default function page() {
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs" htmlFor="email">
-                          Email
+                        ইমেইল
                         </Label>
                         <Input
                           id="email"
@@ -90,7 +94,7 @@ export default function page() {
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs" htmlFor="password">
-                          Password
+                        পাসওয়ার্ড
                         </Label>
                         <Input
                           type="password"
@@ -102,17 +106,17 @@ export default function page() {
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs" htmlFor="password">
-                          Mobile No
+                        পদ
                         </Label>
                         <Input
-                          type="number"
-                          id="mobile"
+                          type="text"
+                          id="role"
                           className="w-1/2 border-[1px] border-gray-600"
-                          name="mobile"
+                          name="role"
                           required
                         />
                       </div>
-                      <div className="space-y-2">
+                      {/* <div className="space-y-2">
                         <Label className="text-xs" htmlFor="password">
                           Thana
                         </Label>
@@ -123,7 +127,7 @@ export default function page() {
                           name="thana"
                           required
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
