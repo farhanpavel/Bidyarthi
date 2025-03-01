@@ -12,8 +12,43 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+  id        String     @id @default(uuid())
+  email     String     @unique
+  name      String
+  role      String
+  password  String
+  cafeteria Cafeteria?
+  bus       Bus?
+  club      Club?
+}
+
+model Cafeteria {
+  id       String @id @default(uuid())
+  user_id  String @unique
+  cafe_url String
+  name     String
+  address  String
+  User     User   @relation(fields: [user_id], references: [id])
+}
+
+model Bus {
+  id          String @id @default(uuid())
+  user_id     String @unique
+  name        String
+  bus_url     String
+  bus_no      String
+  source      String
+  destination String
+  User        User   @relation(fields: [user_id], references: [id])
+}
+
+model Club {
+  id       String @id @default(uuid())
+  user_id  String @unique
+  name     String
+  club_no  String
+  club_url String
+  User     User   @relation(fields: [user_id], references: [id])
 }
