@@ -41,6 +41,9 @@ export default function page() {
             <CardContent>
               <form>
                 <div className="grid w-full items-center gap-4">
+                  <div className="flex flex-col w-1/5 space-y-3">
+                    <Input type="file" className="border-gray-600" />
+                  </div>
                   <div className="flex flex-col w-1/4 space-y-3">
                     <Label htmlFor="framework" className="text-xs">
                       Select role

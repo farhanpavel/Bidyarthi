@@ -18,7 +18,7 @@ export default function Work() {
           </p>
           <h1 className="bg-[#FFBA00] rounded-full w-8 h-8 text-left mx-0"></h1>
         </div>
-        <div className="">
+        <div>
           <Snake />
         </div>
       </div>
