@@ -1,11 +1,16 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
-
+import { FaGoogle } from "react-icons/fa";
+import { FaMeta } from "react-icons/fa6";
+import { FaAmazon } from "react-icons/fa6";
+import { SiAdidas } from "react-icons/si";
+import { SiDell } from "react-icons/si";
+import { GrHpi } from "react-icons/gr";
 export default function Hero() {
   return (
     <div>
-      <div className="mt-6 font-bangla">
+      <div className="mt-6 font-bangla container mx-auto">
         <div className="text-center space-y-5">
           <div className="space-y-4">
             <h1 className="text-5xl font-bold leading-[3.6rem]">
@@ -16,6 +21,7 @@ export default function Hero() {
               ইভেন্ট সব একসাথে!
             </p>
           </div>
+
           <div className="space-x-5">
             <Button className="rounded-full px-6 bg-yellow-500 text-white hover:bg-yellow-500">
               সাইন ইন
@@ -63,6 +69,32 @@ export default function Hero() {
               alt="hero4"
             />
             <h1 className="bg-[#DD3F3F] rounded-full w-6 h-6 absolute right-0  transform -translate-y-1/2"></h1>
+          </div>
+        </div>
+        <div className="p-5 space-y-10">
+          <div className="text-center text-[#504D4E] mt-4 font-medium">
+            <p>বিভিন্ন ইউনিকর্ন কোম্পানির বিশ্বস্ত পছন্দ</p>
+          </div>
+
+          <div className="flex justify-evenly">
+            <div>
+              <FaGoogle className="text-4xl opacity-40" />
+            </div>
+            <div>
+              <FaMeta className="text-4xl opacity-40" />
+            </div>
+            <div>
+              <FaAmazon className="text-4xl opacity-40" />
+            </div>
+            <div>
+              <SiAdidas className="text-4xl opacity-40" />
+            </div>
+            <div>
+              <SiDell className="text-4xl opacity-40" />
+            </div>
+            <div>
+              <GrHpi className="text-4xl opacity-40" />
+            </div>
           </div>
         </div>
       </div>
