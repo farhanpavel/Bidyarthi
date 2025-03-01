@@ -20,7 +20,7 @@ export const columns = [
     accessorKey: "name",
     header: ({ column }) => (
       <button
-        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         নাম
@@ -33,7 +33,7 @@ export const columns = [
     accessorKey: "address",
     header: ({ column }) => (
       <button
-        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         ঠিকানা
@@ -46,7 +46,7 @@ export const columns = [
     accessorKey: "cafe_url",
     header: ({ column }) => (
       <button
-        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         ক্যাফে ইউআরএল

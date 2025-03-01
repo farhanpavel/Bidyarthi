@@ -20,7 +20,7 @@ export const columns = [
     accessorKey: "name",
     header: ({ column }) => (
       <button
-        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         নাম
@@ -33,7 +33,7 @@ export const columns = [
     accessorKey: "email",
     header: ({ column }) => (
       <button
-        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         ইমেইল
@@ -59,7 +59,7 @@ export const columns = [
     accessorKey: "role",
     header: ({ column }) => (
       <button
-        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
         পদ

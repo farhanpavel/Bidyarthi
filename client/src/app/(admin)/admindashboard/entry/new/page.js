@@ -24,16 +24,16 @@ export default function page() {
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
           <UserPlus className="text-3xl" />
-          <h1 className="text-2xl font-bold">প্রবেশ</h1>
+          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
         </div>
-        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
+        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4 font-bangla">
         আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
             <CardHeader className="space-y-4">
-              <CardTitle>ব্যবহারকারী বিবরণ</CardTitle>
-              <CardDescription>
+              <CardTitle className="font-bangla">ব্যবহারকারী বিবরণ</CardTitle>
+              <CardDescription className="font-bangla">
               ব্যবহারকারী বিবরণ: দয়া করে ব্যবহারকারীর পদ নির্বাচন করুন এবং প্রয়োজনীয় তথ্য পূর্ণ করুন।
               </CardDescription>
             </CardHeader>
@@ -41,21 +41,21 @@ export default function page() {
               <form>
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col w-1/4 space-y-3">
-                    <Label htmlFor="framework" className="text-xs">
+                    <Label htmlFor="framework" className="text-xs font-bangla">
                     পদ নির্বাচন করুন
                     </Label>
                     <Select required>
                       <SelectTrigger id="framework">
-                        <SelectValue placeholder="এখনও নির্ধারিত নয়" />
+                        <SelectValue placeholder="এখনও নির্ধারিত নয়" className="font-bangla" />
                       </SelectTrigger>
                       <SelectContent position="popper">
-                        <SelectItem value="Bus driver">
+                        <SelectItem value="Bus driver" className="font-bangla">
                         বাস ড্রাইভার
                         </SelectItem>
-                        <SelectItem value="Club president">
+                        <SelectItem value="Club president" className="font-bangla">
                         ক্লাব সভাপতি
                         </SelectItem>
-                        <SelectItem value="Cafeteria chef ">
+                        <SelectItem value="Cafeteria chef " className="font-bangla">
                         ক্যান্টিন শেফ
                         </SelectItem>
                       </SelectContent>
@@ -63,13 +63,13 @@ export default function page() {
                   </div>
                   <div className="flex flex-col space-y-6">
                     <div>
-                      <h1 className="font-semibold text-sm">
+                      <h1 className="font-semibold text-sm font-bangla">
                       ব্যবহারকারীর তথ্য প্রদান করুন
                       </h1>
                     </div>
                     <div className="space-y-2 ">
                       <div className="space-y-2 ">
-                        <Label className="text-xs" htmlFor="name">
+                        <Label className="text-xs font-bangla" htmlFor="name">
                         নাম
                         </Label>
                         <Input
@@ -81,7 +81,7 @@ export default function page() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="email">
+                        <Label className="text-xs font-bangla" htmlFor="email">
                         ইমেইল
                         </Label>
                         <Input
@@ -93,7 +93,7 @@ export default function page() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="password">
+                        <Label className="text-xs font-bangla" htmlFor="password">
                         পাসওয়ার্ড
                         </Label>
                         <Input
@@ -105,7 +105,7 @@ export default function page() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="password">
+                        <Label className="text-xs font-bangla" htmlFor="password">
                         পদ
                         </Label>
                         <Input
@@ -135,9 +135,9 @@ export default function page() {
                   <Button
                     type="submit"
                     variant="default"
-                    className="hover:transition-all hover:delay-100"
+                    className="hover:transition-all hover:delay-100 font-bangla"
                   >
-                    Submit
+                    প্রদান করুন
                   </Button>
                 </CardFooter>
               </form>
