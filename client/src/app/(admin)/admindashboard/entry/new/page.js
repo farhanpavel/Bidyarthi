@@ -1,5 +1,6 @@
-import { UserPlus } from "lucide-react";
-import React from "react";
+"use client";
+import { Loader2, UserPlus } from "lucide-react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -10,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
 import {
   Select,
   SelectContent,
@@ -18,7 +20,47 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-export default function page() {
+import { url } from "@/components/Url/page";
+import { useRouter } from "next/navigation";
+
+export default function Page() {
+  const [isLoading, setLoading] = useState(true);
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(formData);
+    try {
+      const response = await fetch(`${url}/api/user/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setLoading(false);
+        setTimeout(() => {
+          router.back();
+        }, 3000);
+      }
+      console.log("Response:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   return (
     <div>
       <div className="p-9 space-y-2">
@@ -26,119 +68,114 @@ export default function page() {
           <UserPlus className="text-3xl" />
           <h1 className="text-2xl font-bold">প্রবেশ</h1>
         </div>
-        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
-        আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+        <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4">
+          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
             <CardHeader className="space-y-4">
               <CardTitle>ব্যবহারকারী বিবরণ</CardTitle>
               <CardDescription>
-              ব্যবহারকারী বিবরণ: দয়া করে ব্যবহারকারীর পদ নির্বাচন করুন এবং প্রয়োজনীয় তথ্য পূর্ণ করুন।
+                ব্যবহারকারী বিবরণ: দয়া করে ব্যবহারকারীর পদ নির্বাচন করুন এবং
+                প্রয়োজনীয় তথ্য পূর্ণ করুন।
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col w-1/4 space-y-3">
-                    <Label htmlFor="framework" className="text-xs">
-                    পদ নির্বাচন করুন
+                    <Label htmlFor="role" className="text-xs">
+                      পদ নির্বাচন করুন
                     </Label>
-                    <Select required>
-                      <SelectTrigger id="framework">
+                    <Select
+                      onValueChange={(value) =>
+                        setFormData((prev) => ({ ...prev, role: value }))
+                      }
+                    >
+                      <SelectTrigger>
                         <SelectValue placeholder="এখনও নির্ধারিত নয়" />
                       </SelectTrigger>
                       <SelectContent position="popper">
-                        <SelectItem value="Bus driver">
-                        বাস ড্রাইভার
-                        </SelectItem>
+                        <SelectItem value="Bus driver">বাস ড্রাইভার</SelectItem>
                         <SelectItem value="Club president">
-                        ক্লাব সভাপতি
+                          ক্লাব সভাপতি
                         </SelectItem>
-                        <SelectItem value="Cafeteria chef ">
-                        ক্যান্টিন শেফ
+                        <SelectItem value="Cafeteria chef">
+                          ক্যান্টিন শেফ
                         </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="flex flex-col space-y-6">
+                  <div className="flex flex-col gap-y-6">
                     <div>
                       <h1 className="font-semibold text-sm">
-                      ব্যবহারকারীর তথ্য প্রদান করুন
+                        ব্যবহারকারীর তথ্য প্রদান করুন
                       </h1>
                     </div>
-                    <div className="space-y-2 ">
-                      <div className="space-y-2 ">
+                    <div className="space-y-4">
+                      <div className="space-y-2">
                         <Label className="text-xs" htmlFor="name">
-                        নাম
+                          নাম
                         </Label>
                         <Input
                           id="name"
-                          type="name"
+                          type="text"
                           className="w-1/2 border-[1px] border-gray-600"
                           name="name"
+                          value={formData.name}
+                          onChange={handleChange}
                           required
                         />
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs" htmlFor="email">
-                        ইমেইল
+                          ইমেইল
                         </Label>
                         <Input
                           id="email"
                           type="email"
                           className="w-1/2 border-[1px] border-gray-600"
                           name="email"
+                          value={formData.email}
+                          onChange={handleChange}
                           required
                         />
                       </div>
+
                       <div className="space-y-2">
                         <Label className="text-xs" htmlFor="password">
-                        পাসওয়ার্ড
+                          পাসওয়ার্ড
                         </Label>
                         <Input
-                          type="password"
                           id="password"
+                          type="password"
                           className="w-1/2 border-[1px] border-gray-600"
                           name="password"
+                          value={formData.password}
+                          onChange={handleChange}
                           required
                         />
                       </div>
-                      <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="password">
-                        পদ
-                        </Label>
-                        <Input
-                          type="text"
-                          id="role"
-                          className="w-1/2 border-[1px] border-gray-600"
-                          name="role"
-                          required
-                        />
-                      </div>
-                      {/* <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="password">
-                          Thana
-                        </Label>
-                        <Input
-                          type="name"
-                          id="thana"
-                          className="w-1/2 border-[1px] border-gray-600"
-                          name="thana"
-                          required
-                        />
-                      </div> */}
                     </div>
                   </div>
                 </div>
                 <CardFooter className="flex justify-end mt-7">
-                  <Button
-                    type="submit"
-                    variant="default"
-                    className="hover:transition-all hover:delay-100"
-                  >
-                    Submit
-                  </Button>
+                  {isLoading ? (
+                    <Button
+                      type="submit"
+                      className="  hover:transition-all hover:delay-100"
+                    >
+                      Submit
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      disabled
+                      className="  hover:transition-all hover:delay-100"
+                    >
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    </Button>
+                  )}
                 </CardFooter>
               </form>
             </CardContent>
