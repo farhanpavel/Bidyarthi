@@ -32,10 +32,9 @@ export default function page() {
         <div>
           <Card className="border-[1px] border-gray-300">
             <CardHeader className="space-y-4">
-              <CardTitle>Police Details</CardTitle>
+              <CardTitle>ক্যাফেটেরিয়া বিবরণ</CardTitle>
               <CardDescription>
-                Please select the Post of the police and fill in the required
-                information.
+              দয়া করে ক্যাফেটেরিয়ার পদ নির্বাচন করুন এবং প্রয়োজনীয় তথ্য পূরণ করুন।
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -44,26 +43,11 @@ export default function page() {
                   <div className="flex flex-col w-1/5 space-y-3">
                     <Input type="file" className="border-gray-600" />
                   </div>
-                  <div className="flex flex-col w-1/4 space-y-3">
-                    <Label htmlFor="framework" className="text-xs">
-                      Select role
-                    </Label>
-                    <Select required>
-                      <SelectTrigger id="framework">
-                        <SelectValue placeholder="Unassigned" />
-                      </SelectTrigger>
-                      <SelectContent position="popper">
-                        <SelectItem value="Sub Inspector">
-                          Sub Inspector
-                        </SelectItem>
-                        <SelectItem value="ASP">ASP</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+                  
                   <div className="flex flex-col space-y-6">
                     <div>
                       <h1 className="font-semibold text-sm">
-                        Enter Police Informations
+                      ক্যাফেটেরিয়ার তথ্য প্রদান করুন
                       </h1>
                     </div>
                     <div className="space-y-2 ">
