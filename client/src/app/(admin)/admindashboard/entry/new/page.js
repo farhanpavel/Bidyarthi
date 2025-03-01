@@ -24,10 +24,10 @@ export default function page() {
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
           <UserPlus className="text-3xl" />
-          <h1 className="text-2xl font-bold">Entry</h1>
+          <h1 className="text-2xl font-bold">প্রবেশ</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
-          Create a perfect roadmap for your learning
+        আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
@@ -43,7 +43,7 @@ export default function page() {
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col w-1/4 space-y-3">
                     <Label htmlFor="framework" className="text-xs">
-                      Select role
+                    পদ নির্বাচন করুন
                     </Label>
                     <Select required>
                       <SelectTrigger id="framework">
