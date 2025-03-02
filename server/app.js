@@ -4,6 +4,7 @@ import cors from "cors";
 import userRouter from "./routes/userRouter.js";
 import cafeRouter from "./routes/cafeRouter.js";
 import busRouter from "./routes/busRoute.js";
+import clubRouter from "./routes/clubRoute.js";
 
 const app = express();
 app.use(cors());
@@ -21,3 +22,4 @@ app.listen(PORT, () => {
 app.use("/api/user", userRouter);
 app.use("/api/cafe", cafeRouter);
 app.use("/api/bus", busRouter);
+app.use("/api/club", clubRouter);

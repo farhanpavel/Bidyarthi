@@ -5,7 +5,7 @@ import multer from "multer";
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-export const getBus = async (req, res) => {
+export const getClub = async (req, res) => {
   try {
     const busData = await prisma.club.findMany();
     res.status(200).json(busData);
@@ -56,7 +56,7 @@ export const getBus = async (req, res) => {
 //   }
 // };
 
-export const postBus = async (req, res) => {
+export const postClub = async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: "No file uploaded." });
