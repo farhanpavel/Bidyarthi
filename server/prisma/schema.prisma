@@ -61,15 +61,15 @@ model ChefAssignment {
 }
 
 model BusRoute {
-  id         String   @id @default(uuid())
-  routeName  String
-  startPoint String
-  endPoint   String
-  schedule   String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  // Relationships
+  id                   String                @id @default(uuid())
+  busNum               String
+  routeName            String
+  startPoint           String
+  endPoint             String
+  schedule             String
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  bus_url              String
   notifications        BusNotification[]
   busDriverAssignments BusDriverAssignment[] // Renamed for consistency
 }
