@@ -19,7 +19,7 @@ export default function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${url}/api/user/Cafeteria chef/deactive`, {
+      const response = await fetch(`${url}/api/user/Cafeteriachef/deactive`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export default function Page() {
 
     const assignData = async () => {
       const response = await fetch(
-        `${url}/api/user/Cafeteria chef/${id}/active`,
+        `${url}/api/user/Cafeteriachef/${id}/active`,
         {
           method: "GET",
           headers: {

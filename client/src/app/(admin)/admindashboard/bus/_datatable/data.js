@@ -28,7 +28,7 @@ export const ActionsCell = ({ user }) => {
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => {
-              router.push(`/admindashboard/cafeteria/assign/${user.id}`);
+              router.push(`/admindashboard/bus/assign/${user.id}`);
             }}
             className="hover:bg-blue-200 rounded-lg hover:transition-all hover:delay-100 text-xs text-[#4a4a4a]"
           >

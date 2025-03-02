@@ -30,35 +30,86 @@ export const getUserByroleFalse = async (req, res) => {
 };
 export const getUserByroleTrue = async (req, res) => {
   try {
-    const userData = await prisma.user.findFirst({
-      where: {
-        role: req.params.role,
-        status: true,
-        chefAssignment: {
-          is: {
-            restaurantId: req.params.id,
+    let userData;
+
+    switch (req.params.role) {
+      case "Busdriver":
+        userData = await prisma.user.findFirst({
+          where: {
+            role: req.params.role,
+            status: true,
+            busDriverAssignment: {
+              is: {
+                routeId: req.params.id,
+              },
+            },
           },
-        },
-      },
-      include: {
-        chefAssignment: {
           include: {
-            restaurant: true,
+            busDriverAssignment: {
+              include: {
+                route: true,
+              },
+            },
           },
-        },
-      },
-    });
+        });
+        break;
+
+      case "Clubpresident":
+        userData = await prisma.user.findFirst({
+          where: {
+            role: req.params.role,
+            status: true,
+            clubMembership: {
+              is: {
+                clubId: req.params.id,
+              },
+            },
+          },
+          include: {
+            clubMembership: {
+              include: {
+                club: true,
+              },
+            },
+          },
+        });
+        break;
+
+      case "Cafeteriachef":
+        userData = await prisma.user.findFirst({
+          where: {
+            role: req.params.role,
+            status: true,
+            chefAssignment: {
+              is: {
+                restaurantId: req.params.id,
+              },
+            },
+          },
+          include: {
+            chefAssignment: {
+              include: {
+                restaurant: true,
+              },
+            },
+          },
+        });
+        break;
+
+      default:
+        return res.status(400).json({ message: "Invalid role provided" });
+    }
 
     if (!userData) {
       return res
         .status(404)
-        .json({ message: "No assigned user found for this restaurant" });
+        .json({ message: "No assigned user found for this role and ID" });
     }
 
     res.status(200).json(userData);
   } catch (error) {
     console.error("Error fetching user:", error);
-    res.status(500).json({ message: "Not Found" });
+    res.status(500).json({ message: "Error fetching user data" });
   }
 };
 

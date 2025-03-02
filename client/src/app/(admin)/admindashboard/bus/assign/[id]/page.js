@@ -10,11 +10,98 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Cookies from "js-cookie";
+import { useParams } from "next/navigation";
 
 export default function Page() {
   const [user, setUser] = useState([]);
   const [assignedUser, setAssignedUser] = useState(null);
+  const { id } = useParams();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`${url}/api/user/Busdriver/deactive`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setUser(data);
+      }
+    };
+
+    const assignData = async () => {
+      const response = await fetch(`${url}/api/user/Busdriver/${id}/active`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setAssignedUser(data);
+      }
+    };
+
+    fetchData();
+    assignData();
+  }, []);
+
+  const handleAssign = async (user_id) => {
+    try {
+      const response = await fetch(`${url}/api/bus/${user_id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+        }),
+      });
+
+      if (!response.ok) {
+        alert("Failed to assign provost");
+      } else {
+        // Update state in real-time
+        const userToAssign = user.find((u) => u.id === user_id);
+        if (userToAssign) {
+          setAssignedUser(userToAssign); // Move user to assigned box
+          setUser((prevUsers) => prevUsers.filter((u) => u.id !== user_id)); // Remove user from unassigned box
+        }
+        alert("Success");
+      }
+    } catch (err) {
+      console.error("Error assigning provost:", err);
+    }
+  };
+
+  const handleDelete = async (user_id) => {
+    try {
+      const response = await fetch(`${url}/api/bus/${user_id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+        }),
+      });
+
+      if (!response.ok) {
+        alert("Failed to unassign provost");
+      } else {
+        // Update state in real-time
+        if (assignedUser) {
+          setUser((prevUsers) => [...prevUsers, assignedUser]); // Move user back to unassigned box
+          setAssignedUser(null); // Clear assigned user
+        }
+        alert("Success");
+      }
+    } catch (err) {
+      console.error("Error unassigning provost:", err);
+    }
+  };
 
   return (
     <div className="p-9 space-y-2">
@@ -50,14 +137,14 @@ export default function Page() {
                   {user.map((data) => (
                     <h1
                       className="text-xs flex items-center justify-between text-[#4a4a4a] border-b-[1px] border-gray-200 py-3"
-                      key={data.provost_id}
+                      key={data.id}
                     >
-                      {data.user?.name}{" "}
+                      {data.name}{" "}
                       <Button
                         className="h-8 w-8 hover:bg-black hover:text-white hover:transition-all hover:delay-100 hover:duration-100"
                         variant="ghost"
                         size="icon"
-                        onClick={() => handleAssign(data.provost_id)}
+                        onClick={() => handleAssign(data.id)}
                         disabled={!!assignedUser}
                       >
                         <ChevronRight className="h-4 w-4" />
@@ -80,17 +167,17 @@ export default function Page() {
                   </div>
                 </CardHeader>
                 <CardContent>
-                  {assignedUser && assignedUser.user && (
+                  {assignedUser && (
                     <h1 className="text-xs flex items-center justify-between text-[#4a4a4a] border-b-[1px] border-gray-200 py-3">
                       <Button
-                        onClick={handleRemove}
+                        onClick={() => handleDelete(assignedUser.id)}
                         className="h-8 w-8 hover:bg-black hover:text-white hover:transition-all hover:delay-100 hover:duration-100"
                         variant="ghost"
                         size="icon"
                       >
                         <ChevronLeft className="h-4 w-4" />
                       </Button>
-                      {assignedUser.user.name}
+                      {assignedUser.name}
                     </h1>
                   )}
                 </CardContent>

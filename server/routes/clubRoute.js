@@ -1,5 +1,7 @@
 import express from "express";
 import {
+  clubAssign,
+  clubDelete,
   getClub,
   postClub,
   uploadMiddleware,
@@ -9,7 +11,7 @@ const clubRouter = express.Router();
 
 clubRouter.get("/", getClub);
 clubRouter.post("/", uploadMiddleware, postClub);
-// cafeRouter.put("/:id", chefAssign);
-// cafeRouter.delete("/:id", chefDelete);
+clubRouter.put("/:id", clubAssign);
+clubRouter.delete("/:id", clubDelete);
 
 export default clubRouter;

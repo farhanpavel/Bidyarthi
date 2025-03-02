@@ -1,12 +1,12 @@
 "use client";
 import { CalendarCheck } from "lucide-react";
-
 import React, { useState, useEffect } from "react";
 import {
   flexRender,
   useReactTable,
   getCoreRowModel,
   getSortedRowModel,
+  getPaginationRowModel, // Add this for pagination
 } from "@tanstack/react-table";
 import {
   Table,
@@ -19,6 +19,7 @@ import {
 import Link from "next/link";
 import { columns } from "./_datatable/action"; // Ensure this import is correct
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button"; // Add Button component for pagination controls
 import { url } from "@/components/Url/page";
 
 export default function Page() {
@@ -45,6 +46,12 @@ export default function Page() {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(), // Enable pagination
+    initialState: {
+      pagination: {
+        pageSize: 5, // Set the default page size
+      },
+    },
   });
 
   return (
@@ -126,6 +133,49 @@ export default function Page() {
                 )}
               </TableBody>
             </Table>
+          </div>
+
+          {/* Pagination Controls */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+              >
+                পূর্ববর্তী
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+              >
+                পরবর্তী
+              </Button>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="flex items-center mt-1">
+                <span className="text-sm font-bangla">
+                  পৃষ্ঠা {table.getState().pagination.pageIndex + 1} এর{" "}
+                  {table.getPageCount()}
+                </span>
+              </div>
+              <select
+                value={table.getState().pagination.pageSize}
+                onChange={(e) => {
+                  table.setPageSize(Number(e.target.value));
+                }}
+                className="border rounded p-1 text-sm"
+              >
+                {[5, 10, 20, 30, 40, 50].map((pageSize) => (
+                  <option key={pageSize} value={pageSize}>
+                    {pageSize} প্রতি পৃষ্ঠায়
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
       </div>

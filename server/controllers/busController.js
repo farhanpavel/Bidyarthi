@@ -13,48 +13,48 @@ export const getBus = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch data" });
   }
 };
-// export const BusAssign = async (req, res) => {
-//   try {
-//     const cafeData = await prisma.user.update({
-//       where: {
-//         id: req.params.id,
-//       },
-//       data: {
-//         status: true,
-//       },
-//     });
-//     await prisma.chefAssignment.create({
-//       data: {
-//         userId: req.params.id,
-//         restaurantId: req.body.id,
-//       },
-//     });
-//     res.status(200).json(cafeData);
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to fetch data" });
-//   }
-// };
-// export const BusDelete = async (req, res) => {
-//   try {
-//     const cafeData = await prisma.user.update({
-//       where: {
-//         id: req.params.id,
-//       },
-//       data: {
-//         status: false,
-//       },
-//     });
-//     await prisma.chefAssignment.delete({
-//       where: {
-//         userId: req.params.id,
-//         restaurantId: req.body.id,
-//       },
-//     });
-//     res.status(200).json(cafeData);
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to fetch data" });
-//   }
-// };
+export const BusAssign = async (req, res) => {
+  try {
+    const busData = await prisma.user.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        status: true,
+      },
+    });
+    await prisma.busDriverAssignment.create({
+      data: {
+        userId: req.params.id,
+        routeId: req.body.id,
+      },
+    });
+    res.status(200).json(busData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+};
+export const BusDelete = async (req, res) => {
+  try {
+    const busData = await prisma.user.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        status: false,
+      },
+    });
+    await prisma.busDriverAssignment.create({
+      data: {
+        userId: req.params.id,
+        routeId: req.body.id,
+      },
+    });
+    res.status(200).json(busData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+};
 
 export const postBus = async (req, res) => {
   try {

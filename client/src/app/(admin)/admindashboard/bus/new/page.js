@@ -1,6 +1,8 @@
 "use client";
-import { UserPlus } from "lucide-react";
-import React, { useState } from "react";
+import { UserPlus, Loader2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import "dotenv/config";
+
 import {
   Card,
   CardContent,
@@ -12,9 +14,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { url } from "@/components/Url/page";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const [isLoading, setLoading] = useState(true);
+  const router = useRouter();
   const [data, setData] = useState({
     busNum: "",
     routeName: "",
@@ -23,9 +35,43 @@ export default function Page() {
     schedule: "",
   });
   const [file, setFile] = useState(null);
+  const [places, setPlaces] = useState([]);
+
+  // Replace with your Geoapify API key
+  const GEOAPIFY_API_KEY = process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY;
+
+  // Fetch places in Dhaka using Geoapify API with a bounding box
+  useEffect(() => {
+    async function fetchPlaces() {
+      try {
+        const response = await fetch(
+          `https://api.geoapify.com/v2/places?categories=commercial,education,public_transport&filter=circle:90.4125,23.8103,10000&limit=20&apiKey=${GEOAPIFY_API_KEY}`
+        );
+        const data = await response.json();
+
+        if (data.features) {
+          setPlaces(
+            data.features
+              .map((place) => ({
+                name: place.properties.suburb,
+              }))
+              .filter((place) => place.name) // Skip places with undefined or empty 'name'
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching places:", error);
+      }
+    }
+
+    fetchPlaces();
+  }, []);
 
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const handleSelectChange = (name, value) => {
+    setData({ ...data, [name]: value });
   };
 
   const handleFileChange = (e) => {
@@ -36,6 +82,7 @@ export default function Page() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(false);
 
     if (!file) {
       alert("Please select a file before uploading.");
@@ -60,7 +107,11 @@ export default function Page() {
         alert("Server Error");
         throw new Error("Failed to upload file");
       } else {
-        alert("Upload successful!");
+        if (response.ok) {
+          setLoading(true);
+
+          router.back();
+        }
       }
     } catch (err) {
       console.error("Upload error", err);
@@ -74,7 +125,7 @@ export default function Page() {
           <UserPlus className="text-3xl" />
           <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
         </div>
-        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
+        <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4">
           আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
         </p>
         <div>
@@ -103,8 +154,8 @@ export default function Page() {
                         বাসের তথ্য প্রদান করুন
                       </h1>
                     </div>
-                    <div className="space-y-2 ">
-                      <div className="space-y-2 ">
+                    <div className="space-y-2">
+                      <div className="space-y-2">
                         <Label className="text-xs" htmlFor="busNum">
                           বাস নম্বর
                         </Label>
@@ -134,27 +185,45 @@ export default function Page() {
                         <Label className="text-xs" htmlFor="startPoint">
                           শুরুর স্থান
                         </Label>
-                        <Input
-                          id="startPoint"
-                          type="text"
-                          className="w-1/2 border-[1px] border-gray-600"
-                          name="startPoint"
-                          onChange={handleChange}
+                        <Select
+                          onValueChange={(value) =>
+                            handleSelectChange("startPoint", value)
+                          }
                           required
-                        />
+                        >
+                          <SelectTrigger className="w-1/2 border-[1px] border-gray-600">
+                            <SelectValue placeholder="স্থান নির্বাচন করুন" />
+                          </SelectTrigger>
+                          <SelectContent className="max-h-60 overflow-y-auto">
+                            {places.map((place, index) => (
+                              <SelectItem key={index} value={place.name}>
+                                {place.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs" htmlFor="endPoint">
                           শেষ স্থান
                         </Label>
-                        <Input
-                          id="endPoint"
-                          type="text"
-                          className="w-1/2 border-[1px] border-gray-600"
-                          name="endPoint"
-                          onChange={handleChange}
+                        <Select
+                          onValueChange={(value) =>
+                            handleSelectChange("endPoint", value)
+                          }
                           required
-                        />
+                        >
+                          <SelectTrigger className="w-1/2 border-[1px] border-gray-600">
+                            <SelectValue placeholder="স্থান নির্বাচন করুন" />
+                          </SelectTrigger>
+                          <SelectContent className="max-h-60 overflow-y-auto">
+                            {places.map((place, index) => (
+                              <SelectItem key={index} value={place.name}>
+                                {place.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs" htmlFor="schedule">
@@ -162,8 +231,8 @@ export default function Page() {
                         </Label>
                         <Input
                           id="schedule"
-                          type="text"
-                          className="w-1/2 border-[1px] border-gray-600"
+                          type="time"
+                          className="w-1/5 border-[1px] border-gray-600"
                           name="schedule"
                           onChange={handleChange}
                           required
@@ -173,13 +242,22 @@ export default function Page() {
                   </div>
                 </div>
                 <CardFooter className="flex justify-end mt-7">
-                  <Button
-                    type="submit"
-                    variant="default"
-                    className="hover:transition-all hover:delay-100 font-bangla"
-                  >
-                    প্রদান করুন
-                  </Button>
+                  {isLoading ? (
+                    <Button
+                      type="submit"
+                      className="  hover:transition-all hover:delay-100"
+                    >
+                      প্রদান করুন
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      disabled
+                      className="  hover:transition-all hover:delay-100"
+                    >
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    </Button>
+                  )}
                 </CardFooter>
               </form>
             </CardContent>

@@ -1,5 +1,5 @@
 "use client";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import {
   Card,
@@ -14,7 +14,10 @@ import { Label } from "@/components/ui/label";
 
 import { Button } from "@/components/ui/button";
 import { url } from "@/components/Url/page";
+import { useRouter } from "next/navigation";
 export default function page() {
+  const [isLoading, setLoading] = useState(true);
+  const router = useRouter();
   const [data, setData] = useState({
     name: "",
     address: "",
@@ -30,7 +33,7 @@ export default function page() {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(false);
     if (!file) {
       alert("Please select a file before uploading.");
       return;
@@ -51,7 +54,9 @@ export default function page() {
         alert("Server Error");
         throw new Error("Failed to upload file");
       } else {
-        alert("Upload successful!");
+        setLoading(true);
+
+        router.back();
       }
     } catch (err) {
       console.error("Upload error", err);
@@ -125,13 +130,22 @@ export default function page() {
                   </div>
                 </div>
                 <CardFooter className="flex justify-end mt-7">
-                  <Button
-                    type="submit"
-                    variant="default"
-                    className="hover:transition-all hover:delay-100 font-bangla"
-                  >
-                    প্রদান করুন
-                  </Button>
+                  {isLoading ? (
+                    <Button
+                      type="submit"
+                      className="  hover:transition-all hover:delay-100"
+                    >
+                      প্রদান করুন
+                    </Button>
+                  ) : (
+                    <Button
+                      type="submit"
+                      disabled
+                      className="  hover:transition-all hover:delay-100"
+                    >
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    </Button>
+                  )}
                 </CardFooter>
               </form>
             </CardContent>

@@ -194,9 +194,8 @@ model Club {
 
 model ClubMembership {
   id        String   @id @default(uuid())
-  userId    String // Changed to String (UUID)
-  clubId    String // Changed to String (UUID)
-  role      String // member, president, etc.
+  userId    String
+  clubId    String
   createdAt DateTime @default(now())
 
   // Relationships

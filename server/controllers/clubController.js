@@ -13,48 +13,48 @@ export const getClub = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch data" });
   }
 };
-// export const BusAssign = async (req, res) => {
-//   try {
-//     const cafeData = await prisma.user.update({
-//       where: {
-//         id: req.params.id,
-//       },
-//       data: {
-//         status: true,
-//       },
-//     });
-//     await prisma.chefAssignment.create({
-//       data: {
-//         userId: req.params.id,
-//         restaurantId: req.body.id,
-//       },
-//     });
-//     res.status(200).json(cafeData);
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to fetch data" });
-//   }
-// };
-// export const BusDelete = async (req, res) => {
-//   try {
-//     const cafeData = await prisma.user.update({
-//       where: {
-//         id: req.params.id,
-//       },
-//       data: {
-//         status: false,
-//       },
-//     });
-//     await prisma.chefAssignment.delete({
-//       where: {
-//         userId: req.params.id,
-//         restaurantId: req.body.id,
-//       },
-//     });
-//     res.status(200).json(cafeData);
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to fetch data" });
-//   }
-// };
+export const clubAssign = async (req, res) => {
+  try {
+    const cafeData = await prisma.user.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        status: true,
+      },
+    });
+    await prisma.clubMembership.create({
+      data: {
+        userId: req.params.id,
+        clubId: req.body.id,
+      },
+    });
+    res.status(200).json(cafeData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+};
+export const clubDelete = async (req, res) => {
+  try {
+    const cafeData = await prisma.user.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        status: false,
+      },
+    });
+    await prisma.clubMembership.delete({
+      where: {
+        userId: req.params.id,
+        clubId: req.body.id,
+      },
+    });
+    res.status(200).json(cafeData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+};
 
 export const postClub = async (req, res) => {
   try {

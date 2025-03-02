@@ -1,5 +1,7 @@
 import express from "express";
 import {
+  BusAssign,
+  BusDelete,
   getBus,
   postBus,
   uploadMiddleware,
@@ -9,7 +11,7 @@ const busRouter = express.Router();
 
 busRouter.get("/", getBus);
 busRouter.post("/", uploadMiddleware, postBus);
-// cafeRouter.put("/:id", chefAssign);
-// cafeRouter.delete("/:id", chefDelete);
+busRouter.put("/:id", BusAssign);
+busRouter.delete("/:id", BusDelete);
 
 export default busRouter;

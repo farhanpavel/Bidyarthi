@@ -91,16 +91,17 @@ export default function Page() {
                       onValueChange={(value) =>
                         setFormData((prev) => ({ ...prev, role: value }))
                       }
+                      required
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="এখনও নির্ধারিত নয়" />
                       </SelectTrigger>
                       <SelectContent position="popper">
-                        <SelectItem value="Bus driver">বাস ড্রাইভার</SelectItem>
-                        <SelectItem value="Club president">
+                        <SelectItem value="Busdriver">বাস ড্রাইভার</SelectItem>
+                        <SelectItem value="Clubpresident">
                           ক্লাব সভাপতি
                         </SelectItem>
-                        <SelectItem value="Cafeteria chef">
+                        <SelectItem value="Cafeteriachef">
                           ক্যান্টিন শেফ
                         </SelectItem>
                       </SelectContent>
@@ -165,7 +166,7 @@ export default function Page() {
                       type="submit"
                       className="  hover:transition-all hover:delay-100"
                     >
-                      Submit
+                      প্রদান করুন
                     </Button>
                   ) : (
                     <Button
