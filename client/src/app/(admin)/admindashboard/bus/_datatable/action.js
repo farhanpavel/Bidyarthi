@@ -36,7 +36,7 @@ export const columns = [
         className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        বাস ইউআরএল
+        বাস ইউআরএল বাস ইউআরএল
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
@@ -44,12 +44,14 @@ export const columns = [
   },
   {
     accessorKey: "bus_no",
+    accessorKey: "bus_no",
     header: ({ column }) => (
       <button
         className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        বাস নম্বর
+        বাস নম্বর বাস নম্বর
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
@@ -57,12 +59,14 @@ export const columns = [
   },
   {
     accessorKey: "source",
+    accessorKey: "source",
     header: ({ column }) => (
       <button
         className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        প্রস্থান স্থান
+        প্রস্থান স্থান প্রস্থান স্থান
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
@@ -70,12 +74,14 @@ export const columns = [
   },
   {
     accessorKey: "destination",
+    accessorKey: "destination",
     header: ({ column }) => (
       <button
         className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        গন্তব্য
+        গন্তব্য গন্তব্য
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),

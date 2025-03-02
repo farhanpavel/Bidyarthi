@@ -52,9 +52,9 @@ export default function Page() {
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
           <CalendarCheck className="text-3xl" />
-          <h1 className="text-2xl font-bold">প্রবেশ</h1>
+          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
         </div>
-        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
+        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4 font-bangla">
           আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
         </p>
 
@@ -67,13 +67,13 @@ export default function Page() {
                 onChange={(event) =>
                   table.getColumn("name")?.setFilterValue(event.target.value)
                 }
-                className="max-w-[20rem] text-xs"
+                className="max-w-[20rem] text-xs font-bangla"
               />
             </div>
             <div className="flex items-center">
               <Link
-                className="bg-black  py-2 px-4 rounded-[5px] text-white text-xs transition-all delay-200"
-                href="/admindashboard/cafeteria/new"
+                className="bg-black  py-2 px-4 rounded-[5px] text-white text-xs transition-all delay-200 font-bangla"
+                href="/admindashboard/entry/police/new"
               >
                 তৈরি করুন
               </Link>
@@ -118,7 +118,7 @@ export default function Page() {
                   <TableRow>
                     <TableCell
                       colSpan={columns.length}
-                      className="h-[310px] text-center text-muted-foreground border border-gray-300"
+                      className="h-[310px] text-center text-muted-foreground border border-gray-300 font-bangla"
                     >
                       ফলাফল পাওয়া যায়নি
                     </TableCell>
