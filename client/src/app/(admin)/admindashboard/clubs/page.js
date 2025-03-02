@@ -38,7 +38,7 @@ export default function Page() {
           <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4 font-bangla">
-        আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
         </p>
 
         <div className="space-y-4">
@@ -56,7 +56,7 @@ export default function Page() {
             <div className="flex items-center">
               <Link
                 className="bg-black  py-2 px-4 rounded-[5px] text-white text-xs transition-all delay-200 font-bangla"
-                href="/admindashboard/entry/police/new"
+                href="/admindashboard/clubs/new"
               >
                 তৈরি করুন
               </Link>

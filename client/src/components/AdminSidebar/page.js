@@ -48,11 +48,6 @@ const navItems = [
     icon: <Bus size={20} />,
   },
   {
-    title: "Class",
-    href: "/admindashboard/class",
-    icon: <School size={20} />,
-  },
-  {
     title: "Clubs",
     href: "/admindashboard/clubs",
     icon: <Anvil size={20} />,
