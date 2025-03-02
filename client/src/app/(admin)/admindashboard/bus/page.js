@@ -1,7 +1,7 @@
 "use client";
 import { CalendarCheck } from "lucide-react";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   flexRender,
   useReactTable,
@@ -19,12 +19,29 @@ import {
 import Link from "next/link";
 import { columns } from "./_datatable/action"; // Ensure this import is correct
 import { Input } from "@/components/ui/input";
+import { url } from "@/components/Url/page";
 
 export default function Page() {
-  const data = []; // No data for now
+  const [dataAll, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`${url}/api/bus`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await response.json();
+      if (response.ok) {
+        setData(json);
+      }
+    };
+    fetchData();
+  }, []);
 
   const table = useReactTable({
-    data,
+    data: dataAll,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),

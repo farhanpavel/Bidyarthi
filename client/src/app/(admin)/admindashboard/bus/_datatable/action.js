@@ -15,13 +15,14 @@ import { ActionsCell } from "./data";
 
 export const columns = [
   {
-    accessorKey: "name",
+    accessorKey: "routeName",
+
     header: ({ column }) => (
       <button
         className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        নাম
+        রাউটের নাম
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
@@ -29,21 +30,37 @@ export const columns = [
   },
 
   {
-    accessorKey: "bus_no",
+    accessorKey: "busNum",
 
     header: ({ column }) => (
       <button
         className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        বাস নম্বর
+        বাসের নাম
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
     enableSorting: true,
   },
+
   {
-    accessorKey: "source",
+    accessorKey: "schedule",
+
+    header: ({ column }) => (
+      <button
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        শিডিউল
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </button>
+    ),
+    enableSorting: true,
+  },
+
+  {
+    accessorKey: "startPoint",
 
     header: ({ column }) => (
       <button
@@ -57,7 +74,7 @@ export const columns = [
     enableSorting: true,
   },
   {
-    accessorKey: "destination",
+    accessorKey: "endPoint",
 
     header: ({ column }) => (
       <button
