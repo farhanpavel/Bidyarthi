@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,41 +8,200 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  email     String     @unique
-  name      String
-  role      String
-  password  String
-  cafeteria Cafeteria?
-  bus       Bus?
-  club      Club?
+  id                  String               @id @default(uuid())
+  email               String               @unique
+  password            String
+  name                String
+  role                String               @default("student") // student, admin, chef, busDriver
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  status              Boolean              @default(false)
+  cafeteriaOrders     CafeteriaOrder[]
+  busNotifications    BusNotification[]    @relation("UserToBusNotification")
+  classSchedules      ClassSchedule[]
+  eventRSVPs          EventRSVP[]
+  clubMemberships     ClubMembership[]
+  chefAssignment      ChefAssignment? // Chef assigned to a restaurant
+  busDriverAssignment BusDriverAssignment? // Bus driver assigned to a route
 }
 
-model Cafeteria {
-  id       String @id @default(uuid())
-  user_id  String @unique
-  cafe_url String
-  name     String
-  address  String
-  User     User   @relation(fields: [user_id], references: [id])
+// Cafe Start
+model CafeteriaMenu {
+  id String @id @default(uuid())
+
+  mealName    String
+  description String
+  price       Float
+  available   Boolean          @default(true)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  orders      CafeteriaOrder[]
 }
 
-model Bus {
-  id          String @id @default(uuid())
-  user_id     String @unique
+model CafeteriaOrder {
+  id        String        @id @default(uuid())
+  userId    String // Changed to String (UUID)
+  menuId    String // Changed to String (UUID)
+  quantity  Int
+  createdAt DateTime      @default(now())
+  user      User          @relation(fields: [userId], references: [id])
+  menu      CafeteriaMenu @relation(fields: [menuId], references: [id])
+
+  @@unique([userId, menuId]) // Prevent duplicate orders
+}
+
+model ChefAssignment {
+  id           String     @id @default(uuid())
+  userId       String     @unique
+  restaurantId String
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  user         User       @relation(fields: [userId], references: [id])
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+}
+
+model BusRoute {
+  id         String   @id @default(uuid())
+  routeName  String
+  startPoint String
+  endPoint   String
+  schedule   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relationships
+  notifications        BusNotification[]
+  busDriverAssignments BusDriverAssignment[] // Renamed for consistency
+}
+
+model BusNotification {
+  id        String   @id @default(uuid())
+  routeId   String // Changed to String (UUID)
+  message   String
+  type      String // delay, schedule change, detour
+  userId    String? // Changed to String (UUID) and made optional
+  createdAt DateTime @default(now())
+
+  route BusRoute @relation(fields: [routeId], references: [id])
+  user  User?    @relation("UserToBusNotification", fields: [userId], references: [id]) // Named relation
+}
+
+model ClassSchedule {
+  id        String   @id @default(uuid())
+  userId    String // Changed to String (UUID)
+  className String
+  professor String
+  time      DateTime
+  location  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id])
+}
+
+model FacultyContact {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  phone      String
+  department String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Event {
+  id          String   @id @default(uuid())
   name        String
-  bus_url     String
-  bus_no      String
-  source      String
-  destination String
-  User        User   @relation(fields: [user_id], references: [id])
+  description String
+  date        DateTime
+  location    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  rsvps EventRSVP[]
+}
+
+model EventRSVP {
+  id        String   @id @default(uuid())
+  userId    String // Changed to String (UUID)
+  eventId   String // Changed to String (UUID)
+  status    String // going, not going, maybe
+  createdAt DateTime @default(now())
+
+  // Relationships
+  user  User  @relation(fields: [userId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+
+  @@unique([userId, eventId]) // Prevent duplicate RSVPs
+}
+
+model CampusLocation {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  latitude    Float
+  longitude   Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  arMaps      ARMap[] // Renamed for consistency
+}
+
+model ARMap {
+  id         String   @id @default(uuid())
+  locationId String // Changed to String (UUID)
+  arData     String // AR data or path to AR file
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  location CampusLocation @relation(fields: [locationId], references: [id])
+}
+
+model BusDriverAssignment {
+  id        String   @id @default(uuid())
+  userId    String   @unique // Changed to String (UUID)
+  routeId   String // Changed to String (UUID)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  user  User     @relation(fields: [userId], references: [id])
+  route BusRoute @relation(fields: [routeId], references: [id])
+}
+
+model Restaurant {
+  id        String   @id @default(uuid())
+  name      String
+  address   String
+  cafe_url  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  chefs ChefAssignment[] // Chefs assigned to this restaurant
 }
 
 model Club {
-  id       String @id @default(uuid())
-  user_id  String @unique
-  name     String
-  club_no  String
-  club_url String
-  User     User   @relation(fields: [user_id], references: [id])
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  memberships ClubMembership[] // Users (students) assigned to this club
+}
+
+model ClubMembership {
+  id        String   @id @default(uuid())
+  userId    String // Changed to String (UUID)
+  clubId    String // Changed to String (UUID)
+  role      String // member, president, etc.
+  createdAt DateTime @default(now())
+
+  // Relationships
+  user User @relation(fields: [userId], references: [id])
+  club Club @relation(fields: [clubId], references: [id])
+
+  @@unique([userId, clubId]) // Prevent duplicate memberships
 }

@@ -3,12 +3,12 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const generateToken = (user) => {
   const accessToken = jwt.sign(
-    { id: user._id, email: user.email },
+    { id: user.id, email: user.email },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "7d" }
   );
   const refreshToken = jwt.sign(
-    { id: user._id },
+    { id: user.id },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "7d" }
   );
@@ -18,6 +18,48 @@ const generateToken = (user) => {
 export const getUser = async (req, res) => {
   const userData = await prisma.user.findMany({});
   res.status(200).json(userData);
+};
+export const getUserByroleFalse = async (req, res) => {
+  const userData = await prisma.user.findMany({
+    where: {
+      role: req.params.role,
+      status: false,
+    },
+  });
+  res.status(200).json(userData);
+};
+export const getUserByroleTrue = async (req, res) => {
+  try {
+    const userData = await prisma.user.findFirst({
+      where: {
+        role: req.params.role,
+        status: true,
+        chefAssignment: {
+          is: {
+            restaurantId: req.params.id,
+          },
+        },
+      },
+      include: {
+        chefAssignment: {
+          include: {
+            restaurant: true,
+          },
+        },
+      },
+    });
+
+    if (!userData) {
+      return res
+        .status(404)
+        .json({ message: "No assigned user found for this restaurant" });
+    }
+
+    res.status(200).json(userData);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Not Found" });
+  }
 };
 
 export const userRegister = async (req, res) => {
@@ -61,7 +103,7 @@ const RefreshToken = async (req, res) => {
       return res.status(401).json("Invalid Refresh TOken");
     }
     const accessToken = jwt.sign(
-      { id: user._id },
+      { id: user.id },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
