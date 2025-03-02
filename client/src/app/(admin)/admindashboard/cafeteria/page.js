@@ -1,7 +1,7 @@
 "use client";
 import { CalendarCheck } from "lucide-react";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   flexRender,
   useReactTable,
@@ -19,12 +19,29 @@ import {
 import Link from "next/link";
 import { columns } from "./_datatable/action"; // Ensure this import is correct
 import { Input } from "@/components/ui/input";
+import { url } from "@/components/Url/page";
 
 export default function Page() {
-  const data = []; // No data for now
+  const [dataAll, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch(`${url}/api/cafe`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const json = await response.json();
+      if (response.ok) {
+        setData(json);
+      }
+    };
+    fetchData();
+  }, []);
 
   const table = useReactTable({
-    data,
+    data: dataAll,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -38,7 +55,7 @@ export default function Page() {
           <h1 className="text-2xl font-bold">প্রবেশ</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
-        আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
         </p>
 
         <div className="space-y-4">
@@ -56,7 +73,7 @@ export default function Page() {
             <div className="flex items-center">
               <Link
                 className="bg-black  py-2 px-4 rounded-[5px] text-white text-xs transition-all delay-200"
-                href="/admindashboard/entry/police/new"
+                href="/admindashboard/cafeteria/new"
               >
                 তৈরি করুন
               </Link>
@@ -103,7 +120,7 @@ export default function Page() {
                       colSpan={columns.length}
                       className="h-[310px] text-center text-muted-foreground border border-gray-300"
                     >
-                     ফলাফল পাওয়া যায়নি
+                      ফলাফল পাওয়া যায়নি
                     </TableCell>
                   </TableRow>
                 )}

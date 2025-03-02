@@ -24,18 +24,20 @@ export default function page() {
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
           <UserPlus className="text-3xl" />
-          <h1 className="text-2xl font-bold">Entry</h1>
+          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
         </div>
-        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
-          Create a perfect roadmap for your learning
+        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4 font-bangla">
+          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
             <CardHeader className="space-y-4">
-              <CardTitle>Police Details</CardTitle>
-              <CardDescription>
-                Please select the Post of the police and fill in the required
-                information.
+              <CardTitle className="font-bangla">
+                ক্লাবের বিস্তারিত তথ্য
+              </CardTitle>
+              <CardDescription className="font-bangla">
+                দয়া করে ক্লাবের পদ নির্বাচন করুন এবং প্রয়োজনীয় তথ্য পূরণ
+                করুন।
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -44,32 +46,16 @@ export default function page() {
                   <div className="flex flex-col w-1/5 space-y-3">
                     <Input type="file" className="border-gray-600" />
                   </div>
-                  <div className="flex flex-col w-1/4 space-y-3">
-                    <Label htmlFor="framework" className="text-xs">
-                      Select role
-                    </Label>
-                    <Select required>
-                      <SelectTrigger id="framework">
-                        <SelectValue placeholder="Unassigned" />
-                      </SelectTrigger>
-                      <SelectContent position="popper">
-                        <SelectItem value="Sub Inspector">
-                          Sub Inspector
-                        </SelectItem>
-                        <SelectItem value="ASP">ASP</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
                   <div className="flex flex-col space-y-6">
                     <div>
-                      <h1 className="font-semibold text-sm">
-                        Enter Police Informations
+                      <h1 className="font-semibold text-sm font-bangla">
+                        ক্লাবের তথ্য প্রদান করুন
                       </h1>
                     </div>
                     <div className="space-y-2 ">
                       <div className="space-y-2 ">
-                        <Label className="text-xs" htmlFor="name">
-                          Name
+                        <Label className="text-xs font-bangla" htmlFor="name">
+                          নাম
                         </Label>
                         <Input
                           id="name"
@@ -80,50 +66,17 @@ export default function page() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="email">
-                          Email
+                        <Label
+                          className="text-xs font-bangla"
+                          htmlFor="club_no"
+                        >
+                          ক্লাব নম্বর
                         </Label>
                         <Input
-                          id="email"
-                          type="email"
+                          id="club_no"
+                          type="club_no"
                           className="w-1/2 border-[1px] border-gray-600"
-                          name="email"
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="password">
-                          Password
-                        </Label>
-                        <Input
-                          type="password"
-                          id="password"
-                          className="w-1/2 border-[1px] border-gray-600"
-                          name="password"
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="password">
-                          Mobile No
-                        </Label>
-                        <Input
-                          type="number"
-                          id="mobile"
-                          className="w-1/2 border-[1px] border-gray-600"
-                          name="mobile"
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="password">
-                          Thana
-                        </Label>
-                        <Input
-                          type="name"
-                          id="thana"
-                          className="w-1/2 border-[1px] border-gray-600"
-                          name="thana"
+                          name="club_no"
                           required
                         />
                       </div>
@@ -134,9 +87,9 @@ export default function page() {
                   <Button
                     type="submit"
                     variant="default"
-                    className="hover:transition-all hover:delay-100"
+                    className="hover:transition-all hover:delay-100 font-bangla"
                   >
-                    Submit
+                    প্রদান করুন
                   </Button>
                 </CardFooter>
               </form>

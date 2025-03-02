@@ -20,49 +20,62 @@ export const columns = [
     accessorKey: "name",
     header: ({ column }) => (
       <button
-        className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Name
+        নাম
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
     enableSorting: true,
   },
   {
-    accessorKey: "email",
+    accessorKey: "bus_url",
     header: ({ column }) => (
       <button
-        className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Email
+        বাস ইউআরএল
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
     enableSorting: true,
   },
   {
-    accessorKey: "mobile",
+    accessorKey: "bus_no",
     header: ({ column }) => (
       <button
-        className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Mobile No
+        বাস নম্বর
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
     enableSorting: true,
   },
   {
-    accessorKey: "role",
+    accessorKey: "source",
     header: ({ column }) => (
       <button
-        className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100"
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Post
+        প্রস্থান স্থান
+        <ArrowUpDown className="ml-2 h-4 w-4" />
+      </button>
+    ),
+    enableSorting: true,
+  },
+  {
+    accessorKey: "destination",
+    header: ({ column }) => (
+      <button
+        className="hover:bg-black hover:text-white flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        গন্তব্য
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),

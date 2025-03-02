@@ -13,29 +13,6 @@ import { MoreHorizontal } from "lucide-react";
 
 export const ActionsCell = ({ user }) => {
   const router = useRouter();
-  const { setUserData, setpoliceData, userData } = useAppContext();
-  const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
-  // const handleDelete = async () => {
-  //   try {
-  //     const response = await fetch(`${url}/api/police/${userData.id}`, {
-  //       method: "DELETE",
-  //     });
-
-  //     if (!response.ok) {
-  //       alert("Failed to delete user");
-  //       throw new Error("Failed to delete user");
-  //     } else {
-  //       setpoliceData((prevData) =>
-  //         prevData.filter((item) => item.id !== user.id)
-  //       );
-  //       setDeleteDialogOpen(false);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error deleting user:", error);
-  //   }
-  // };
-
   return (
     <>
       <DropdownMenu>
@@ -51,29 +28,17 @@ export const ActionsCell = ({ user }) => {
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => {
-              setUserData({ id: user.id });
-              router.push("/admindashboard/entry/police/edit");
+              router.push(`/admindashboard/cafeteria/assign/${user.id}`);
             }}
             className="hover:bg-blue-200 rounded-lg hover:transition-all hover:delay-100 text-xs text-[#4a4a4a]"
           >
-            Update
+            Assign
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              setDeleteDialogOpen(true);
-              setUserData({ id: user.id });
-            }}
-            className="hover:bg-blue-200 rounded-lg hover:transition-all hover:delay-100 text-xs text-[#4a4a4a]"
-          >
+          <DropdownMenuItem className="hover:bg-blue-200 rounded-lg hover:transition-all hover:delay-100 text-xs text-[#4a4a4a]">
             Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {/* <DeleteDialog
-        open={isDeleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-        onConfirm={handleDelete}
-      /> */}
     </>
   );
 };

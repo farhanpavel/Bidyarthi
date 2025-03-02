@@ -1,5 +1,6 @@
+"use client";
 import { UserPlus } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -10,15 +11,52 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Button } from "@/components/ui/button";
+import { url } from "@/components/Url/page";
 export default function page() {
+  const [data, setData] = useState({
+    name: "",
+    address: "",
+  });
+  const [file, setFile] = useState(null);
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!file) {
+      alert("Please select a file before uploading.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("name", data.name);
+      formData.append("address", data.address);
+      console.log(formData);
+      const response = await fetch(`${url}/api/cafe`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        alert("Server Error");
+        throw new Error("Failed to upload file");
+      } else {
+        alert("Upload successful!");
+      }
+    } catch (err) {
+      console.error("Upload error", err);
+    }
+  };
   return (
     <div>
       <div className="p-9 space-y-2">
@@ -39,10 +77,15 @@ export default function page() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col w-1/5 space-y-3">
-                    <Input type="file" className="border-gray-600" />
+                    <Input
+                      type="file"
+                      name="file"
+                      className="border-gray-600"
+                      onChange={handleFileChange}
+                    />
                   </div>
 
                   <div className="flex flex-col space-y-6">
@@ -61,6 +104,7 @@ export default function page() {
                           type="name"
                           className="w-1/2 border-[1px] border-gray-600"
                           name="name"
+                          onChange={handleChange}
                           required
                         />
                       </div>
@@ -73,45 +117,10 @@ export default function page() {
                           type="address"
                           className="w-1/2 border-[1px] border-gray-600"
                           name="address"
+                          onChange={handleChange}
                           required
                         />
                       </div>
-                      <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="password">
-                          ক্যাফে ইউআরএল
-                        </Label>
-                        <Input
-                          type="cafe_url"
-                          id="cafe_url"
-                          className="w-1/2 border-[1px] border-gray-600"
-                          name="cafe_url"
-                          required
-                        />
-                      </div>
-                      {/* <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="password">
-                          Mobile No
-                        </Label>
-                        <Input
-                          type="number"
-                          id="mobile"
-                          className="w-1/2 border-[1px] border-gray-600"
-                          name="mobile"
-                          required
-                        />
-                      </div> */}
-                      {/* <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="password">
-                          Thana
-                        </Label>
-                        <Input
-                          type="name"
-                          id="thana"
-                          className="w-1/2 border-[1px] border-gray-600"
-                          name="thana"
-                          required
-                        />
-                      </div> */}
                     </div>
                   </div>
                 </div>
