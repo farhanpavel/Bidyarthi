@@ -130,6 +130,17 @@ export default function Page() {
                       </div>
                     </div>
                   </div>
+                  <div className="mt-5 space-x-4">
+                    <Button
+                      onClick={() => {
+                        router.push(`/userdashboard/meal/order/${meal.id}`);
+                      }}
+                      className="bg-green-700 hover:bg-green-600"
+                    >
+                      Order
+                    </Button>
+                    <Button variant="destructive">Pre Order</Button>
+                  </div>
                 </div>
               ))}
             </div>

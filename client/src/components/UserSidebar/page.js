@@ -6,14 +6,11 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import {
   Home,
-  AppWindowIcon,
   LogOut,
   Salad,
-  Bus,
-  School,
-  Anvil,
-  Captions,
-  Cable,
+  BusIcon,
+  BookOpen,
+  Building2,
 } from "lucide-react";
 import {
   Tooltip,
@@ -31,22 +28,32 @@ import Cookies from "js-cookie";
 const navItems = [
   {
     title: "Overview",
-    href: "/chefdashboard/overview",
+    href: "/userdashboard/overview",
     icon: <Home size={20} />,
   },
   {
-    title: "Entry",
-    href: "/chefdashboard/entry",
-    icon: <AppWindowIcon size={20} />,
+    title: "Meal",
+    href: "/userdashboard/meal",
+    icon: <Salad size={20} />,
   },
   {
-    title: "Order",
-    href: "/chefdashboard/order",
-    icon: <Cable size={20} />,
+    title: "Bus",
+    href: "/userdashboard/order",
+    icon: <BusIcon size={20} />,
+  },
+  {
+    title: "Club",
+    href: "/userdashboard/club",
+    icon: <Building2 size={20} />,
+  },
+  {
+    title: "Faculty",
+    href: "/userdashboard/faculty",
+    icon: <BookOpen size={20} />,
   },
 ];
 
-export default function ChefSidebar() {
+export default function UserSidebar() {
   const pathname = usePathname();
   const [tripPlanId, setTripPlanId] = useState("");
   const handleClick = () => {
