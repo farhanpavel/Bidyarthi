@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { getMessaging, onMessage } from 'firebase/messaging';
 import firebaseApp from "@/utils/firebase/firebase";
 import useFcmToken from "@/utils/hooks/useFcmToken";
+import {toast, ToastContainer} from "react-toastify";
 
 function subscribeTokenToTopic(token, topic) {
     fetch('http://localhost:4000/api/user/subscribe-to-topic', {
@@ -60,6 +61,20 @@ const FCMWrapper = ({ children }) => {
                 console.log('Foreground push notification received:', payload);
                 // Handle the received push notification while the app is in the foreground
                 // You can display a notification or update the UI based on the payload
+                toast.success(
+                    <div>
+                        <strong>{payload.notification.title}</strong>
+                        <p>{payload.notification.body}</p>
+                    </div>
+                    , {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
             });
             return () => {
                 unsubscribe(); // Unsubscribe from the onMessage event
@@ -67,7 +82,10 @@ const FCMWrapper = ({ children }) => {
         }
     }, []);
 
-    return <>{children}</>;
+    return <>
+        <ToastContainer />
+        {children}
+    </>;
 };
 
 export default FCMWrapper;
