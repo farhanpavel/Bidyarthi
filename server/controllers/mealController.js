@@ -25,6 +25,20 @@ export const getMeal = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch data" });
   }
 };
+export const getMealById = async (req, res) => {
+  try {
+    const mealData = await prisma.cafeteriaMenu.findMany({
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.status(200).json(mealData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+};
+
+export const post = async (req, res) => {};
 
 export const postMeal = async (req, res) => {
   const userId = req.user.id;
