@@ -16,6 +16,7 @@ model User {
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @updatedAt
   status              Boolean              @default(false)
+  cafeteriaMenu       CafeteriaMenu[]
   cafeteriaOrders     CafeteriaOrder[]
   busNotifications    BusNotification[]    @relation("UserToBusNotification")
   classSchedules      ClassSchedule[]
@@ -27,15 +28,18 @@ model User {
 
 // Cafe Start
 model CafeteriaMenu {
-  id String @id @default(uuid())
-
+  id          String           @id @default(uuid())
+  meal_url    String
+  user_id     String
   mealName    String
   description String
   price       Float
-  available   Boolean          @default(true)
+  quantity    Int
+  mealType    String
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
   orders      CafeteriaOrder[]
+  user        User             @relation(fields: [user_id], references: [id])
 }
 
 model CafeteriaOrder {

@@ -5,6 +5,7 @@ import userRouter from "./routes/userRouter.js";
 import cafeRouter from "./routes/cafeRouter.js";
 import busRouter from "./routes/busRoute.js";
 import clubRouter from "./routes/clubRoute.js";
+import mealRouter from "./routes/mealRoute.js";
 
 const app = express();
 app.use(cors());
@@ -23,3 +24,4 @@ app.use("/api/user", userRouter);
 app.use("/api/cafe", cafeRouter);
 app.use("/api/bus", busRouter);
 app.use("/api/club", clubRouter);
+app.use("/api/meal", mealRouter);
