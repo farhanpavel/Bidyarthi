@@ -1,6 +1,15 @@
 import prisma from "../db.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+
+import admin from "firebase-admin";
+
+import serviceAccount from "../google-service.json" assert { type: "json" };
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
 const generateToken = (user) => {
   const accessToken = jwt.sign(
     { id: user.id, email: user.email },
@@ -160,4 +169,38 @@ const RefreshToken = async (req, res) => {
     );
     res.json(accessToken);
   });
+};
+
+export const subscribeTokenToTopic = async (req, res) => {
+    const { token, topic } = req.body;
+    admin.messaging().subscribeToTopic(token, topic)
+        .then(() => {
+            console.log(`Subscribed to "${topic}"`);
+            res.status(200).json({ message: `Subscribed to "${topic}"` });
+        })
+        .catch((error) => {
+            console.error(`Error subscribing to topic: ${error}`);
+            res.status(500).json({ message: `Error subscribing to topic: ${error}` });
+        });
+};
+
+export const makeNotification = async (req, res) => {
+    const { title, body, topic } = req.body;
+    const message = {
+        notification: {
+        title,
+        body,
+        },
+        topic,
+    };
+
+    admin.messaging().send(message)
+        .then(() => {
+        console.log('Notification sent successfully');
+        res.status(200).json({ message: 'Notification sent successfully' });
+        })
+        .catch((error) => {
+        console.error('Error sending notification:', error);
+        res.status(500).json({ message: 'Error sending notification' });
+        });
 };

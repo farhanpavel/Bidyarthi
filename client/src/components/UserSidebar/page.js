@@ -38,7 +38,7 @@ const navItems = [
   },
   {
     title: "Bus",
-    href: "/userdashboard/order",
+    href: "/userdashboard/bus",
     icon: <BusIcon size={20} />,
   },
   {

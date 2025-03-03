@@ -1,5 +1,5 @@
 "use client";
-import { UserPlus, Loader2 } from "lucide-react";
+import { UserPlus, Loader2, ArrowUpDown } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import "dotenv/config";
 
@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/select";
 import { url } from "@/components/Url/page";
 import { useRouter } from "next/navigation";
+import { GrSwitch } from "react-icons/gr";
 
 export default function Page() {
   const [isLoading, setLoading] = useState(true);
@@ -30,7 +31,7 @@ export default function Page() {
   const [data, setData] = useState({
     busNum: "",
     routeName: "",
-    startPoint: "",
+    startPoint: "Campus",
     endPoint: "",
     schedule: "",
   });
@@ -40,83 +41,104 @@ export default function Page() {
   // Replace with your Geoapify API key
   const GEOAPIFY_API_KEY = process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY;
 
-  // Fetch places in Dhaka using Geoapify API with a bounding box
-  useEffect(() => {
-    async function fetchPlaces() {
-      try {
-        const response = await fetch(
-          `https://api.geoapify.com/v2/places?categories=commercial,education,public_transport&filter=circle:90.4125,23.8103,10000&limit=20&apiKey=${GEOAPIFY_API_KEY}`
-        );
-        const data = await response.json();
-
-        if (data.features) {
-          setPlaces(
-            data.features
-              .map((place) => ({
-                name: place.properties.suburb,
-              }))
-              .filter((place) => place.name) // Skip places with undefined or empty 'name'
+    // Fetch places in Dhaka using Geoapify API with a bounding box
+    useEffect(() => {
+      async function fetchPlaces() {
+        try {
+          const response = await fetch(
+            `https://api.geoapify.com/v2/places?categories=commercial,education,public_transport&filter=circle:90.4125,23.8103,10000&limit=20&apiKey=${GEOAPIFY_API_KEY}`
           );
-        }
-      } catch (error) {
-        console.error("Error fetching places:", error);
-      }
-    }
-
-    fetchPlaces();
-  }, []);
-
-  const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
-  };
-
-  const handleSelectChange = (name, value) => {
-    setData({ ...data, [name]: value });
-  };
-
-  const handleFileChange = (e) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(false);
-
-    if (!file) {
-      alert("Please select a file before uploading.");
-      return;
-    }
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("busNum", data.busNum);
-      formData.append("routeName", data.routeName);
-      formData.append("startPoint", data.startPoint);
-      formData.append("endPoint", data.endPoint);
-      formData.append("schedule", data.schedule);
-
-      const response = await fetch(`${url}/api/bus`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        alert("Server Error");
-        throw new Error("Failed to upload file");
-      } else {
-        if (response.ok) {
-          setLoading(true);
-
-          router.back();
+          const data = await response.json();
+  
+          if (data.features) {
+            setPlaces(
+              data.features
+                .map((place) => ({
+                  name: place.properties.suburb,
+                }))
+                .filter((place) => place.name) // Skip places with undefined or empty 'name'
+            );
+            setPlaces((prev) => [
+              ...prev,
+              {
+                name: "Campus",
+              },
+            ]);
+          }
+        } catch (error) {
+          console.error("Error fetching places:", error);
         }
       }
-    } catch (err) {
-      console.error("Upload error", err);
-    }
+  
+      fetchPlaces();
+    }, []);  
+
+    const handleChange = (e) => {
+      setData({ ...data, [e.target.name]: e.target.value });
+    };
+  
+    const handleSelectChange = (name, value) => {
+      setData({ ...data, [name]: value });
+    };
+  
+    const handleFileChange = (e) => {
+      if (e.target.files && e.target.files.length > 0) {
+        setFile(e.target.files[0]);
+      }
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setLoading(false);
+  
+      // Ensure either startPoint or endPoint is "Campus"
+      if (data.startPoint !== "Campus" && data.endPoint !== "Campus") {
+        alert("Either startPoint or endPoint must be set to 'Campus'.");
+        setLoading(true);
+        return;
+      }
+  
+      if (!file) {
+        alert("Please select a file before uploading.");
+        return;
+      }
+  
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("busNum", data.busNum);
+        formData.append("routeName", data.routeName);
+        formData.append("startPoint", data.startPoint);
+        formData.append("endPoint", data.endPoint);
+        formData.append("schedule", data.schedule);
+  
+        const response = await fetch(`${url}/api/bus`, {
+          method: "POST",
+          body: formData,
+        });
+  
+        if (!response.ok) {
+          alert("Server Error");
+          throw new Error("Failed to upload file");
+        } else {
+          if (response.ok) {
+            setLoading(true);
+            router.back();
+          }
+        }
+      } catch (err) {
+        console.error("Upload error", err);
+      }
+    };
+      // Function to switch startPoint and endPoint values
+  const switchPoints = () => {
+    setData((prev) => ({
+      ...prev,
+      startPoint: prev.endPoint,
+      endPoint: prev.startPoint,
+    }));
   };
+
 
   return (
     <div>
@@ -189,6 +211,7 @@ export default function Page() {
                           onValueChange={(value) =>
                             handleSelectChange("startPoint", value)
                           }
+                          value={data.startPoint} // Controlled value
                           required
                         >
                           <SelectTrigger className="w-1/2 border-[1px] border-gray-600">
@@ -202,6 +225,16 @@ export default function Page() {
                             ))}
                           </SelectContent>
                         </Select>
+                      </div>
+                      <div className="flex space-y-2">
+                        <Button
+                          type="button"
+                          onClick={switchPoints}
+                          className="flex items-center gap-x-2"
+                        >
+                          <ArrowUpDown size={24}/>
+                          <span>Switch Start and End Points</span>
+                        </Button>
                       </div>
                       <div className="space-y-2">
                         <Label className="text-xs" htmlFor="endPoint">
@@ -211,6 +244,7 @@ export default function Page() {
                           onValueChange={(value) =>
                             handleSelectChange("endPoint", value)
                           }
+                          value={data.endPoint} // Controlled value
                           required
                         >
                           <SelectTrigger className="w-1/2 border-[1px] border-gray-600">
@@ -225,6 +259,7 @@ export default function Page() {
                           </SelectContent>
                         </Select>
                       </div>
+                      
                       <div className="space-y-2">
                         <Label className="text-xs" htmlFor="schedule">
                           সময়সূচী
