@@ -19,14 +19,14 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { url } from "@/components/Url/page";
 
 export default function Page() {
   const { id } = useParams(); // Get the `id` from the URL
   const [meal, setMeal] = useState(null); // State to store the fetched meal
   const [cartItems, setCartItems] = useState([]); // State for cart items
-
-  // Fetch meal data from the API
+  const router = useRouter();
   useEffect(() => {
     const fetchMeal = async () => {
       try {
@@ -92,6 +92,37 @@ export default function Page() {
   if (!meal) {
     return <div>Loading...</div>; // Show loading state while fetching data
   }
+  const handlePay = async () => {
+    const totalAmount = calculateSubtotal() + deliveryFee + tax;
+
+    const payload = {
+      amount: totalAmount,
+      menuId: id,
+      quantity: cartItems[0].quantity,
+      paid: false,
+    };
+
+    try {
+      const response = await fetch(`${url}/api/ssl/init`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE1ZjU4YzgwLWY5NmMtNDc4ZS1iOTJlLTRjYjQxZDZkYmRlZiIsImVtYWlsIjoiZmFyaGFucGF2ZWw1QGdtYWlsLmNvbSIsImlhdCI6MTc0MTAyNjQxMSwiZXhwIjoxNzQxNjMxMjExfQ.sc7r9hsrFbKgbgvHuzcQfhXFUgY1ZEu8Uzg06HtxYHs",
+        },
+        body: JSON.stringify(payload), // Send the payload to the backend
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        router.push(result.url); // Redirect to the payment gateway
+      } else {
+        console.error("Payment initiation failed:", result.error);
+      }
+    } catch (error) {
+      console.error("Error during payment:", error);
+    }
+  };
 
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-6">
@@ -257,7 +288,9 @@ export default function Page() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full">Proceed to Checkout</Button>
+              <Button className="w-full" onClick={(e) => handlePay(e)}>
+                Proceed to Checkout
+              </Button>
             </CardFooter>
           </Card>
         </div>

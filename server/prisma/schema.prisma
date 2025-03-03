@@ -23,8 +23,20 @@ model User {
   eventRSVPs          EventRSVP[]
   clubMemberships     ClubMembership[]
   chefAssignment      ChefAssignment? // Chef assigned to a restaurant
-  busDriverAssignment BusDriverAssignment? // Bus driver assigned to a route
+  busDriverAssignment BusDriverAssignment?
+  // student             Student? // Bus driver assigned to a route
 }
+
+// model Student {
+//   id   String  @id @default(uuid())
+//   paid Boolean
+//   user_id  String        @unique
+//   cafe_id  String        @unique
+//   club_id  String        @unique
+//   route_id String        @unique
+//   user     User          @relation(fields: [user_id], references: [id])
+//   cafemenu CafeteriaMenu @relation(fields: [cafe_id], references: [id])
+// }
 
 // Cafe Start
 model CafeteriaMenu {
@@ -40,18 +52,18 @@ model CafeteriaMenu {
   updatedAt   DateTime         @updatedAt
   orders      CafeteriaOrder[]
   user        User             @relation(fields: [user_id], references: [id])
+  // student     Student?
 }
 
 model CafeteriaOrder {
   id        String        @id @default(uuid())
-  userId    String // Changed to String (UUID)
-  menuId    String // Changed to String (UUID)
+  userId    String
+  menuId    String
   quantity  Int
+  paid      Boolean       @default(false)
   createdAt DateTime      @default(now())
   user      User          @relation(fields: [userId], references: [id])
   menu      CafeteriaMenu @relation(fields: [menuId], references: [id])
-
-  @@unique([userId, menuId]) // Prevent duplicate orders
 }
 
 model ChefAssignment {
