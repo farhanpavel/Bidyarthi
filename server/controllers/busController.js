@@ -15,6 +15,22 @@ export const getBus = async (req, res) => {
   }
 };
 
+export const getAssignedBus = async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const busData = await prisma.busRoute.findMany({
+      where: {
+        busDriverAssignments: {
+          userId: userId
+        }
+      },
+    });
+    res.status(200).json(busData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+}
+
 export const getSingleBus = async (req, res) => {
   try {
     const busData = await prisma.busRoute.findUnique({

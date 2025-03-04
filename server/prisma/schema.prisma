@@ -79,18 +79,18 @@ model ChefAssignment {
 }
 
 model BusRoute {
-  id                   String                @id @default(uuid())
+  id                   String               @id @default(uuid())
   busNum               String
   routeName            String
   startPoint           String
   endPoint             String
   schedule             String
-  currentLocation      String                @default("Campus")
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
+  currentLocation      String               @default("Campus")
+  createdAt            DateTime             @default(now())
+  updatedAt            DateTime             @updatedAt
   bus_url              String
   notifications        BusNotification[]
-  busDriverAssignments BusDriverAssignment[] // Renamed for consistency
+  busDriverAssignments BusDriverAssignment?
 }
 
 model BusNotification {
@@ -180,7 +180,7 @@ model ARMap {
 model BusDriverAssignment {
   id        String   @id @default(uuid())
   userId    String   @unique // Changed to String (UUID)
-  routeId   String // Changed to String (UUID)
+  routeId   String   @unique // Changed to String (UUID)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
