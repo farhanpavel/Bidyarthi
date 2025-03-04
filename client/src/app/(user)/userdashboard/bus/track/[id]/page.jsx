@@ -4,12 +4,34 @@ import { useParams, useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import useFcmToken from "@/utils/hooks/useFcmToken";
+import {subscribeTokenToTopic} from "@/utils/wrapper/FCMWrapper";
+import {getMessaging, onMessage} from "firebase/messaging";
+import firebaseApp from "@/utils/firebase/firebase";
 
 export default function Page() {
     const { id } = useParams(); // Get the `id` from the URL
     const [bus, setBus] = useState(null); // State to store the fetched bus data
     const router = useRouter();
     const [loading, setLoading] = useState(true);
+    const { fcmToken, notificationPermissionStatus } = useFcmToken();
+
+    // Handle foreground messages
+    useEffect(() => {
+        if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+            const messaging = getMessaging(firebaseApp);
+            const unsubscribe = onMessage(messaging, (payload) => {
+                console.log('Bus updated: ', payload);
+                setBus((prevBus) => ({
+                    ...prevBus,
+                    currentLocation: payload.data.currentLocation,
+                })); // Update the bus data
+            });
+            return () => {
+                unsubscribe(); // Unsubscribe from the onMessage event
+            };
+        }
+    }, []);
 
     useEffect(() => {
         const fetchBus = async () => {
@@ -31,6 +53,14 @@ export default function Page() {
 
         fetchBus();
     }, [id]);
+
+    useEffect(() => {
+        if (fcmToken) {
+            console.log('FCM token bus:', fcmToken);
+            // Subscribe to a topic
+            subscribeTokenToTopic(fcmToken, `bus-${id}-tracking`);
+        }
+    }, [fcmToken]);
 
     if (loading) {
         return <div>Loading...</div>; // Show loading state while fetching data
@@ -65,35 +95,48 @@ export default function Page() {
                     </div>
 
                     {/* Dot-Connect UI for Bus Route */}
-                    <div className="mt-6">
-                        <div className="flex flex-col items-center space-y-4">
+                    <div className="mt-6 bg-black p-8 rounded-lg">
+                        <ol className="relative border-s border-gray-600 mx-auto max-w-md">
                             {locations.map((location, index) => (
-                                <div key={index} className="flex items-center">
-                                    {/* Dot */}
-                                    <div
-                                        className={`w-4 h-4 rounded-full ${
-                                            index === currentLocationIndex
-                                                ? "bg-green-500"
-                                                : "bg-gray-500"
-                                        }`}
-                                    ></div>
-                                    {/* Location Name */}
+                                <li key={index} className="mb-10 ms-6">
+                                    {/* Dot with Icon */}
                                     <span
-                                        className={`ml-2 ${
+                                        className={`absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-black ${
                                             index === currentLocationIndex
-                                                ? "text-green-500 font-bold"
-                                                : "text-gray-300"
+                                                ? "bg-green-500 dark:bg-green-500"
+                                                : "bg-blue-500 dark:bg-blue-500"
                                         }`}
                                     >
+                    <svg
+                        className={`w-2.5 h-2.5 ${
+                            index === currentLocationIndex
+                                ? "text-white dark:text-white"
+                                : "text-white dark:text-white"
+                        }`}
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                    >
+                        <path
+                            d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                    </svg>
+                </span>
+
+                                    {/* Location Name */}
+                                    <h3 className="flex items-center mb-1 text-lg font-semibold text-white">
                                         {location}
-                                    </span>
-                                    {/* Connector Line */}
-                                    {index < locations.length - 1 && (
-                                        <div className="w-1 h-8 bg-gray-500 ml-1.5"></div>
-                                    )}
-                                </div>
+                                        {/* Current Location Chip */}
+                                        {index === currentLocationIndex && (
+                                            <span
+                                                className="bg-green-500 text-white text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm ms-3">
+                            Current Location
+                        </span>
+                                        )}
+                                    </h3>
+                                </li>
                             ))}
-                        </div>
+                        </ol>
                     </div>
                 </CardContent>
             </Card>

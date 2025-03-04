@@ -6,7 +6,7 @@ import firebaseApp from "@/utils/firebase/firebase";
 import useFcmToken from "@/utils/hooks/useFcmToken";
 import {toast, ToastContainer} from "react-toastify";
 
-function subscribeTokenToTopic(token, topic) {
+export function subscribeTokenToTopic(token, topic) {
     fetch('http://localhost:4000/api/user/subscribe-to-topic', {
         method: 'POST',
         headers: {
