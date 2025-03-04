@@ -188,10 +188,25 @@ export const makeNotification = async (req, res) => {
     const { title, body, topic } = req.body;
     const message = {
         notification: {
-        title,
-        body,
+        title:title,
+        body: body,
         },
-        topic,
+        topic: topic,
+        webpush: {
+          headers: {
+          TTL: '86400' // Time-to-Live (1 day)
+          },
+          notification: {
+            icon: 'https://i.ibb.co.com/q4y0gbw/logo.png', // Ensure a valid icon URL
+            click_action: 'https://localhost:3000' // Ensure this matches your app domain
+          }
+        },
+        android: {
+            notification: {
+                icon: 'https://i.ibb.co.com/q4y0gbw/logo.png', // Ensure a valid icon URL
+                click_action: 'https://localhost:3000' // Ensure this matches your app domain
+            }
+        }
     };
 
     admin.messaging().send(message)
