@@ -220,10 +220,11 @@ export const makeNotification = async (req, res) => {
         });
 };
 
-export const sendDataMessage = async (data,topic) => {
+export const sendDataMessage = async (data,topic,notification) => {
     const message = {
         data: data,
-        topic: topic
+        topic: topic,
+        notification: notification
     };
 
     admin.messaging().send(message)

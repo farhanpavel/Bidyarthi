@@ -118,14 +118,16 @@ export const updateLocation = async (req, res) => {
 
     await sendDataMessage({
       currentLocation: req.body.currentLocation,
+      topic: `bus-${req.params.id}`
     }, `bus-${req.params.id}`);
 
     //bus-${id}-notifications-subscribed
-
     await sendNotification({
       title: `Bus Update: ${busData.busNum}: (${busData.startPoint} → ${busData.endPoint})`,
-      body: `Bus ${busData.busNum}: (${busData.startPoint} → ${busData.endPoint}) is now at ${req.body.currentLocation}`,
-    }, `bus-${req.params.id}-notifications`);
+      body: `Bus ${busData.busNum}: (${busData.startPoint} → ${busData.endPoint}) is now at ${req.body.currentLocation}`
+    }, `bus-${req.params.id}-notifications`,     `http://localhost:3000/userdashboard/bus/track/${req.params.id}`);
+
+
     res.status(200).json(busData);
   } catch (error) {
     res.status(500).json({ error: "Failed to update location" });

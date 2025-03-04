@@ -61,6 +61,7 @@ const FCMWrapper = ({ children }) => {
                 console.log('Foreground push notification received:', payload);
                 // Handle the received push notification while the app is in the foreground
                 // You can display a notification or update the UI based on the payload
+                if(payload.notification)
                 toast.success(
                     <div>
                         <strong>{payload.notification.title}</strong>
@@ -75,6 +76,8 @@ const FCMWrapper = ({ children }) => {
                     draggable: true,
                     progress: undefined,
                 });
+                else
+                    console.log('No notification received');
             });
             return () => {
                 unsubscribe(); // Unsubscribe from the onMessage event
