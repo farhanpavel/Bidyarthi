@@ -57,6 +57,16 @@ export const successPayment = async (req, res) => {
   try {
     // Extract data from the query parameters
     const { userId, menuId, quantity, paid } = req.query;
+    await prisma.cafeteriaMenu.update({
+      where: {
+        id: menuId,
+      },
+      data: {
+        quantity: {
+          decrement: Number(quantity),
+        },
+      },
+    });
 
     // Create the order in the database
     const updatedPayment = await prisma.cafeteriaOrder.create({
@@ -64,13 +74,14 @@ export const successPayment = async (req, res) => {
         userId,
         menuId,
         quantity: parseInt(quantity, 10),
-        paid: paid === "true",
+        paid: true,
+        status: false,
       },
     });
 
     // Check if the order was successfully created
     if (updatedPayment) {
-      res.redirect("http://localhost:3000/userdashboard/meal"); // Redirect user to the dashboard
+      res.redirect("http://localhost:3000/userdashboard/meal/request"); // Redirect user to the dashboard
     } else {
       res.status(404).json({ error: "Order creation failed" });
     }

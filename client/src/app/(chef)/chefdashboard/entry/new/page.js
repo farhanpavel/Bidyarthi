@@ -70,7 +70,8 @@ export default function Page() {
       const response = await fetch(`${url}/api/meal`, {
         method: "POST",
         headers: {
-          Authorization: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImViNTg3MzRiLTFiNDItNDQ5Mi05YWUyLTE0NzU2ZWEwNjg1OSIsImVtYWlsIjoiY2hlZjJAZ21haWwuY29tIiwiaWF0IjoxNzQxMDIwMjQzLCJleHAiOjE3NDE2MjUwNDN9._3yMo7EZ8Lx3yIZQcCf1NxSJ8wuKI8IwISdse0ruksI"
+          Authorization:
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk2NjJhZGM5LWNjZjYtNDBmOS1iYzgyLWQ1ODVkNmU0ZmVjZSIsImVtYWlsIjoiZmFyaGFucGF2ZWwzQGdtYWlsLmNvbSIsImlhdCI6MTc0MTA5Njk5MSwiZXhwIjoxNzQxNzAxNzkxfQ.1kQfTuc4ZBk9KA5Kp_JtbCygYzVyE1DQe77Fqg0UTdk",
         },
         body: formData,
       });

@@ -4,10 +4,9 @@ import jwt from "jsonwebtoken";
 
 import admin from "firebase-admin";
 
-import serviceAccount from "../google-service.json" assert { type: "json" };
-
+import serviceAccount from "../google-service.json" with { type: "json" };
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
+  credential: admin.credential.cert(serviceAccount),
 });
 
 const generateToken = (user) => {
@@ -172,90 +171,97 @@ const RefreshToken = async (req, res) => {
 };
 
 export const subscribeTokenToTopic = async (req, res) => {
-    const { token, topic } = req.body;
-    admin.messaging().subscribeToTopic(token, topic)
-        .then(() => {
-            console.log(`Subscribed to "${topic}"`);
-            res.status(200).json({ message: `Subscribed to "${topic}"` });
-        })
-        .catch((error) => {
-            console.error(`Error subscribing to topic: ${error}`);
-            res.status(500).json({ message: `Error subscribing to topic: ${error}` });
-        });
+  const { token, topic } = req.body;
+  admin
+    .messaging()
+    .subscribeToTopic(token, topic)
+    .then(() => {
+      console.log(`Subscribed to "${topic}"`);
+      res.status(200).json({ message: `Subscribed to "${topic}"` });
+    })
+    .catch((error) => {
+      console.error(`Error subscribing to topic: ${error}`);
+      res.status(500).json({ message: `Error subscribing to topic: ${error}` });
+    });
 };
 
 export const makeNotification = async (req, res) => {
-    const { title, body, topic } = req.body;
-    const message = {
-        notification: {
-        title:title,
-        body: body,
-        },
-        topic: topic,
-        webpush: {
-          headers: {
-          TTL: '86400' // Time-to-Live (1 day)
-          },
-          notification: {
-            icon: 'https://i.ibb.co.com/q4y0gbw/logo.png', // Ensure a valid icon URL
-            click_action: 'https://localhost:3000' // Ensure this matches your app domain
-          }
-        },
-        android: {
-            notification: {
-                icon: 'https://i.ibb.co.com/q4y0gbw/logo.png', // Ensure a valid icon URL
-                click_action: 'https://localhost:3000' // Ensure this matches your app domain
-            }
-        }
-    };
+  const { title, body, topic } = req.body;
+  const message = {
+    notification: {
+      title: title,
+      body: body,
+    },
+    topic: topic,
+    webpush: {
+      headers: {
+        TTL: "86400", // Time-to-Live (1 day)
+      },
+      notification: {
+        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", // Ensure a valid icon URL
+        click_action: "https://localhost:3000", // Ensure this matches your app domain
+      },
+    },
+    android: {
+      notification: {
+        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", // Ensure a valid icon URL
+        click_action: "https://localhost:3000", // Ensure this matches your app domain
+      },
+    },
+  };
 
-    admin.messaging().send(message)
-        .then(() => {
-        console.log('Notification sent successfully');
-        res.status(200).json({ message: 'Notification sent successfully' });
-        })
-        .catch((error) => {
-        console.error('Error sending notification:', error);
-        res.status(500).json({ message: 'Error sending notification' });
-        });
+  admin
+    .messaging()
+    .send(message)
+    .then(() => {
+      console.log("Notification sent successfully");
+      res.status(200).json({ message: "Notification sent successfully" });
+    })
+    .catch((error) => {
+      console.error("Error sending notification:", error);
+      res.status(500).json({ message: "Error sending notification" });
+    });
 };
 
-export const sendDataMessage = async (data,topic,notification) => {
-    const message = {
-        data: data,
-        topic: topic,
-        notification: notification
-    };
+export const sendDataMessage = async (data, topic) => {
+  const message = {
+    data: data,
+    topic: topic,
+  };
 
-    admin.messaging().send(message)
-        .then(() => {
-        console.log('Data message sent successfully');
-        })
-        .catch((error) => {
-        console.error('Error sending data message:', error);
-        });
-}
+  admin
+    .messaging()
+    .send(message)
+    .then(() => {
+      console.log("Data message sent successfully");
+    })
+    .catch((error) => {
+      console.error("Error sending data message:", error);
+    });
+};
 
-export const sendNotification = async (notification,topic,redirection) => {
-    const message = {
-        notification: notification,
-        topic: topic,
-        webpush: {
-          headers: {
-          TTL: '86400' // Time-to-Live (1 day)
-          },
-          notification: {
-            icon: 'https://i.ibb.co.com/q4y0gbw/logo.png', // Ensure a valid icon URL
-            click_action: redirection // Ensure this matches your app domain
-          }
-        },
-    };
+export const sendNotification = async (notification, topic, redirection) => {
+  const message = {
+    notification: notification,
+    topic: topic,
+    webpush: {
+      headers: {
+        TTL: "86400", // Time-to-Live (1 day)
+      },
+      notification: {
+        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", // Ensure a valid icon URL
+        click_action: redirection, // Ensure this matches your app domain
+      },
+    },
+  };
 
-    admin.messaging().send(message)
-        .then(() => {
-            console.log('Data message sent successfully');
-        })
-        .catch((error) => {
-            console.error('Error sending data message:', error);
-        });
-}
+  admin
+    .messaging()
+    .send(message)
+    .then(() => {
+      console.log("Data message sent successfully");
+    })
+    .catch((error) => {
+      console.error("Error sending data message:", error);
+    });
+};
