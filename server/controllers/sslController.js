@@ -2,6 +2,7 @@ import SSLCommerzPayment from "sslcommerz-lts";
 import { v4 as uuidv4 } from "uuid";
 import prisma from "../db.js";
 import "dotenv/config";
+import { sendDataMessage, sendNotification } from "./userController.js";
 
 const store_id = process.env.STORE_ID;
 const store_passwd = process.env.STORE_PASSWORD;
@@ -55,21 +56,38 @@ export const initiatePayment = async (req, res) => {
 };
 export const successPayment = async (req, res) => {
   try {
-    // Extract data from the query parameters
-    const { userId, menuId, quantity, paid } = req.query;
+    const { userId, menuId, quantity } = req.query;
+
+    // Decrease quantity of the ordered meal in stock
     await prisma.cafeteriaMenu.update({
-      where: {
-        id: menuId,
-      },
-      data: {
-        quantity: {
-          decrement: Number(quantity),
+      where: { id: menuId },
+      data: { quantity: { decrement: Number(quantity) } },
+    });
+
+    // Fetch meal data for the user
+    const mealData = await prisma.cafeteriaOrder.findMany({
+      where: { userId },
+      include: {
+        menu: {
+          include: {
+            user: {
+              include: {
+                chefAssignment: {
+                  include: { restaurant: true },
+                },
+              },
+            },
+          },
         },
       },
     });
 
-    // Create the order in the database
-    const updatedPayment = await prisma.cafeteriaOrder.create({
+    if (!mealData.length) {
+      return res.status(404).json({ error: "Meal data not found" });
+    }
+
+    // Create a new order
+    const newOrder = await prisma.cafeteriaOrder.create({
       data: {
         userId,
         menuId,
@@ -79,15 +97,60 @@ export const successPayment = async (req, res) => {
       },
     });
 
-    // Check if the order was successfully created
-    if (updatedPayment) {
-      res.redirect("http://localhost:3000/userdashboard/meal/request"); // Redirect user to the dashboard
-    } else {
-      res.status(404).json({ error: "Order creation failed" });
+    if (!newOrder) {
+      return res.status(500).json({ error: "Order creation failed" });
     }
+
+    // Fetch the chef's information based on the menuId
+    const meal = await prisma.cafeteriaMenu.findUnique({
+      where: { id: menuId },
+      include: {
+        user: {
+          include: {
+            chefAssignment: {
+              include: { restaurant: true },
+            },
+          },
+        },
+      },
+    });
+
+    if (!meal) {
+      return res.status(404).json({ error: "Meal not found" });
+    }
+
+    const chefId = meal.user.id; // Get the chef's ID
+
+    // Construct notification data
+    const notificationData = {
+      orderId: String(newOrder.id), // Ensure this is included
+      userId: String(newOrder.userId), // Ensure this is included
+      menuId: String(newOrder.menuId),
+      userName: String(meal.user.name),
+      mealName: String(meal.mealName),
+      quantity: String(newOrder.quantity),
+      paid: String(newOrder.paid),
+      preOrder: String(meal.preOrder),
+      topic: `chef-${chefId}`,
+    };
+
+    console.log("Notification Data:", notificationData);
+
+    await sendDataMessage(notificationData, `chef-${chefId}`);
+
+    await sendNotification(
+      {
+        title: "New Order Received",
+        body: `Meal: ${meal.mealName}, Quantity: ${String(newOrder.quantity)}`,
+      },
+      `chef-${chefId}-notifications`
+    );
+
+    // Redirect user after successful payment
+    res.redirect("http://localhost:3000/userdashboard/meal/request");
   } catch (error) {
     res.status(500).json({
-      error: "Failed to create order",
+      error: "Failed to process order",
       details: error.message,
     });
   }

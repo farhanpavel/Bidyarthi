@@ -22,6 +22,6 @@ mealRouter.get("/data/chef/pendingdata", jwtAuthentication, getMealByChef);
 mealRouter.delete("/:id", jwtAuthentication, mealDelete);
 mealRouter.put("/:id", jwtAuthentication, mealquantityChanger);
 
-mealRouter.post("/", uploadMiddleware, jwtAuthentication, postMeal);
+mealRouter.post("/data/all", uploadMiddleware, jwtAuthentication, postMeal);
 
 export default mealRouter;
