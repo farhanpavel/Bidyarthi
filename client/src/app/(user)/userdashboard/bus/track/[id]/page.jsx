@@ -100,7 +100,7 @@ export default function Page() {
                     }
                     else {
                         console.log("Topic not matched");
-                        console.log("topic: ",payload.data.topic);
+                        console.log("topic: ",message.data.topic);
                     }
                 }
                 else {
