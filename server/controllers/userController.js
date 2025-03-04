@@ -4,8 +4,7 @@ import jwt from "jsonwebtoken";
 
 import admin from "firebase-admin";
 
-import serviceAccount from "../google-service.json" assert { type: "json" };
-
+import serviceAccount from "../google-service.json" with { type: "json" };
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -224,41 +223,45 @@ export const makeNotification = async (req, res) => {
     });
 };
 
-export const sendDataMessage = async (data,topic) => {
-    const message = {
-        data: data,
-        topic: topic
-    };
+export const sendDataMessage = async (data, topic) => {
+  const message = {
+    data: data,
+    topic: topic,
+  };
 
-    admin.messaging().send(message)
-        .then(() => {
-        console.log('Data message sent successfully');
-        })
-        .catch((error) => {
-        console.error('Error sending data message:', error);
-        });
-}
+  admin
+    .messaging()
+    .send(message)
+    .then(() => {
+      console.log("Data message sent successfully");
+    })
+    .catch((error) => {
+      console.error("Error sending data message:", error);
+    });
+};
 
-export const sendNotification = async (notification,topic,redirection) => {
-    const message = {
-        notification: notification,
-        topic: topic,
-        webpush: {
-          headers: {
-          TTL: '86400' // Time-to-Live (1 day)
-          },
-          notification: {
-            icon: 'https://i.ibb.co.com/q4y0gbw/logo.png', // Ensure a valid icon URL
-            click_action: redirection // Ensure this matches your app domain
-          }
-        },
-    };
+export const sendNotification = async (notification, topic, redirection) => {
+  const message = {
+    notification: notification,
+    topic: topic,
+    webpush: {
+      headers: {
+        TTL: "86400", // Time-to-Live (1 day)
+      },
+      notification: {
+        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", // Ensure a valid icon URL
+        click_action: redirection, // Ensure this matches your app domain
+      },
+    },
+  };
 
-    admin.messaging().send(message)
-        .then(() => {
-            console.log('Data message sent successfully');
-        })
-        .catch((error) => {
-            console.error('Error sending data message:', error);
-        });
-}
+  admin
+    .messaging()
+    .send(message)
+    .then(() => {
+      console.log("Data message sent successfully");
+    })
+    .catch((error) => {
+      console.error("Error sending data message:", error);
+    });
+};

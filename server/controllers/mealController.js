@@ -25,6 +25,36 @@ export const getMeal = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch data" });
   }
 };
+export const getMealByChef = async (req, res) => {
+  const user_id = req.user.id;
+  try {
+    const mealData = await prisma.cafeteriaMenu.findMany({
+      where: {
+        user_id,
+      },
+      include: {
+        user: {
+          include: {
+            chefAssignment: {
+              include: {
+                restaurant: true,
+              },
+            },
+          },
+        },
+        orders: {
+          include: {
+            user: true, // Include the user relation here
+          },
+        },
+      },
+    });
+    res.status(200).json(mealData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+};
+
 export const getMealById = async (req, res) => {
   try {
     const mealData = await prisma.cafeteriaMenu.findMany({
@@ -38,7 +68,54 @@ export const getMealById = async (req, res) => {
   }
 };
 
-export const post = async (req, res) => {};
+export const getReqMeal = async (req, res) => {
+  const userId = req.user.id; // Student ID
+
+  try {
+    const mealData = await prisma.cafeteriaOrder.findMany({
+      where: { userId },
+      include: {
+        menu: {
+          include: {
+            user: {
+              include: {
+                chefAssignment: {
+                  include: {
+                    restaurant: true, // Include restaurant details
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    res.status(200).json(mealData);
+  } catch (error) {
+    console.error("Error fetching meal data:", error);
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+};
+export const putPreMeal = async (req, res) => {
+  const userId = req.user.id;
+  const { menuId, quantity } = req.body;
+  try {
+    const mealData = await prisma.cafeteriaOrder.create({
+      data: {
+        userId,
+        menuId,
+        quantity: parseInt(quantity, 10),
+        paid: false,
+        status: false,
+        preOrder: true,
+      },
+    });
+    res.status(200).json(mealData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+};
 
 export const postMeal = async (req, res) => {
   const userId = req.user.id;
@@ -76,5 +153,28 @@ export const postMeal = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
+export const mealDelete = async (req, res) => {
+  const mealData = await prisma.cafeteriaOrder.delete({
+    where: {
+      id: req.params.id,
+    },
+  });
+  res.status(200).json(mealData);
+};
+export const mealquantityChanger = async (req, res) => {
+  const mealData = await prisma.cafeteriaMenu.update({
+    where: {
+      id: req.params.id,
+    },
+    data: {
+      quantity: Number(req.body.quantity),
+    },
+  });
+  await prisma.cafeteriaOrder.delete({
+    where: {
+      id: req.body.orderId,
+    },
+  });
+  res.status(200).json(mealData);
+};
 export const uploadMiddleware = upload.single("file");

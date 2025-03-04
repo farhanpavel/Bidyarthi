@@ -99,11 +99,10 @@ export default function Page() {
       amount: totalAmount,
       menuId: id,
       quantity: cartItems[0].quantity,
-      paid: false,
     };
 
     try {
-      const response = await fetch(`${url}/api/ssl/init`, {
+      const response = await fetch(`${url}/api/meal`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +114,7 @@ export default function Page() {
 
       const result = await response.json();
       if (response.ok) {
-        router.push(result.url); // Redirect to the payment gateway
+        router.back(); // Redirect to the payment gateway
       } else {
         console.error("Payment initiation failed:", result.error);
       }

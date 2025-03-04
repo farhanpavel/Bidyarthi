@@ -61,6 +61,8 @@ model CafeteriaOrder {
   menuId    String
   quantity  Int
   paid      Boolean       @default(false)
+  status    Boolean       @default(false)
+  preOrder  Boolean       @default(false)
   createdAt DateTime      @default(now())
   user      User          @relation(fields: [userId], references: [id])
   menu      CafeteriaMenu @relation(fields: [menuId], references: [id])

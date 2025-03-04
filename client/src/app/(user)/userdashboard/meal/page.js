@@ -38,14 +38,14 @@ export default function Page() {
           আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
         </p>
         <div>
-          <div className="flex justify-end">
+          <div className="flex justify-end space-x-3">
             <Button
               onClick={() => {
-                router.push("/chefdashboard/entry/new");
+                router.push("/userdashboard/meal/request");
               }}
               variant="default"
             >
-              Create
+              Requested
             </Button>
           </div>
 
@@ -131,7 +131,10 @@ export default function Page() {
                     </div>
                   </div>
                   <div className="mt-5 space-x-4">
+                    {/* Show Order button only if quantity > 0 */}
+
                     <Button
+                      disabled={meal.quantity <= 0}
                       onClick={() => {
                         router.push(`/userdashboard/meal/order/${meal.id}`);
                       }}
@@ -139,7 +142,17 @@ export default function Page() {
                     >
                       Order
                     </Button>
-                    <Button variant="destructive">Pre Order</Button>
+
+                    {/* Show Pre Order button only if quantity === 0 */}
+                    <Button
+                      className="bg-red-600 text-white"
+                      disabled={meal.quantity > 0}
+                      onClick={() => {
+                        router.push(`/userdashboard/meal/preorder/${meal.id}`);
+                      }}
+                    >
+                      Preorder
+                    </Button>
                   </div>
                 </div>
               ))}
