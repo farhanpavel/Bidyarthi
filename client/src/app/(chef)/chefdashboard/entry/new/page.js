@@ -66,12 +66,12 @@ export default function Page() {
       formData.append("price", parseFloat(mealData.price));
       formData.append("quantity", parseInt(mealData.quantity, 10));
       formData.append("mealType", mealData.mealType); // Append meal type
-
-      const response = await fetch(`${url}/api/meal`, {
+      console.group(formData);
+      const response = await fetch(`${url}/api/meal/data/all`, {
         method: "POST",
         headers: {
           Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk2NjJhZGM5LWNjZjYtNDBmOS1iYzgyLWQ1ODVkNmU0ZmVjZSIsImVtYWlsIjoiZmFyaGFucGF2ZWwzQGdtYWlsLmNvbSIsImlhdCI6MTc0MTA5Njk5MSwiZXhwIjoxNzQxNzAxNzkxfQ.1kQfTuc4ZBk9KA5Kp_JtbCygYzVyE1DQe77Fqg0UTdk",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3NjQwMTZiLTJiMjItNDIyZC1iMGNlLTUwNmIwMTQzMmU3MyIsImVtYWlsIjoia2luZ0BnbWFpbC5jb20iLCJpYXQiOjE3NDExMTMzMTcsImV4cCI6MTc0MTcxODExN30.J-InsQVfKOFEdXwAKTWlIM3A9u9KlVw8jss_CF305Dw",
         },
         body: formData,
       });
