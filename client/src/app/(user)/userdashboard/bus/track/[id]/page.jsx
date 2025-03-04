@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import useFcmToken from "@/utils/hooks/useFcmToken";
@@ -10,6 +10,7 @@ import {getMessaging, onMessage} from "firebase/messaging";
 import firebaseApp from "@/utils/firebase/firebase";
 import {Button} from "@/components/ui/button";
 import {toast} from "react-toastify";
+import {MessageContext} from "@/utils/context/MessageContext";
 
 export default function Page() {
     const { id } = useParams(); // Get the `id` from the URL
@@ -20,6 +21,7 @@ export default function Page() {
     // Check notification subscription status on mount
     const [isSubscribed, setIsSubscribed] = useState(false); // State to manage notification subscription
     const [showToast, setShowToast] = useState(false); // State to control toast display
+    const { message } = useContext(MessageContext);
 
     useEffect(() => {
         const fetchBus = async () => {
@@ -56,66 +58,58 @@ export default function Page() {
         return () => clearTimeout(timer); // Cleanup the timer on component unmount
     }, []);
 
-    useEffect(() => {
-        if (bus && showToast) {
-            console.log("Bus data updated:", bus);
-            toast.success(
-                <div>
-                    <strong>{`Bus Update: ${bus.busNum}: (${bus.startPoint} → ${bus.endPoint})`}</strong>
-                    <p>{`Bus ${bus.busNum}: (${bus.startPoint} → ${bus.endPoint}) is now at ${bus.currentLocation}`}</p>
-                </div>
-                , {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-        }
-    }, [bus]);
+
+
+    // useEffect(() => {
+    //     if (bus && showToast) {
+    //         console.log("Bus data updated:", bus);
+    //         toast.success(
+    //             <div>
+    //                 <strong>{`Bus Update: ${bus.busNum}: (${bus.startPoint} → ${bus.endPoint})`}</strong>
+    //                 <p>{`Bus ${bus.busNum}: (${bus.startPoint} → ${bus.endPoint}) is now at ${bus.currentLocation}`}</p>
+    //             </div>
+    //             , {
+    //                 position: "top-right",
+    //                 autoClose: 3000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: true,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 progress: undefined,
+    //             });
+    //     }
+    // }, [bus]);
 
     useEffect(() => {
         const subscribed = localStorage.getItem(`bus-${id}-notifications-subscribed`) === 'true';
         setIsSubscribed(subscribed);
     }, [id]);
 
-    // Handle foreground messages
+
     useEffect(() => {
-        const busInfo = bus
-        if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-            const messaging = getMessaging(firebaseApp);
-            const unsubscribe = onMessage(messaging, (payload) => {
-                console.log('Bus updated: ', payload);
-                if(payload.data) {
-                    if(payload.data.topic) {
-                        if (payload.data.topic === `bus-${id}`) {
-                            setBus((prevBus) => ({
-                                ...prevBus,
-                                currentLocation: payload.data.currentLocation,
-                            })); // Update the bus data
-                            console.log("Bus updated with new location");
-                        }
-                        else {
-                            console.log("Topic not matched");
-                            console.log("topic: ",payload.data.topic);
-                        }
+        if (message) {
+            console.log('AnotherComponent received message:', message);
+            if(message.data) {
+                if(message.data.topic) {
+                    if (message.data.topic === `bus-${id}`) {
+                        setBus((prevBus) => ({
+                            ...prevBus,
+                            currentLocation: message.data.currentLocation,
+                        })); // Update the bus data
+                        console.log("Bus updated with new location");
                     }
                     else {
-                        console.log(payload.data.topic);
+                        console.log("Topic not matched");
+                        console.log("topic: ",payload.data.topic);
                     }
-
                 }
-
-            });
-            return () => {
-                unsubscribe(); // Unsubscribe from the onMessage event
-            };
-        } else {
-            console.error('Service worker not available');
+                else {
+                    console.log(message.data.topic);
+                }
+            }
         }
-    }, []);
+    }, [message]);
+
 
     if (loading) {
         return <div>Loading...</div>; // Show loading state while fetching data

@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import FCMWrapper from "@/utils/wrapper/FCMWrapper";
+import {MessageProvider} from "@/utils/context/MessageContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,7 +14,9 @@ export default function RootLayout({ children }) {
   return (
       <html lang="en">
       <body className={inter.className}>
+      <MessageProvider>
       <FCMWrapper>{children}</FCMWrapper>
+      </MessageProvider>
       </body>
       </html>
   );

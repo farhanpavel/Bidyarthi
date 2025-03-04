@@ -1,10 +1,11 @@
 // components/FCMWrapper.js
 "use client"; // Mark as a Client Component
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { getMessaging, onMessage } from 'firebase/messaging';
 import firebaseApp from "@/utils/firebase/firebase";
 import useFcmToken from "@/utils/hooks/useFcmToken";
-import {toast, ToastContainer} from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import {MessageContext} from "@/utils/context/MessageContext";
 
 export function subscribeTokenToTopic(token, topic) {
     fetch('http://localhost:4000/api/user/subscribe-to-topic', {
@@ -38,6 +39,7 @@ const requestNotificationPermission = async () => {
 
 const FCMWrapper = ({ children }) => {
     const { fcmToken, notificationPermissionStatus } = useFcmToken();
+    const { setMessage } = useContext(MessageContext);
 
     // Request notification permission
     useEffect(() => {
@@ -59,31 +61,33 @@ const FCMWrapper = ({ children }) => {
             const messaging = getMessaging(firebaseApp);
             const unsubscribe = onMessage(messaging, (payload) => {
                 console.log('Foreground push notification received:', payload);
-                // Handle the received push notification while the app is in the foreground
-                // You can display a notification or update the UI based on the payload
-                if(payload.notification)
-                toast.success(
-                    <div>
-                        <strong>{payload.notification.title}</strong>
-                        <p>{payload.notification.body}</p>
-                    </div>
-                    , {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                else
+                setMessage(payload); // Broadcast the message
+
+                if (payload.notification) {
+                    toast.success(
+                        <div>
+                            <strong>{payload.notification.title}</strong>
+                            <p>{payload.notification.body}</p>
+                        </div>,
+                        {
+                            position: "top-right",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                        }
+                    );
+                } else {
                     console.log('No notification received');
+                }
             });
             return () => {
                 unsubscribe(); // Unsubscribe from the onMessage event
             };
         }
-    }, []);
+    }, [setMessage]);
 
     return <>
         <ToastContainer />

@@ -240,10 +240,11 @@ export const sendDataMessage = async (data, topic) => {
     });
 };
 
-export const sendNotification = async (notification, topic, redirection) => {
+export const sendNotification = async (notification, topic,data, redirection) => {
   const message = {
     notification: notification,
     topic: topic,
+    data: data,
     webpush: {
       headers: {
         TTL: "86400", // Time-to-Live (1 day)
