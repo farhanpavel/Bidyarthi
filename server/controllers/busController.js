@@ -1,7 +1,7 @@
 import cloudinary from "../cloudinaryConfig.js";
 import prisma from "../db.js";
 import multer from "multer";
-import {sendDataMessage, sendNotification} from "./userController.js";
+import { sendDataMessage, sendNotification } from "./userController.js";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -16,16 +16,16 @@ export const getBus = async (req, res) => {
 };
 
 export const getSingleBus = async (req, res) => {
-    try {
-        const busData = await prisma.busRoute.findUnique({
-        where: {
-            id: req.params.id,
-        },
-        });
-        res.status(200).json(busData);
-    } catch (error) {
-        res.status(500).json({ error: "Failed to fetch data" });
-    }
+  try {
+    const busData = await prisma.busRoute.findUnique({
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.status(200).json(busData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
 };
 export const BusAssign = async (req, res) => {
   try {
@@ -116,16 +116,22 @@ export const updateLocation = async (req, res) => {
       },
     });
 
-    await sendDataMessage({
-      currentLocation: req.body.currentLocation,
-    }, `bus-${req.params.id}`);
+    await sendDataMessage(
+      {
+        currentLocation: req.body.currentLocation,
+      },
+      `bus-${req.params.id}`
+    );
 
     //bus-${id}-notifications-subscribed
 
-    await sendNotification({
-      title: `Bus Update: ${busData.busNum}: (${busData.startPoint} → ${busData.endPoint})`,
-      body: `Bus ${busData.busNum}: (${busData.startPoint} → ${busData.endPoint}) is now at ${req.body.currentLocation}`,
-    }, `bus-${req.params.id}-notifications`);
+    await sendNotification(
+      {
+        title: `Bus Update: ${busData.busNum}: (${busData.startPoint} → ${busData.endPoint})`,
+        body: `Bus ${busData.busNum}: (${busData.startPoint} → ${busData.endPoint}) is now at ${req.body.currentLocation}`,
+      },
+      `bus-${req.params.id}-notifications`
+    );
     res.status(200).json(busData);
   } catch (error) {
     res.status(500).json({ error: "Failed to update location" });

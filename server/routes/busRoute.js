@@ -2,8 +2,10 @@ import express from "express";
 import {
   BusAssign,
   BusDelete,
-  getBus, getSingleBus,
-  postBus, updateLocation,
+  getBus,
+  getSingleBus,
+  postBus,
+  updateLocation,
   uploadMiddleware,
 } from "../controllers/busController.js";
 
