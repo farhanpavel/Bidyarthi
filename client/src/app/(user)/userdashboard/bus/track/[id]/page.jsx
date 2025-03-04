@@ -8,6 +8,8 @@ import useFcmToken from "@/utils/hooks/useFcmToken";
 import {subscribeTokenToTopic} from "@/utils/wrapper/FCMWrapper";
 import {getMessaging, onMessage} from "firebase/messaging";
 import firebaseApp from "@/utils/firebase/firebase";
+import {Button} from "@/components/ui/button";
+import {toast} from "react-toastify";
 
 export default function Page() {
     const { id } = useParams(); // Get the `id` from the URL
@@ -15,23 +17,9 @@ export default function Page() {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const { fcmToken, notificationPermissionStatus } = useFcmToken();
-
-    // Handle foreground messages
-    useEffect(() => {
-        if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-            const messaging = getMessaging(firebaseApp);
-            const unsubscribe = onMessage(messaging, (payload) => {
-                console.log('Bus updated: ', payload);
-                setBus((prevBus) => ({
-                    ...prevBus,
-                    currentLocation: payload.data.currentLocation,
-                })); // Update the bus data
-            });
-            return () => {
-                unsubscribe(); // Unsubscribe from the onMessage event
-            };
-        }
-    }, []);
+    // Check notification subscription status on mount
+    const [isSubscribed, setIsSubscribed] = useState(false); // State to manage notification subscription
+    const [showToast, setShowToast] = useState(false); // State to control toast display
 
     useEffect(() => {
         const fetchBus = async () => {
@@ -41,11 +29,8 @@ export default function Page() {
                     throw new Error("Failed to fetch bus data");
                 }
                 const data = await response.json();
-                console.log(data);
                 setBus(data); // Set the fetched bus data
-                console.log(bus);
                 setLoading(false); // Set loading state to false
-
             } catch (error) {
                 console.error("Error fetching bus data:", error);
             }
@@ -58,13 +43,109 @@ export default function Page() {
         if (fcmToken) {
             console.log('FCM token bus:', fcmToken);
             // Subscribe to a topic
-            subscribeTokenToTopic(fcmToken, `bus-${id}-tracking`);
+            subscribeTokenToTopic(fcmToken, `bus-${id}`);
         }
     }, [fcmToken]);
+
+    useEffect(() => {
+        // Set a timer to allow toast notifications after 2 seconds
+        const timer = setTimeout(() => {
+            setShowToast(true);
+        }, 2000);
+
+        return () => clearTimeout(timer); // Cleanup the timer on component unmount
+    }, []);
+
+    useEffect(() => {
+        if (bus && showToast) {
+            console.log("Bus data updated:", bus);
+            toast.success(
+                <div>
+                    <strong>{`Bus Update: ${bus.busNum}: (${bus.startPoint} → ${bus.endPoint})`}</strong>
+                    <p>{`Bus ${bus.busNum}: (${bus.startPoint} → ${bus.endPoint}) is now at ${bus.currentLocation}`}</p>
+                </div>
+                , {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+        }
+    }, [bus]);
+
+    useEffect(() => {
+        const subscribed = localStorage.getItem(`bus-${id}-notifications-subscribed`) === 'true';
+        setIsSubscribed(subscribed);
+    }, [id]);
+
+    // Handle foreground messages
+    useEffect(() => {
+        const busInfo = bus
+        if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+            const messaging = getMessaging(firebaseApp);
+            const unsubscribe = onMessage(messaging, (payload) => {
+                console.log('Bus updated: ', payload);
+                if(payload.data) {
+                    if(payload.data.topic) {
+                        if (payload.data.topic === `bus-${id}`) {
+                            setBus((prevBus) => ({
+                                ...prevBus,
+                                currentLocation: payload.data.currentLocation,
+                            })); // Update the bus data
+                            console.log("Bus updated with new location");
+                        }
+                        else {
+                            console.log("Topic not matched");
+                            console.log("topic: ",payload.data.topic);
+                        }
+                    }
+                    else {
+                        console.log(payload.data.topic);
+                    }
+
+                }
+
+            });
+            return () => {
+                unsubscribe(); // Unsubscribe from the onMessage event
+            };
+        } else {
+            console.error('Service worker not available');
+        }
+    }, []);
 
     if (loading) {
         return <div>Loading...</div>; // Show loading state while fetching data
     }
+
+    // Handle notification subscription/unsubscription
+    const handleNotificationSubscription = async () => {
+        if (!fcmToken) {
+            console.error("FCM token not available");
+            return;
+        }
+
+        try {
+            if (isSubscribed) {
+                // Unsubscribe from the notification topic
+                //await unsubscribeTokenFromTopic(fcmToken, `bus-${id}-notifications`);
+                localStorage.setItem(`bus-${id}-notifications-subscribed`, 'false');
+                setIsSubscribed(false);
+                console.log("Unsubscribed from bus notifications");
+            } else {
+                // Subscribe to the notification topic
+                await subscribeTokenToTopic(fcmToken, `bus-${id}-notifications`);
+                localStorage.setItem(`bus-${id}-notifications-subscribed`, 'true');
+                setIsSubscribed(true);
+                console.log("Subscribed to bus notifications");
+            }
+        } catch (error) {
+            console.error("Error handling notification subscription:", error);
+        }
+    };
 
     // Extract location names from the comma-separated routeName
     const locations = bus.routeName.split(",").map((location) => location.trim());
@@ -137,6 +218,18 @@ export default function Page() {
                                 </li>
                             ))}
                         </ol>
+                    </div>
+
+                    {/* Subscribe to Notifications Button */}
+                    <div className="mt-6 flex justify-center">
+                        <Button
+                            onClick={handleNotificationSubscription}
+                            className={`w-full max-w-md ${
+                                isSubscribed ? "bg-red-500 hover:bg-red-600" : "bg-green-500 hover:bg-green-600"
+                            }`}
+                        >
+                            {isSubscribed ? "Unsubscribe from Notifications" : "Subscribe to Notifications"}
+                        </Button>
                     </div>
                 </CardContent>
             </Card>
