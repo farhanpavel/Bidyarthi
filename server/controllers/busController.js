@@ -1,6 +1,7 @@
 import cloudinary from "../cloudinaryConfig.js";
 import prisma from "../db.js";
 import multer from "multer";
+import {sendDataMessage, sendNotification} from "./userController.js";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -101,6 +102,33 @@ export const postBus = async (req, res) => {
   } catch (error) {
     console.error("Upload Error:", error);
     res.status(500).json({ error: error.message });
+  }
+};
+
+export const updateLocation = async (req, res) => {
+  try {
+    const busData = await prisma.busRoute.update({
+      where: {
+        id: req.params.id,
+      },
+      data: {
+        currentLocation: req.body.currentLocation,
+      },
+    });
+
+    await sendDataMessage({
+      currentLocation: req.body.currentLocation,
+    }, `bus-${req.params.id}`);
+
+    //bus-${id}-notifications-subscribed
+
+    await sendNotification({
+      title: `Bus Update: ${busData.busNum}: (${busData.startPoint} → ${busData.endPoint})`,
+      body: `Bus ${busData.busNum}: (${busData.startPoint} → ${busData.endPoint}) is now at ${req.body.currentLocation}`,
+    }, `bus-${req.params.id}-notifications`);
+    res.status(200).json(busData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update location" });
   }
 };
 

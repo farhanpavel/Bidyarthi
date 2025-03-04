@@ -3,7 +3,7 @@ import {
   BusAssign,
   BusDelete,
   getBus, getSingleBus,
-  postBus,
+  postBus, updateLocation,
   uploadMiddleware,
 } from "../controllers/busController.js";
 
@@ -13,6 +13,7 @@ busRouter.get("/", getBus);
 busRouter.get("/:id", getSingleBus);
 busRouter.post("/", uploadMiddleware, postBus);
 busRouter.put("/:id", BusAssign);
+busRouter.put("/track/:id", updateLocation);
 busRouter.delete("/:id", BusDelete);
 
 export default busRouter;
