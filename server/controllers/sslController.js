@@ -65,26 +65,26 @@ export const successPayment = async (req, res) => {
     });
 
     // Fetch meal data for the user
-    const mealData = await prisma.cafeteriaOrder.findMany({
-      where: { userId },
-      include: {
-        menu: {
-          include: {
-            user: {
-              include: {
-                chefAssignment: {
-                  include: { restaurant: true },
-                },
-              },
-            },
-          },
-        },
-      },
-    });
+    // const mealData = await prisma.cafeteriaOrder.findMany({
+    //   where: { userId },
+    //   include: {
+    //     menu: {
+    //       include: {
+    //         user: {
+    //           include: {
+    //             chefAssignment: {
+    //               include: { restaurant: true },
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
 
-    if (!mealData.length) {
-      return res.status(404).json({ error: "Meal data not found" });
-    }
+    // if (!mealData.length) {
+    //   return res.status(404).json({ error: "Meal data not found" });
+    // }
 
     // Create a new order
     const newOrder = await prisma.cafeteriaOrder.create({
@@ -114,23 +114,27 @@ export const successPayment = async (req, res) => {
         },
       },
     });
-
+    const userData = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
     if (!meal) {
       return res.status(404).json({ error: "Meal not found" });
     }
 
-    const chefId = meal.user.id; // Get the chef's ID
+    const chefId = meal.user.id;
 
     // Construct notification data
     const notificationData = {
-      orderId: String(newOrder.id), // Ensure this is included
-      userId: String(newOrder.userId), // Ensure this is included
-      menuId: String(newOrder.menuId),
-      userName: String(meal.user.name),
+      orderId: String(newOrder.id),
+      userId: String(userId),
+      menuId: String(menuId),
+      userName: String(userData.name),
       mealName: String(meal.mealName),
-      quantity: String(newOrder.quantity),
-      paid: String(newOrder.paid),
-      preOrder: String(meal.preOrder),
+      quantity: String(quantity),
+      paid: "true",
+      preOrder: "false",
       topic: `chef-${chefId}`,
     };
 

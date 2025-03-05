@@ -5,6 +5,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { url } from "@/components/Url/page";
+import { Button } from "@/components/ui/button";
 
 export default function Page() {
   const [meals, setMeals] = useState([]); // State to store fetched meals
@@ -56,8 +57,11 @@ export default function Page() {
           </div>
           <div className="grid grid-cols-4 gap-4">
             {meals.map((meal) => (
-              <div key={meal.id} className="bg-white shadow-xl p-5 rounded-lg">
-                <div className="space-y-3">
+              <div
+                key={meal.id}
+                className="bg-white shadow-xl p-5 rounded-lg flex flex-col justify-between h-full"
+              >
+                <div className="space-y-3 flex-grow">
                   {/* Meal Image */}
                   <div className="flex justify-center">
                     <img
@@ -69,30 +73,31 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* Meal Name */}
-                  <div className="w-1/2">
-                    <p className="text-xl">{meal.menu.mealName}</p>
-                  </div>
-                  <div>
-                    <p className="text-xs">{meal.menu.description}</p>
-                  </div>
-
-                  {/* Meal Type and Price */}
-                  <div className="flex justify-between">
-                    <div className="text-xs">
-                      <p>{meal.menu.mealType}</p>
-                    </div>
-                    <div className="flex items-center">
-                      <p className="text-xs font-bold">
-                        ${(meal.menu.price * meal.quantity).toFixed(2)}{" "}
-                        {/* Calculate total price */}
+                  {/* Meal Details in One Line */}
+                  <div className="flex justify-between items-center w-full ">
+                    <div className="truncate space-y-1">
+                      <p className="text-xl font-semibold">
+                        {meal.menu.mealName}
+                      </p>
+                      <p className="text-xs text-gray-500 truncate">
+                        {meal.menu.description}
                       </p>
                     </div>
                   </div>
 
-                  {/* Restaurant Name and Quantity */}
-                  <div className="flex justify-between">
-                    <div className="flex items-center text-xs space-x-1">
+                  {/* Meal Type and Price */}
+                  <div className="flex justify-between items-center w-full">
+                    <p className="text-xs">{meal.menu.mealType}</p>
+                    <div className="flex items-center">
+                      <p className="text-xs font-bold">
+                        ${(meal.menu.price * meal.quantity).toFixed(2)}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Restaurant Name and Quantity in One Line */}
+                  <div className="flex justify-between items-center w-full">
+                    <div className="flex items-center text-xs space-x-1 truncate">
                       <Map className="w-4 h-4 text-[#FC8019]" />
                       <h1>{meal.menu.user.chefAssignment.restaurant.name}</h1>
                     </div>
@@ -102,8 +107,8 @@ export default function Page() {
                     </div>
                   </div>
 
-                  {/* Badges */}
-                  <div className="space-x-1 flex">
+                  {/* Badges - Keep in One Line */}
+                  <div className="space-x-1 flex flex-wrap justify-end">
                     <Badge className="bg-green-600 text-white">
                       {meal.status ? "Taken" : "Pending"}
                     </Badge>

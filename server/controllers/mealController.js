@@ -1,6 +1,7 @@
 import cloudinary from "../cloudinaryConfig.js";
 import prisma from "../db.js";
 import multer from "multer";
+import { sendDataMessage, sendNotification } from "./userController.js";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
@@ -111,6 +112,55 @@ export const putPreMeal = async (req, res) => {
         preOrder: true,
       },
     });
+
+    const meal = await prisma.cafeteriaMenu.findUnique({
+      where: { id: menuId },
+      include: {
+        user: {
+          include: {
+            chefAssignment: {
+              include: { restaurant: true },
+            },
+          },
+        },
+      },
+    });
+    const userData = await prisma.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+    if (!meal) {
+      return res.status(404).json({ error: "Meal not found" });
+    }
+
+    const chefId = meal.user.id;
+
+    // Construct notification data
+    const notificationData = {
+      orderId: String(mealData.id),
+      userId: String(userId),
+      menuId: String(menuId),
+      userName: String(userData.name),
+      mealName: String(meal.mealName),
+      quantity: String(quantity),
+      paid: "false",
+      preOrder: "true",
+      topic: `chef-${chefId}`,
+    };
+
+    console.log("Notification Data:", notificationData);
+
+    await sendDataMessage(notificationData, `chef-${chefId}`);
+
+    await sendNotification(
+      {
+        title: "New Preorder Received",
+        body: `Meal: ${meal.mealName}, Quantity: ${String(quantity)}`,
+      },
+      `chef-${chefId}-notifications`
+    );
+
     res.status(200).json(mealData);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch data" });

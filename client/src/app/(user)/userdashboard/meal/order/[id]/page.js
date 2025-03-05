@@ -108,7 +108,7 @@ export default function Page() {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI5NjkzNDZmLTcyZTItNGViYi1iMTZjLWUyN2NiZGM1Mjk4ZiIsImVtYWlsIjoiaGltZWxAZ21haWwuY29tIiwiaWF0IjoxNzQxMDk3MDgzLCJleHAiOjE3NDE3MDE4ODN9.pgGPALuMp5zDHzjt87EEfOw5SICmNM-n-uJwahJTwp4",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNjZDdhNGU4LTMwM2UtNGYwNi05YmJmLTBmYjQ5M2RhZTM2ZCIsImVtYWlsIjoiYWJ1bEBnbWFpbC5jb20iLCJpYXQiOjE3NDExNzExNzEsImV4cCI6MTc0MTc3NTk3MX0.Fu3YgY0RN0v80is0BTG_fFxUgDh7UDigBb9LfWXVV4I",
         },
         body: JSON.stringify(payload), // Send the payload to the backend
       });

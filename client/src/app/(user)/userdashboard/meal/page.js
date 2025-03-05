@@ -86,9 +86,9 @@ export default function Page() {
               {meals.map((meal) => (
                 <div
                   key={meal.id}
-                  className="bg-white shadow-xl p-5 rounded-lg"
+                  className="bg-white shadow-xl p-5 rounded-lg flex flex-col justify-between h-full"
                 >
-                  <div className="space-y-3">
+                  <div className="space-y-3 flex-grow">
                     {/* Meal Image */}
                     <div className="flex justify-center">
                       <img
@@ -100,18 +100,19 @@ export default function Page() {
                       />
                     </div>
 
-                    {/* Meal Name */}
-                    <div className="w-1/2">
-                      <p className="text-xl">{meal.mealName}</p>
-                    </div>
-                    <div>
-                      <p className="text-xs">{meal.description}</p>
-                    </div>
-                    {/* Meal Type and Price */}
-                    <div className="flex justify-between">
-                      <div className="text-xs">
-                        <p>{meal.mealType}</p>
+                    {/* Meal Details */}
+                    <div className="flex justify-between items-center w-full">
+                      <div className="space-y-1 w-full">
+                        <p className="text-xl font-semibold truncate">
+                          {meal.mealName}
+                        </p>
+                        <p className="text-xs truncate">{meal.description}</p>
                       </div>
+                    </div>
+
+                    {/* Meal Type and Price */}
+                    <div className="flex justify-between items-center w-full">
+                      <p className="text-xs">{meal.mealType}</p>
                       <div className="flex items-center">
                         <p className="text-xs font-bold">{meal.price}</p>
                         <DollarSign className="w-4 h-4 text-[#1AC84B]" />
@@ -119,10 +120,12 @@ export default function Page() {
                     </div>
 
                     {/* Restaurant Name and Quantity */}
-                    <div className="flex justify-between">
+                    <div className="flex justify-between items-center w-full">
                       <div className="flex items-center text-xs space-x-1">
                         <Map className="w-4 h-4 text-[#FC8019]" />
-                        <h1>{meal.user.chefAssignment.restaurant.name}</h1>
+                        <h1 className="truncate">
+                          {meal.user.chefAssignment.restaurant.name}
+                        </h1>
                       </div>
                       <div className="flex items-center text-xs space-x-1">
                         <Users className="w-4 h-4 text-[#FC8019]" />
@@ -130,9 +133,9 @@ export default function Page() {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-5 space-x-4">
-                    {/* Show Order button only if quantity > 0 */}
 
+                  {/* Buttons - Always Aligned at the End */}
+                  <div className="mt-5 flex justify-end w-full">
                     <Button
                       disabled={meal.quantity <= 0}
                       onClick={() => {
@@ -143,9 +146,8 @@ export default function Page() {
                       Order
                     </Button>
 
-                    {/* Show Pre Order button only if quantity === 0 */}
                     <Button
-                      className="bg-red-600 text-white"
+                      className="bg-red-600 text-white ml-4"
                       disabled={meal.quantity > 0}
                       onClick={() => {
                         router.push(`/userdashboard/meal/preorder/${meal.id}`);

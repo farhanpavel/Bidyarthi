@@ -1,6 +1,6 @@
 "use client";
 import { UserPlus } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -15,15 +15,15 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { url } from "@/components/Url/page";
 import useFcmToken from "@/utils/hooks/useFcmToken";
-import { getMessaging, onMessage } from "firebase/messaging";
-import firebaseApp from "@/utils/firebase/firebase";
 import { subscribeTokenToTopic } from "@/utils/wrapper/FCMWrapper";
 import { toast } from "react-toastify";
+import { MessageContext } from "@/utils/context/MessageContext";
 
 export default function Page() {
   const [orders, setOrders] = useState([]);
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
   const [chefId, setChefId] = useState("");
+  const { message } = useContext(MessageContext);
 
   // Subscribe to FCM topic when fcmToken and chefId are available
   useEffect(() => {
@@ -33,66 +33,60 @@ export default function Page() {
     }
   }, [fcmToken, chefId]);
 
-  // Listen for real-time messages
   useEffect(() => {
-    if (typeof window !== "undefined" && "serviceWorker" in navigator) {
-      const messaging = getMessaging(firebaseApp);
-      const unsubscribe = onMessage(messaging, (payload) => {
-        console.log("Message received. ", payload);
-        if (payload.data) {
-          const { topic, ...rest } = payload.data;
-          if (topic === `chef-${chefId}`) {
-            // Create a new order object from the payload
-            const newOrder = {
-              id: rest.orderId, // Ensure the backend sends an orderId
-              userId: rest.userId, // Ensure the backend sends a userId
-              menuId: rest.menuId, // Ensure the backend sends a menuId
-              quantity: Number(rest.quantity), // Convert to number
-              paid: rest.paid === "true", // Convert to boolean
-              preOrder: rest.preOrder === "true", // Convert to boolean
-              user: {
-                name: rest.userName,
-              },
-            };
+    if (message) {
+      console.log("Message received: ", message);
 
-            // Update the orders state with the new order
-            setOrders((prevOrders) => {
-              const updatedOrders = prevOrders.map((order) => {
-                if (order.id === rest.menuId) {
-                  // Match the meal by menuId
-                  return {
-                    ...order,
-                    orders: [...order.orders, newOrder], // Add the new order to the meal's orders array
-                  };
+      if (message.data?.topic === `chef-${chefId}`) {
+        const { topic, ...rest } = message.data;
+
+        // Create a new order object from the message data
+        const newOrder = {
+          id: rest.orderId, // Ensure the backend sends an orderId
+          userId: rest.userId, // Ensure the backend sends a userId
+          menuId: rest.menuId, // Ensure the backend sends a menuId
+          quantity: Number(rest.quantity), // Convert to number
+          paid: rest.paid === "true", // Convert to boolean
+          preOrder: rest.preOrder === "true", // Convert to boolean
+          user: {
+            name: rest.userName,
+          },
+        };
+
+        // Update the orders state with the new order
+        setOrders((prevOrders) =>
+          prevOrders.map((order) =>
+            order.id === rest.menuId
+              ? {
+                  ...order,
+                  orders: [...order.orders, newOrder], // Add the new order to the meal's orders array
                 }
-                return order;
-              });
-              return updatedOrders;
-            });
+              : order
+          )
+        );
 
-            // Show a toast notification
-            toast.success(
-              <div>
-                <strong>New Order Update:</strong>
-                <p>{`Meal: ${rest.mealName}, Quantity: ${rest.quantity}`}</p>
-              </div>,
-              {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-              }
-            );
+        // Show a toast notification
+        toast.success(
+          <div>
+            <strong>New Order Update:</strong>
+            <p>{`Meal: ${rest.mealName}, Quantity: ${rest.quantity}`}</p>
+          </div>,
+          {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
           }
-        }
-      });
-      return () => unsubscribe(); // Cleanup on unmount
+        );
+      } else {
+        console.log("Topic not matched");
+        console.log("topic: ", message.data?.topic);
+      }
     }
-  }, [chefId]);
-
+  }, [message, chefId]);
   // Fetch initial orders
   useEffect(() => {
     const fetchOrders = async () => {
