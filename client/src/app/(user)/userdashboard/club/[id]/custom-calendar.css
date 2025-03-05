@@ -1,0 +1,29 @@
+.custom-calendar {
+  width: 100%;
+  background: white;
+  color: black;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.react-calendar__tile {
+  position: relative;
+  text-align: center;
+  padding: 10px;
+}
+
+.react-calendar__tile:hover {
+  background-color: #3d37f1 !important; /* Hover effect */
+  color: white;
+}
+
+.event-dot {
+  width: 6px;
+  height: 6px;
+  background-color: purple;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+}

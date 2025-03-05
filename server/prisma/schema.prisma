@@ -130,30 +130,29 @@ model FacultyContact {
 }
 
 model Event {
-  id          String   @id @default(uuid())
+  id          String      @id @default(uuid())
   name        String
+  url         String
   description String
   date        DateTime
   location    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relationships
-  rsvps EventRSVP[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  clubId      String
+  club        Club        @relation(fields: [clubId], references: [id])
+  rsvps       EventRSVP[]
 }
 
 model EventRSVP {
   id        String   @id @default(uuid())
   userId    String // Changed to String (UUID)
   eventId   String // Changed to String (UUID)
-  status    String // going, not going, maybe
+  status    String
+  flag      Boolean  @default(false)
   createdAt DateTime @default(now())
 
-  // Relationships
   user  User  @relation(fields: [userId], references: [id])
   event Event @relation(fields: [eventId], references: [id])
-
-  @@unique([userId, eventId]) // Prevent duplicate RSVPs
 }
 
 model CampusLocation {
@@ -207,8 +206,8 @@ model Club {
   createdAt   DateTime         @default(now())
   updatedAt   DateTime         @updatedAt
   club_url    String
-  // Relationships
-  memberships ClubMembership[] // Users (students) assigned to this club
+  memberships ClubMembership[]
+  events      Event[]
 }
 
 model ClubMembership {
@@ -217,7 +216,6 @@ model ClubMembership {
   clubId    String
   createdAt DateTime @default(now())
 
-  // Relationships
   user User @relation(fields: [userId], references: [id])
   club Club @relation(fields: [clubId], references: [id])
 

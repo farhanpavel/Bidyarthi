@@ -7,6 +7,7 @@ import busRouter from "./routes/busRoute.js";
 import clubRouter from "./routes/clubRoute.js";
 import mealRouter from "./routes/mealRoute.js";
 import sslRouter from "./routes/sslRoute.js";
+import clubAssignRouter from "./routes/clubAssignRoute.js";
 
 const app = express();
 app.use(cors());
@@ -27,3 +28,4 @@ app.use("/api/bus", busRouter);
 app.use("/api/club", clubRouter);
 app.use("/api/meal", mealRouter);
 app.use("/api/ssl", sslRouter);
+app.use("/api/assign", clubAssignRouter);
