@@ -30,12 +30,12 @@ import Cookies from "js-cookie";
 
 const navItems = [
   {
-    title: "Overview",
+    title: "সংক্ষিপ্ত বিবরণ",
     href: "/driverdashboard/overview",
     icon: <Home size={20} />,
   },
   {
-    title: "Entry",
+    title: "প্রবেশ",
     href: "/driverdashboard/bus",
     icon: <AppWindowIcon size={20} />,
   },
@@ -103,7 +103,7 @@ export default function BusSidebar() {
                 onClick={handleClick}
               >
                 <LogOut size={20} className="mr-2" />
-                Logout
+                লগআউট করুন
               </Button>
             </Link>
           </div>

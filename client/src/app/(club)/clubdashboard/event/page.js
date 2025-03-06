@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Calendar1Icon } from "lucide-react";
+import { Calendar1Icon, Wallpaper } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Calendar from "react-calendar"; // Import react-calendar
@@ -69,18 +69,18 @@ export default function Page() {
     <div>
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
-          <Calendar1Icon className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
+          <Wallpaper className="text-3xl" />
+          <h1 className="text-2xl font-bold font-bangla">ইভেন্ট</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+          আপনার সমস্ত ইভেন্টগুলির বিস্তারিত দেখুন।
         </p>
         <div className="flex justify-end">
           <Button
             onClick={() => router.push("/clubdashboard/event/new")}
             variant="default"
           >
-            Create
+            তৈরি করুন
           </Button>
         </div>
         <div className="relative w-full h-[300px]">
@@ -117,7 +117,9 @@ export default function Page() {
           {/* Display events for the selected date */}
           <div className="col-span-2">
             <h2 className="text-lg font-bold mb-2">
-              {selectedDate ? selectedDate.toDateString() : "Select a date"}
+              {selectedDate
+                ? selectedDate.toDateString()
+                : "একটি তারিখ নির্বাচন করুন"}
             </h2>
             {eventsForSelectedDate.length > 0 ? (
               eventsForSelectedDate.map((event) => (
@@ -130,7 +132,7 @@ export default function Page() {
                 </div>
               ))
             ) : (
-              <p className="text-xs text-gray-500">No events on this day.</p>
+              <p className="text-xs text-gray-500">এই দিনে কোন ইভেন্ট নেই.</p>
             )}
           </div>
         </div>

@@ -15,6 +15,7 @@ import {
   Captions,
   Cable,
   Calendar,
+  NotepadText,
 } from "lucide-react";
 import {
   Tooltip,
@@ -31,19 +32,19 @@ import Cookies from "js-cookie";
 
 const navItems = [
   {
-    title: "Overview",
+    title: "সংক্ষিপ্ত বিবরণ",
     href: "/clubdashboard/overview",
     icon: <Home size={20} />,
   },
   {
-    title: "Event",
+    title: "ইভেন্ট",
     href: "/clubdashboard/event",
     icon: <Calendar size={20} />,
   },
   {
-    title: "Details",
+    title: "বিস্তারিত",
     href: "/clubdashboard/detail",
-    icon: <Cable size={20} />,
+    icon: <NotepadText size={20} />,
   },
 ];
 
@@ -109,7 +110,7 @@ export default function ClubSidebar() {
                 onClick={handleClick}
               >
                 <LogOut size={20} className="mr-2" />
-                Logout
+                লগআউট করুন
               </Button>
             </Link>
           </div>
