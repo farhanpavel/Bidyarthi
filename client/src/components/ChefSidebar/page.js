@@ -109,7 +109,7 @@ export default function ChefSidebar() {
                 onClick={handleClick}
               >
                 <LogOut size={20} className="mr-2" />
-                Logout
+                লগআউট করুন
               </Button>
             </Link>
           </div>
