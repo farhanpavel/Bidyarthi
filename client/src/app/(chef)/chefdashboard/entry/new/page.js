@@ -95,10 +95,10 @@ export default function Page() {
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
           <UserPlus className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
+          <h1 className="text-2xl font-bold font-bangla">খাবার যুক্ত করুন</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4">
-          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+          ক্যাফেটেরিয়ার মিলের বিস্তারিত যোগ করুন
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
@@ -140,7 +140,9 @@ export default function Page() {
                           <SelectValue placeholder="মিলের ধরন নির্বাচন করুন" />
                         </SelectTrigger>
                         <SelectContent position="popper">
-                          <SelectItem value="Breakfast">প্রাতঃরাশ</SelectItem>
+                          <SelectItem value="Breakfast">
+                            সকালের নাস্তা
+                          </SelectItem>
                           <SelectItem value="Lunch">দুপুরের খাবার</SelectItem>
                           <SelectItem value="Dinner">রাতের খাবার</SelectItem>
                         </SelectContent>

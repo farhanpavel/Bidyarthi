@@ -165,22 +165,22 @@ export default function Page() {
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
           <UserPlus className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
+          <h1 className="text-2xl font-bold font-bangla">অর্ডারসমূহ</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4">
-          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+          কাস্টমারদের অর্ডারগুলো দেখুন
         </p>
         <div>
           <Table>
-            <TableCaption>A list of pending orders.</TableCaption>
+            <TableCaption>পেন্ডিং অর্ডারসমূহের তালিকা</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead>Client Name</TableHead>
-                <TableHead>Meal Name</TableHead>
-                <TableHead>Quantity</TableHead>
-                <TableHead>Payment Status</TableHead>
-                <TableHead>Pre Order</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>কাস্টমারের নাম</TableHead>
+                <TableHead>অর্ডারকৃত মিল</TableHead>
+                <TableHead>পরিমান</TableHead>
+                <TableHead>পেমেন্ট স্ট্যাটাস</TableHead>
+                <TableHead>প্রি-অর্ডার</TableHead>
+                <TableHead className="text-right">অ্যাকশন</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -192,19 +192,19 @@ export default function Page() {
                     <TableCell>{item.quantity}</TableCell>
                     <TableCell>
                       {item.paid ? (
-                        <Badge className="bg-green-600 text-white">Paid</Badge>
+                        <Badge className="bg-green-600 text-white">পেইড</Badge>
                       ) : (
-                        <Badge className="bg-red-600 text-white">Unpaid</Badge>
+                        <Badge className="bg-red-600 text-white">আনপেইড</Badge>
                       )}
                     </TableCell>
                     <TableCell>
                       {item.preOrder ? (
                         <Badge className="bg-blue-600 text-white">
-                          Pre Order
+                          প্রি-অর্ডার
                         </Badge>
                       ) : (
                         <Badge className="bg-gray-600 text-white">
-                          Regular
+                          রেগুলার
                         </Badge>
                       )}
                     </TableCell>
@@ -221,7 +221,7 @@ export default function Page() {
                           )
                         }
                       >
-                        Accept
+                        গ্রহণ
                       </Button>
                       <Button
                         className="bg-red-600 hover:bg-red-700 text-white"
@@ -235,7 +235,7 @@ export default function Page() {
                           )
                         }
                       >
-                        Decline
+                        প্রত্যাখ্যান
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -244,7 +244,7 @@ export default function Page() {
             </TableBody>
             <TableFooter>
               <TableRow>
-                <TableCell colSpan={5}>Total Orders</TableCell>
+                <TableCell colSpan={5}>মোট অর্ডার</TableCell>
                 <TableCell className="text-right">
                   {orders.reduce(
                     (total, order) => total + order.orders.length,

@@ -14,6 +14,7 @@ import {
   Anvil,
   Captions,
   Cable,
+  ListCheck,
 } from "lucide-react";
 import {
   Tooltip,
@@ -30,19 +31,19 @@ import Cookies from "js-cookie";
 
 const navItems = [
   {
-    title: "Overview",
+    title: "সংক্ষিপ্ত বিবরণ",
     href: "/chefdashboard/overview",
     icon: <Home size={20} />,
   },
   {
-    title: "Entry",
+    title: "মেনু তালিকা",
     href: "/chefdashboard/entry",
-    icon: <AppWindowIcon size={20} />,
+    icon: <ListCheck size={20} />,
   },
   {
-    title: "Order",
+    title: "অর্ডার",
     href: "/chefdashboard/order",
-    icon: <Cable size={20} />,
+    icon: <Salad size={20} />,
   },
 ];
 
