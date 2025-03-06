@@ -221,3 +221,22 @@ model ClubMembership {
 
   @@unique([userId, clubId]) // Prevent duplicate memberships
 }
+
+model Routine {
+  id        String     @id @default(uuid())
+  userId    String     @unique // Add @unique here
+  schedule  Json
+  todolist  Todolist[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Todolist {
+  id        String   @id @default(uuid())
+  routineId String
+  routine   Routine  @relation(fields: [routineId], references: [userId])
+  task      String
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -1,7 +1,10 @@
 import {
   getUser,
   getUserByroleFalse,
-  getUserByroleTrue, makeNotification, subscribeTokenToTopic, unsubscribeTokenFromTopic,
+  getUserByroleTrue,
+  makeNotification,
+  subscribeTokenToTopic,
+  unsubscribeTokenFromTopic,
   userLogin,
   userRegister,
 } from "../controllers/userController.js";

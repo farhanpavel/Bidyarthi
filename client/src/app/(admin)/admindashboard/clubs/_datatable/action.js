@@ -40,6 +40,9 @@ export const columns = [
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
+    cell: ({ row }) => (
+      <span>{row.getValue("description")?.substring(0, 6)}</span>
+    ),
     enableSorting: true,
   },
   {

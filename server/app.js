@@ -8,6 +8,8 @@ import clubRouter from "./routes/clubRoute.js";
 import mealRouter from "./routes/mealRoute.js";
 import sslRouter from "./routes/sslRoute.js";
 import clubAssignRouter from "./routes/clubAssignRoute.js";
+import rountineRouter from "./routes/routineRoute.js";
+import todoRouter from "./routes/todolistRoute.js";
 
 const app = express();
 app.use(cors());
@@ -29,3 +31,5 @@ app.use("/api/club", clubRouter);
 app.use("/api/meal", mealRouter);
 app.use("/api/ssl", sslRouter);
 app.use("/api/assign", clubAssignRouter);
+app.use("/api/routine", rountineRouter);
+app.use("/api/todolist", todoRouter);

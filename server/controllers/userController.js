@@ -67,14 +67,14 @@ export const getUserByroleTrue = async (req, res) => {
           where: {
             role: req.params.role,
             status: true,
-            clubMembership: {
-              is: {
+            clubMemberships: {
+              some: {
                 clubId: req.params.id,
               },
             },
           },
           include: {
-            clubMembership: {
+            clubMemberships: {
               include: {
                 club: true,
               },
@@ -143,11 +143,11 @@ export const userLogin = async (req, res) => {
     },
   });
   if (!data) {
-    return res.status(404).json("user Doesnot Exist");
+    return res.status(401).json({ message: "Invalid email or password" });
   }
   const isMatch = await bcrypt.compare(password, data.password);
   if (!isMatch) {
-    res.status(404).json("Password Not Match");
+    return res.status(401).json({ message: "Invalid email or password" });
   }
   const token = generateToken(data);
   res.status(200).json({ token, role: data.role }); // Return role along with token
@@ -186,20 +186,20 @@ export const subscribeTokenToTopic = async (req, res) => {
 };
 
 export const unsubscribeTokenFromTopic = async (req, res) => {
-    const { token, topic } = req.body;
-    admin
-        .messaging()
-        .unsubscribeFromTopic(token, topic)
-        .then(() => {
-        console.log(`Unsubscribed from "${topic}"`);
-        res.status(200).json({ message: `Unsubscribed from "${topic}"` });
-        })
-        .catch((error) => {
-        console.error(`Error unsubscribing from topic: ${error}`);
-        res
-            .status(500)
-            .json({ message: `Error unsubscribing from topic: ${error}` });
-        });
+  const { token, topic } = req.body;
+  admin
+    .messaging()
+    .unsubscribeFromTopic(token, topic)
+    .then(() => {
+      console.log(`Unsubscribed from "${topic}"`);
+      res.status(200).json({ message: `Unsubscribed from "${topic}"` });
+    })
+    .catch((error) => {
+      console.error(`Error unsubscribing from topic: ${error}`);
+      res
+        .status(500)
+        .json({ message: `Error unsubscribing from topic: ${error}` });
+    });
 };
 
 export const makeNotification = async (req, res) => {
