@@ -28,27 +28,27 @@ import Cookies from "js-cookie";
 
 const navItems = [
   {
-    title: "Overview",
+    title: "সংক্ষিপ্ত বিবরণ",
     href: "/admindashboard/overview",
     icon: <Home size={20} />,
   },
   {
-    title: "Entry",
+    title: "প্রবেশ",
     href: "/admindashboard/entry",
     icon: <AppWindowIcon size={20} />,
   },
   {
-    title: "Cafeteria",
+    title: "ক্যাফেটেরিয়া",
     href: "/admindashboard/cafeteria",
     icon: <Salad size={20} />,
   },
   {
-    title: "Bus",
+    title: "বাস",
     href: "/admindashboard/bus",
     icon: <Bus size={20} />,
   },
   {
-    title: "Clubs",
+    title: "ক্লাব",
     href: "/admindashboard/clubs",
     icon: <Anvil size={20} />,
   },
@@ -116,7 +116,7 @@ export default function AdminSidebar() {
                 onClick={handleClick}
               >
                 <LogOut size={20} className="mr-2" />
-                Logout
+                লগআউট করুন
               </Button>
             </Link>
           </div>

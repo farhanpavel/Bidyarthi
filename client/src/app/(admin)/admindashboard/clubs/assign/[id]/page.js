@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { url } from "@/components/Url/page";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, ListPlus } from "lucide-react";
+import { BellElectric, ChevronLeft, ChevronRight, ListPlus } from "lucide-react";
 import {
   Card,
   CardContent,
@@ -109,17 +109,17 @@ export default function Page() {
   return (
     <div className="p-9 space-y-2">
       <div className="flex gap-x-2 items-center text-black">
-        <ListPlus className="text-3xl" />
-        <h1 className="text-2xl font-bold">Entry</h1>
+        <BellElectric className="text-3xl" />
+        <h1 className="text-2xl font-bold">ক্লাব প্রবেশাধিকার ব্যবস্থাপনা</h1>
       </div>
       <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
-        Create a perfect roadmap for your learning
+      ক্লাব প্রবেশে সহায়তার জন্য যোগাযোগের তথ্য।
       </p>
       <Card className="border-[1px] border-gray-300">
         <CardHeader>
-          <CardTitle className="text-lg">Manage Hall</CardTitle>
+          <CardTitle className="text-lg">ক্লাব প্রবেশ ব্যবস্থাপনা</CardTitle>
           <CardDescription className="text-xs">
-            Manage the Hall access for the provost.
+          ক্লাব প্রবেশাধিকার পরিচালনা করুন
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -129,10 +129,10 @@ export default function Page() {
                 <CardHeader>
                   <div className="py-3 text-[#4a4a4a] flex justify-between text-xs border-b-[1px] border-gray-300">
                     <div>
-                      <h1>Select Hall To</h1>
+                      <h1>ক্লাব নির্বাচন করুন</h1>
                     </div>
                     <div>
-                      <h1>Assign</h1>
+                      <h1>নিয়োগ করুন</h1>
                     </div>
                   </div>
                 </CardHeader>
@@ -162,10 +162,10 @@ export default function Page() {
                 <CardHeader>
                   <div className="py-3 text-[#4a4a4a] flex justify-between text-xs border-b-[1px] border-gray-300">
                     <div>
-                      <h1>Remove</h1>
+                      <h1>অপসারণ করুন</h1>
                     </div>
                     <div>
-                      <h1>From Hall</h1>
+                      <h1>ক্লাব থেকে</h1>
                     </div>
                   </div>
                 </CardHeader>

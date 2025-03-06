@@ -1,5 +1,5 @@
 "use client";
-import { UserPlus, Loader2, ArrowUpDown } from "lucide-react";
+import { UserPlus, Loader2, ArrowUpDown, Bus } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import "dotenv/config";
 
@@ -144,18 +144,18 @@ export default function Page() {
     <div>
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
-          <UserPlus className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
+          <Bus className="text-3xl" />
+          <h1 className="text-2xl font-bold font-bangla">বাস এন্ট্রি ফর্ম</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4">
-          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+        বাস রুট, সময়সূচী এবং অন্যান্য তথ্য যোগ করে নতুন বাস সেবা শুরু করুন।
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
             <CardHeader className="space-y-4">
               <CardTitle>বাস বিবরণ</CardTitle>
               <CardDescription>
-                দয়া করে বাসের পদ নির্বাচন করুন এবং প্রয়োজনীয় তথ্য পূরণ করুন।
+                দয়া করে বাসের প্রয়োজনীয় তথ্য পূরণ করুন।
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -233,7 +233,7 @@ export default function Page() {
                           className="flex items-center gap-x-2"
                         >
                           <ArrowUpDown size={24}/>
-                          <span>Switch Start and End Points</span>
+                          <span>শুরু এবং শেষ স্থান পরিবর্তন করুন</span>
                         </Button>
                       </div>
                       <div className="space-y-2">

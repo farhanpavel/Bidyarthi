@@ -1,5 +1,5 @@
 "use client";
-import { CalendarCheck } from "lucide-react";
+import { Bus, CalendarCheck, LayoutDashboard } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import {
   flexRender,
@@ -58,11 +58,11 @@ export default function Page() {
     <div>
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
-          <CalendarCheck className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
+          <Bus className="text-3xl" />
+          <h1 className="text-2xl font-bold font-bangla">বাস সেবা</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4 font-bangla">
-          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+        আপনার যাত্রা আরও সহজ এবং সুবিধাজনক করুন
         </p>
 
         <div className="space-y-4">

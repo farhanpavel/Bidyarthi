@@ -1,5 +1,5 @@
 "use client";
-import { UserPlus, Loader2 } from "lucide-react";
+import { UserPlus, Loader2, SquarePen } from "lucide-react";
 import React, { useState } from "react";
 import {
   Card,
@@ -66,18 +66,18 @@ export default function page() {
     <div>
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
-          <UserPlus className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
+          <SquarePen className="text-3xl" />
+          <h1 className="text-2xl font-bold font-bangla">নতুন ক্যাফেটেরিয়া যোগ করুন</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
-          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+        নিচের তথ্য পূরণ করে ক্যাফেটেরিয়া নিবন্ধন করুন
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
             <CardHeader className="space-y-4">
               <CardTitle>ক্যাফেটেরিয়া বিবরণ</CardTitle>
               <CardDescription>
-                দয়া করে ক্যাফেটেরিয়ার পদ নির্বাচন করুন এবং প্রয়োজনীয় তথ্য
+                দয়া করে ক্যাফেটেরিয়ার প্রয়োজনীয় তথ্য
                 পূরণ করুন।
               </CardDescription>
             </CardHeader>
