@@ -1,7 +1,7 @@
 "use client";
 import { url } from "@/components/Url/page";
 import { Button } from "@/components/ui/button";
-import { HandPlatter, Map, Users, DollarSign } from "lucide-react";
+import { HandPlatter, Map, Users, DollarSign, BusFront } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -70,18 +70,18 @@ export default function Page() {
     <div>
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
-          <HandPlatter className="text-3xl" />
+          <BusFront className="text-3xl" />
           <h1 className="text-2xl font-bold font-bangla">BUS schedule</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-          bus go broom broom
+          বাস রুটের বিস্তারিত
         </p>
         <div>
           {/* Departure in 30 Minutes Section */}
           <div className="mt-4">
             <div className="flex justify-center">
               <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black">
-                Departure in 30 minutes
+                ৩০ মিনিট পর প্রস্থান হবে
               </h1>
             </div>
             <div className="flex flex-col">
@@ -116,7 +116,7 @@ export default function Page() {
                     {/* Bus Number */}
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-gray-500">
-                        Bus Number
+                        বাস নম্বর
                       </p>
                       <p className="text-lg font-bold">{meal.busNum}</p>
                     </div>
@@ -124,7 +124,7 @@ export default function Page() {
                     {/* Departure Time */}
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-gray-500">
-                        Departure Time
+                        প্রস্থান সময়
                       </p>
                       <p className="text-lg font-bold">{meal.schedule}</p>
                     </div>
@@ -137,7 +137,7 @@ export default function Page() {
           {/* More Buses Section */}
           <div className="flex justify-center mt-6">
             <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black">
-              More Buses
+              আরও বাস
             </h1>
           </div>
           <div className="flex flex-col">
@@ -172,7 +172,7 @@ export default function Page() {
                   {/* Bus Number */}
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-gray-500">
-                      Bus Number
+                      বাস নম্বর
                     </p>
                     <p className="text-lg font-bold">{meal.busNum}</p>
                   </div>
@@ -180,7 +180,7 @@ export default function Page() {
                   {/* Departure Time */}
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-gray-500">
-                      Departure Time
+                      প্রস্থান সময়
                     </p>
                     <p className="text-lg font-bold">{meal.schedule}</p>
                   </div>
@@ -192,7 +192,7 @@ export default function Page() {
           {/* Departed Buses Section */}
           <div className="flex justify-center mt-6">
             <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black">
-              Departed Buses
+              প্রস্থান করা বাসসমূহ
             </h1>
           </div>
           <div className="flex flex-col">
@@ -203,7 +203,7 @@ export default function Page() {
               >
                 {/* Departed Label */}
                 <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                  Departed
+                  প্রস্থান করেছে
                 </div>
 
                 {/* Image on the left */}
@@ -232,7 +232,7 @@ export default function Page() {
                   {/* Bus Number */}
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-gray-500">
-                      Bus Number
+                      বাস নম্বর
                     </p>
                     <p className="text-lg font-bold">{meal.busNum}</p>
                   </div>
@@ -240,7 +240,7 @@ export default function Page() {
                   {/* Departure Time */}
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-gray-500">
-                      Departure Time
+                      প্রস্থান সময়
                     </p>
                     <p className="text-lg font-bold">{meal.schedule}</p>
                   </div>
@@ -252,7 +252,7 @@ export default function Page() {
                     onClick={() => router.push(`bus/track/${meal.id}`)}
                     className="bg-black text-white px-6 py-2 rounded-lg font-semibold shadow-lg"
                   >
-                    Track
+                    ট্র্যাক করুন
                   </button>
                 </div>
               </div>

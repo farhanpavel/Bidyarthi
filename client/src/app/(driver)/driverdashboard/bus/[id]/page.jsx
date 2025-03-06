@@ -107,12 +107,12 @@ export default function Page() {
           <h1 className="text-2xl font-bold text-white">
             {bus.busNum}: {bus.startPoint} → {bus.endPoint}
           </h1>
-          <p className="text-gray-300">Route: {bus.routeName}</p>
+          <p className="text-gray-300">রুট: {bus.routeName}</p>
         </CardHeader>
         <Separator />
         <CardContent className="pt-6">
           <div className="text-white">
-            <h2 className="text-xl font-semibold">Current Location</h2>
+            <h2 className="text-xl font-semibold">বর্তমান অবস্থান</h2>
             <p className="text-gray-300">{bus.currentLocation}</p>
           </div>
 
@@ -150,7 +150,7 @@ export default function Page() {
                     {/* Current Location Chip */}
                     {index === currentLocationIndex && (
                       <span className="bg-green-500 text-white text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm ms-3">
-                        Current Location
+                        বর্তমান অবস্থান
                       </span>
                     )}
                   </h3>

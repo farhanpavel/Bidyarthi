@@ -74,7 +74,9 @@ export default function Signup() {
             </div>
             <div className="text-center space-y-1 2xl:text-2xl text-md text-xl">
               <h1 className="font-bangla">বিদ্যার্থী অ্যাপে স্বাগতম!</h1>
-              <p className="text-sm font-bangla">অ্যাকাউন্ট তৈরি করতে সাইনআপ করুন</p>
+              <p className="text-sm font-bangla">
+                অ্যাকাউন্ট তৈরি করতে সাইনআপ করুন
+              </p>
             </div>
             <div className="2xl:w-3/4 w-full">
               <form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
@@ -132,7 +134,7 @@ export default function Signup() {
                     type="submit"
                     className="px-6 py-2 bg-[#E54981] w-1/3 text-sm text-white rounded-full mt-2 font-bangla"
                   >
-                    {isLogged ? <ButtonLoader /> : "রেজিস্টার করুন"}
+                    {isLogged ? <ButtonLoader /> : "রেজিস্টার"}
                   </button>
                 </div>
               </form>

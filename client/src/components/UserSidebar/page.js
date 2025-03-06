@@ -115,7 +115,7 @@ export default function UserSidebar() {
                 onClick={handleClick}
               >
                 <LogOut size={20} className="mr-2" />
-                Logout
+                লগআউট করুন
               </Button>
             </Link>
           </div>
