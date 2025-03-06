@@ -1,7 +1,7 @@
 "use client";
 import { url } from "@/components/Url/page";
 import { Button } from "@/components/ui/button";
-import { HandPlatter, Map, Users, DollarSign } from "lucide-react";
+import { HandPlatter, Map, Users, DollarSign, Timer } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
@@ -36,18 +36,18 @@ export default function Page() {
     <div>
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
-          <HandPlatter className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">BUS Schedule</h1>
+          <Timer className="text-3xl" />
+          <h1 className="text-2xl font-bold font-bangla">সময়সূচী</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-          Manage your buses efficiently
+          আপনার বাসসমূহ কার্যকরভাবে পরিচালনা করুন।
         </p>
         <div>
           {/* All Buses Section */}
           <div className="mt-4">
             <div className="flex justify-center">
               <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black">
-                Assigned Busses
+                বরাদ্দকৃত বাসসমূহ
               </h1>
             </div>
             <div className="flex flex-col">
@@ -82,7 +82,7 @@ export default function Page() {
                     {/* Bus Number */}
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-gray-500">
-                        Bus Number
+                        বাস নম্বর
                       </p>
                       <p className="text-lg font-bold">{meal.busNum}</p>
                     </div>
@@ -90,7 +90,7 @@ export default function Page() {
                     {/* Departure Time */}
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-gray-500">
-                        Departure Time
+                        প্রস্থান সময়
                       </p>
                       <p className="text-lg font-bold">{meal.schedule}</p>
                     </div>
@@ -103,7 +103,7 @@ export default function Page() {
                         }
                         className="bg-black text-white px-6 py-2 rounded-lg font-semibold shadow-lg"
                       >
-                        Manage
+                        পরিচালনা করুন
                       </Button>
                     </div>
                   </div>

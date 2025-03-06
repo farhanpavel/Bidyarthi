@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { url } from "@/components/Url/page";
+import { TrafficCone } from "lucide-react";
 
 export default function Page() {
   const { id } = useParams(); // Get the `id` from the URL
@@ -90,12 +91,14 @@ export default function Page() {
   const currentLocationIndex = locations.indexOf(bus.currentLocation);
 
   return (
-    <div className="p-6 max-w-6xl mx-auto space-y-6">
+    <div className="p-9 space-y-2">
       <div className="flex gap-x-2 items-center text-black">
-        <h1 className="text-2xl font-bold">Bus Route Tracker</h1>
+        <TrafficCone className="text-3xl" />
+
+        <h1 className="text-2xl font-bold">বাস রুট ট্র্যাকার</h1>
       </div>
       <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4">
-        Manage the bus route and update the current location.
+        বাস রুট পরিচালনা করুন এবং বর্তমান অবস্থান আপডেট করুন।
       </p>
 
       {/* Bus Details Card */}
@@ -168,8 +171,8 @@ export default function Page() {
               disabled={currentLocationIndex === locations.length - 1}
             >
               {currentLocationIndex === locations.length - 1
-                ? "Journey Ended"
-                : "Move to Next Stop"}
+                ? "যাত্রা শেষ হয়েছে"
+                : "পরবর্তী স্টপে যান"}
             </Button>
           </div>
         </CardContent>
@@ -178,19 +181,19 @@ export default function Page() {
       {/* Additional Bus Information */}
       <Card>
         <CardHeader>
-          <h2 className="text-xl font-semibold">Bus Information</h2>
+          <h2 className="text-xl font-semibold">বাসের তথ্য</h2>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Start Point</span>
+            <span className="text-muted-foreground">শুরু পয়েন্ট</span>
             <span>{bus.startPoint}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">End Point</span>
+            <span className="text-muted-foreground">শেষ পয়েন্ট</span>
             <span>{bus.endPoint}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Schedule</span>
+            <span className="text-muted-foreground">সময়সূচী</span>
             <span>{bus.schedule}</span>
           </div>
         </CardContent>
