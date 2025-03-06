@@ -7,6 +7,31 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 export const getMeal = async (req, res) => {
+  const userId = req.user.id;
+  try {
+    const mealData = await prisma.cafeteriaMenu.findMany({
+      where: {
+        user_id: userId,
+      },
+
+      include: {
+        user: {
+          include: {
+            chefAssignment: {
+              include: {
+                restaurant: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    res.status(200).json(mealData);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch data" });
+  }
+};
+export const getMealForAllUser = async (req, res) => {
   try {
     const mealData = await prisma.cafeteriaMenu.findMany({
       include: {

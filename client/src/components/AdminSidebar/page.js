@@ -58,9 +58,8 @@ export default function AdminSidebar() {
   const pathname = usePathname();
   const [tripPlanId, setTripPlanId] = useState("");
   const handleClick = () => {
-    Cookies.remove("AccessToken");
-    Cookies.remove("RefreshToken");
-    Cookies.remove("title");
+    Cookies.remove("token");
+    Cookies.remove("role");
   };
   useEffect(() => {
     // Parse query parameters from the URL

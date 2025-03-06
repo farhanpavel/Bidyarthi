@@ -1,6 +1,6 @@
 "use client";
 import { UserPlus } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -18,13 +18,13 @@ import useFcmToken from "@/utils/hooks/useFcmToken";
 import { subscribeTokenToTopic } from "@/utils/wrapper/FCMWrapper";
 import { toast } from "react-toastify";
 import { MessageContext } from "@/utils/context/MessageContext";
-
+import Cookies from "js-cookie";
 export default function Page() {
   const [orders, setOrders] = useState([]);
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
   const [chefId, setChefId] = useState("");
   const { message } = useContext(MessageContext);
-
+  let token = Cookies.get("token");
   // Subscribe to FCM topic when fcmToken and chefId are available
   useEffect(() => {
     if (fcmToken && chefId) {
@@ -93,8 +93,7 @@ export default function Page() {
       try {
         const response = await fetch(`${url}/api/meal/data/chef/pendingdata`, {
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3NjQwMTZiLTJiMjItNDIyZC1iMGNlLTUwNmIwMTQzMmU3MyIsImVtYWlsIjoia2luZ0BnbWFpbC5jb20iLCJpYXQiOjE3NDExMTMzMTcsImV4cCI6MTc0MTcxODExN30.J-InsQVfKOFEdXwAKTWlIM3A9u9KlVw8jss_CF305Dw",
+            Authorization: token,
           },
         });
         if (!response.ok) {
@@ -139,8 +138,7 @@ export default function Page() {
         method,
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk2NjJhZGM5LWNjZjYtNDBmOS1iYzgyLWQ1ODVkNmU0ZmVjZSIsImVtYWlsIjoiZmFyaGFucGF2ZWwzQGdtYWlsLmNvbSIsImlhdCI6MTc0MTA5Njk5MSwiZXhwIjoxNzQxNzAxNzkxfQ.1kQfTuc4ZBk9KA5Kp_JtbCygYzVyE1DQe77Fqg0UTdk",
+          Authorization: token,
         },
         body,
       });

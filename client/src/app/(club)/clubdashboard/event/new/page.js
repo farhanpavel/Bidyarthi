@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { url } from "@/components/Url/page";
-
+import Cookies from "js-cookie";
 export default function Page() {
   const [isLoading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
@@ -25,7 +25,7 @@ export default function Page() {
     date: "",
     location: "",
   });
-
+  var token = Cookies.get("token");
   const router = useRouter();
 
   const handleFileChange = (e) => {
@@ -60,8 +60,7 @@ export default function Page() {
       const response = await fetch(`${url}/api/club/event/data`, {
         method: "POST",
         headers: {
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA3YzkwOGJjLTYzMzQtNDFhYi1iOGZiLWFmYzU5NDE4MjI5ZiIsImVtYWlsIjoiaG9sYUBnbWFpbC5jb20iLCJpYXQiOjE3NDExOTI4MTIsImV4cCI6MTc0MTc5NzYxMn0.6HPlvRoIfxzAHFd6lNKbg6oNNK4g5-x4eMUJ5gn0__g",
+          Authorization: token,
         },
         body: data,
       });

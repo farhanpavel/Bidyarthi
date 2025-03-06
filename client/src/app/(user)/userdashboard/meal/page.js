@@ -1,4 +1,5 @@
 "use client";
+import { url } from "@/components/Url/page";
 import { Button } from "@/components/ui/button";
 import { HandPlatter, Map, Users, DollarSign } from "lucide-react";
 import Image from "next/image";
@@ -13,7 +14,7 @@ export default function Page() {
   useEffect(() => {
     const fetchMeals = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/meal");
+        const response = await fetch(`${url}/api/meal/all/user/data`);
         if (!response.ok) {
           throw new Error("Failed to fetch meals");
         }

@@ -6,10 +6,10 @@ import React, { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { url } from "@/components/Url/page";
 import { Button } from "@/components/ui/button";
-
+import Cookies from "js-cookie";
 export default function Page() {
   const [meals, setMeals] = useState([]); // State to store fetched meals
-
+  var token = Cookies.get("token");
   // Fetch meals from the API
   useEffect(() => {
     const fetchMeals = async () => {
@@ -17,8 +17,7 @@ export default function Page() {
         const response = await fetch(`${url}/api/meal/data/end`, {
           method: "GET",
           headers: {
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI5NjkzNDZmLTcyZTItNGViYi1iMTZjLWUyN2NiZGM1Mjk4ZiIsImVtYWlsIjoiaGltZWxAZ21haWwuY29tIiwiaWF0IjoxNzQxMDk3MDgzLCJleHAiOjE3NDE3MDE4ODN9.pgGPALuMp5zDHzjt87EEfOw5SICmNM-n-uJwahJTwp4",
+            Authorization: token,
           },
         });
 

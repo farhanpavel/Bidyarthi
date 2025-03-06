@@ -21,10 +21,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { url } from "@/components/Url/page";
-
+import Cookies from "js-cookie";
 export default function Page() {
   const [isLoading, setLoading] = useState(false);
   const [file, setFile] = useState(null);
+  var token = Cookies.get("token");
   const [mealData, setMealData] = useState({
     mealName: "",
     description: "",
@@ -70,8 +71,7 @@ export default function Page() {
       const response = await fetch(`${url}/api/meal/data/all`, {
         method: "POST",
         headers: {
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE3NjQwMTZiLTJiMjItNDIyZC1iMGNlLTUwNmIwMTQzMmU3MyIsImVtYWlsIjoia2luZ0BnbWFpbC5jb20iLCJpYXQiOjE3NDExMTMzMTcsImV4cCI6MTc0MTcxODExN30.J-InsQVfKOFEdXwAKTWlIM3A9u9KlVw8jss_CF305Dw",
+          Authorization: token,
         },
         body: formData,
       });

@@ -3,10 +3,61 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Cookies from "js-cookie";
+import { url } from "@/components/Url/page";
+import { useRouter } from "next/navigation";
 
 export default function Signin() {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch(`${url}/api/user/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data || "Login failed");
+      }
+
+      // Store token and role in cookies
+      Cookies.set("token", data.token.accessToken);
+      Cookies.set("role", data.role);
+
+      console.log("Login successful:", data);
+
+      if (data.role === "admin") {
+        router.push("/admindashboard/overview");
+      } else if (data.role === "Cafeteriachef") {
+        router.push("/chefdashboard/overview");
+      } else if (data.role === "Busdriver") {
+        router.push("/driverdashboard/overview");
+      } else if (data.role === "Clubpresident") {
+        router.push("/clubdashboard/overview");
+      } else if (data.role === "student") {
+        router.push("/userdashboard/overview");
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="container mx-auto font-bangla">
@@ -26,7 +77,7 @@ export default function Signin() {
               <p className="text-sm">আপনার অ্যাকাউন্টে প্রবেশ করতে লগইন করুন</p>
             </div>
             <div className="2xl:w-3/4 w-full">
-              <form className="flex flex-col gap-y-2">
+              <form className="flex flex-col gap-y-2" onSubmit={handleSubmit}>
                 {/* Email Input Field with Motion Effect */}
                 <div className="relative">
                   <input
@@ -37,6 +88,9 @@ export default function Signin() {
                     className="w-full p-2 border-0 border-b-2 border-gray-300 focus:outline-none bg-transparent"
                     onFocus={() => setIsEmailFocused(true)}
                     onBlur={() => setIsEmailFocused(false)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                   {isEmailFocused && (
                     <motion.div
@@ -58,6 +112,9 @@ export default function Signin() {
                     className="w-full p-2 border-0 border-b-2 border-gray-300 focus:outline-none bg-transparent"
                     onFocus={() => setIsPasswordFocused(true)}
                     onBlur={() => setIsPasswordFocused(false)}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
                   {isPasswordFocused && (
                     <motion.div
@@ -69,12 +126,15 @@ export default function Signin() {
                   )}
                 </div>
 
+                {error && <p className="text-red-500 text-sm">{error}</p>}
+
                 <div className="space-x-3">
                   <button
                     type="submit"
                     className="px-6 py-2 bg-[#E54981] w-1/3 text-sm text-white rounded-full mt-2"
+                    disabled={loading}
                   >
-                    লগইন
+                    {loading ? "লগইন হচ্ছে..." : "লগইন"}
                   </button>
                 </div>
               </form>

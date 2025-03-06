@@ -7,7 +7,7 @@ import Calendar from "react-calendar"; // Import react-calendar
 import "react-calendar/dist/Calendar.css"; // Default styles
 import "./custom-calendar.css"; // Custom styles for event highlights
 import { url } from "@/components/Url/page";
-
+import Cookies from "js-cookie";
 export default function ClubEventPage() {
   const { id } = useParams(); // Get the dynamic id from URL
   const router = useRouter();
@@ -16,19 +16,17 @@ export default function ClubEventPage() {
   const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [disabledEvents, setDisabledEvents] = useState(new Set()); // Track disabled events
+  var token = Cookies.get("token");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:4000/api/club/event/data/${id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${url}/api/club/event/data/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch data");
@@ -59,7 +57,7 @@ export default function ClubEventPage() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI5NjkzNDZmLTcyZTItNGViYi1iMTZjLWUyN2NiZGM1Mjk4ZiIsImVtYWlsIjoiaGltZWxAZ21haWwuY29tIiwiaWF0IjoxNzQxMTkxNDM0LCJleHAiOjE3NDE3OTYyMzR9.97Gmwc_iA6kAzyaAc9N9RkRVGObsE8xI6Ck61WvFWNA`,
+          Authorization: token,
         },
       });
 
@@ -125,7 +123,7 @@ export default function ClubEventPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjI5NjkzNDZmLTcyZTItNGViYi1iMTZjLWUyN2NiZGM1Mjk4ZiIsImVtYWlsIjoiaGltZWxAZ21haWwuY29tIiwiaWF0IjoxNzQxMTkxNDM0LCJleHAiOjE3NDE3OTYyMzR9.97Gmwc_iA6kAzyaAc9N9RkRVGObsE8xI6Ck61WvFWNA`,
+          Authorization: token,
         },
         body: JSON.stringify({
           status,

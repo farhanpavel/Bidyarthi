@@ -1,19 +1,25 @@
 "use client";
+import { url } from "@/components/Url/page";
 import { Button } from "@/components/ui/button";
 import { HandPlatter, Map, Users, DollarSign } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-
+import Cookies from "js-cookie";
 export default function Page() {
   const router = useRouter();
   const [meals, setMeals] = useState([]); // State to store fetched meals
-
+  var token = Cookies.get("token");
   // Fetch meals from the API
   useEffect(() => {
     const fetchMeals = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/meal");
+        const response = await fetch(`${url}/api/meal`, {
+          headers: {
+            Authorization: token, // Add token in Authorization header
+            "Content-Type": "application/json", // Ensure correct content type
+          },
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch meals");
         }

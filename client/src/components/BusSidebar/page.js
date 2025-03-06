@@ -31,22 +31,17 @@ import Cookies from "js-cookie";
 const navItems = [
   {
     title: "Overview",
-    href: "/chefdashboard/overview",
+    href: "/driverdashboard/overview",
     icon: <Home size={20} />,
   },
   {
     title: "Entry",
-    href: "/chefdashboard/entry",
+    href: "/driverdashboard/bus",
     icon: <AppWindowIcon size={20} />,
-  },
-  {
-    title: "Order",
-    href: "/chefdashboard/order",
-    icon: <Cable size={20} />,
   },
 ];
 
-export default function ChefSidebar() {
+export default function BusSidebar() {
   const pathname = usePathname();
   const [tripPlanId, setTripPlanId] = useState("");
   const handleClick = () => {

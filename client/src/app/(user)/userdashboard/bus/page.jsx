@@ -1,4 +1,5 @@
 "use client";
+import { url } from "@/components/Url/page";
 import { Button } from "@/components/ui/button";
 import { HandPlatter, Map, Users, DollarSign } from "lucide-react";
 import Image from "next/image";
@@ -13,7 +14,7 @@ export default function Page() {
   useEffect(() => {
     const fetchMeals = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/bus");
+        const response = await fetch(`${url}/api/bus`);
         if (!response.ok) {
           throw new Error("Failed to fetch meals");
         }
@@ -35,7 +36,9 @@ export default function Page() {
     const currentMinutes = now.getMinutes();
 
     // Parse departure time (e.g., "3:15")
-    const [departureHours, departureMinutes] = departureTime.split(":").map(Number);
+    const [departureHours, departureMinutes] = departureTime
+      .split(":")
+      .map(Number);
 
     // Calculate total minutes for current time and departure time
     const currentTotalMinutes = currentHours * 60 + currentMinutes;
@@ -90,7 +93,9 @@ export default function Page() {
                   {/* Image on the left */}
                   <div className="flex-shrink-0">
                     <img
-                      src={"https://i.ibb.co.com/ZpbRV8sY/Screenshot-2025-03-04-at-02-33-40.png"}
+                      src={
+                        "https://i.ibb.co.com/ZpbRV8sY/Screenshot-2025-03-04-at-02-33-40.png"
+                      }
                       alt={meal.busNum}
                       width={80}
                       height={800}
@@ -102,21 +107,25 @@ export default function Page() {
                   <div className="flex flex-row justify-between items-center w-full">
                     {/* Bus Route */}
                     <div className="space-y-1">
-                      <p className="text-xl font-semibold">{meal.startPoint} → {meal.endPoint}</p>
-                      <p className="text-sm text-gray-600">
-                        {meal.routeName}
+                      <p className="text-xl font-semibold">
+                        {meal.startPoint} → {meal.endPoint}
                       </p>
+                      <p className="text-sm text-gray-600">{meal.routeName}</p>
                     </div>
 
                     {/* Bus Number */}
                     <div className="space-y-1">
-                      <p className="text-sm font-medium text-gray-500">Bus Number</p>
+                      <p className="text-sm font-medium text-gray-500">
+                        Bus Number
+                      </p>
                       <p className="text-lg font-bold">{meal.busNum}</p>
                     </div>
 
                     {/* Departure Time */}
                     <div className="space-y-1">
-                      <p className="text-sm font-medium text-gray-500">Departure Time</p>
+                      <p className="text-sm font-medium text-gray-500">
+                        Departure Time
+                      </p>
                       <p className="text-lg font-bold">{meal.schedule}</p>
                     </div>
                   </div>
@@ -140,7 +149,9 @@ export default function Page() {
                 {/* Image on the left */}
                 <div className="flex-shrink-0">
                   <img
-                    src={"https://i.ibb.co.com/ZpbRV8sY/Screenshot-2025-03-04-at-02-33-40.png"}
+                    src={
+                      "https://i.ibb.co.com/ZpbRV8sY/Screenshot-2025-03-04-at-02-33-40.png"
+                    }
                     alt={meal.busNum}
                     width={80}
                     height={800}
@@ -152,21 +163,25 @@ export default function Page() {
                 <div className="flex flex-row justify-between items-center w-full">
                   {/* Bus Route */}
                   <div className="space-y-1">
-                    <p className="text-xl font-semibold">{meal.startPoint} → {meal.endPoint}</p>
-                    <p className="text-sm text-gray-600">
-                      {meal.routeName}
+                    <p className="text-xl font-semibold">
+                      {meal.startPoint} → {meal.endPoint}
                     </p>
+                    <p className="text-sm text-gray-600">{meal.routeName}</p>
                   </div>
 
                   {/* Bus Number */}
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-gray-500">Bus Number</p>
+                    <p className="text-sm font-medium text-gray-500">
+                      Bus Number
+                    </p>
                     <p className="text-lg font-bold">{meal.busNum}</p>
                   </div>
 
                   {/* Departure Time */}
                   <div className="space-y-1">
-                    <p className="text-sm font-medium text-gray-500">Departure Time</p>
+                    <p className="text-sm font-medium text-gray-500">
+                      Departure Time
+                    </p>
                     <p className="text-lg font-bold">{meal.schedule}</p>
                   </div>
                 </div>
@@ -182,55 +197,65 @@ export default function Page() {
           </div>
           <div className="flex flex-col">
             {busesDeparted.map((meal) => (
-                <div
-                    key={meal.id}
-                    className="bg-white shadow-xl py-3 px-5 my-3 rounded-lg flex flex-row relative overflow-hidden"
-                >
-                  {/* Departed Label */}
-                  <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
-                    Departed
+              <div
+                key={meal.id}
+                className="bg-white shadow-xl py-3 px-5 my-3 rounded-lg flex flex-row relative overflow-hidden"
+              >
+                {/* Departed Label */}
+                <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
+                  Departed
+                </div>
+
+                {/* Image on the left */}
+                <div className="flex-shrink-0 mr-2">
+                  <img
+                    src={
+                      "https://i.ibb.co/ZpbRV8sY/Screenshot-2025-03-04-at-02-33-40.png"
+                    }
+                    alt={meal.busNum}
+                    width={80}
+                    height={80}
+                    className="rounded-lg object-cover w-[80px] h-[80px]"
+                  />
+                </div>
+
+                {/* Content on the right */}
+                <div className="flex flex-row justify-between items-center w-full">
+                  {/* Bus Route */}
+                  <div className="space-y-1">
+                    <p className="text-xl font-semibold">
+                      {meal.startPoint} → {meal.endPoint}
+                    </p>
+                    <p className="text-sm text-gray-600">{meal.routeName}</p>
                   </div>
 
-                  {/* Image on the left */}
-                  <div className="flex-shrink-0 mr-2">
-                    <img
-                        src={"https://i.ibb.co/ZpbRV8sY/Screenshot-2025-03-04-at-02-33-40.png"}
-                        alt={meal.busNum}
-                        width={80}
-                        height={80}
-                        className="rounded-lg object-cover w-[80px] h-[80px]"
-                    />
+                  {/* Bus Number */}
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-gray-500">
+                      Bus Number
+                    </p>
+                    <p className="text-lg font-bold">{meal.busNum}</p>
                   </div>
 
-                  {/* Content on the right */}
-                  <div className="flex flex-row justify-between items-center w-full">
-                    {/* Bus Route */}
-                    <div className="space-y-1">
-                      <p className="text-xl font-semibold">{meal.startPoint} → {meal.endPoint}</p>
-                      <p className="text-sm text-gray-600">{meal.routeName}</p>
-                    </div>
-
-                    {/* Bus Number */}
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium text-gray-500">Bus Number</p>
-                      <p className="text-lg font-bold">{meal.busNum}</p>
-                    </div>
-
-                    {/* Departure Time */}
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium text-gray-500">Departure Time</p>
-                      <p className="text-lg font-bold">{meal.schedule}</p>
-                    </div>
-                  </div>
-
-                  {/* Track Button Overlay */}
-                  <div className="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center">
-                    <button
-                        onClick={() => router.push(`bus/track/${meal.id}`)}
-                        className="bg-black text-white px-6 py-2 rounded-lg font-semibold shadow-lg">Track
-                    </button>
+                  {/* Departure Time */}
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-gray-500">
+                      Departure Time
+                    </p>
+                    <p className="text-lg font-bold">{meal.schedule}</p>
                   </div>
                 </div>
+
+                {/* Track Button Overlay */}
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center">
+                  <button
+                    onClick={() => router.push(`bus/track/${meal.id}`)}
+                    className="bg-black text-white px-6 py-2 rounded-lg font-semibold shadow-lg"
+                  >
+                    Track
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
         </div>

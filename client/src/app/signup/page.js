@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { url } from "@/components/Url/page";
+import { useRouter } from "next/navigation";
 
 export default function Signup() {
   const [isNameFocused, setIsNameFocused] = useState(false);
@@ -9,6 +11,48 @@ export default function Signup() {
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isConfirmPasswordFocused, setIsConfirmPasswordFocused] =
     useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    if (password !== confirmPassword) {
+      setError("পাসওয়ার্ড মিলছে না!");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(`${url}/api/user/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email, password, role: "student" }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "রেজিস্ট্রেশন ব্যর্থ হয়েছে");
+      }
+
+      console.log("Registration successful:", data);
+      router.push("/signin");
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="container mx-auto font-bangla p-6">
@@ -28,98 +72,63 @@ export default function Signup() {
               <p className="text-sm">অ্যাকাউন্ট তৈরি করতে সাইনআপ করুন</p>
             </div>
             <div className="2xl:w-3/4 w-full">
-              <form className="flex flex-col gap-y-3">
-                {/* Name Input Field with Animation */}
+              <form className="flex flex-col gap-y-3" onSubmit={handleSubmit}>
                 <div className="relative">
                   <input
                     type="text"
-                    id="name"
-                    name="name"
                     placeholder="নাম"
                     className="w-full p-2 border-0 border-b-2 border-gray-300 focus:outline-none bg-transparent"
                     onFocus={() => setIsNameFocused(true)}
                     onBlur={() => setIsNameFocused(false)}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
                   />
-                  {isNameFocused && (
-                    <motion.div
-                      className="absolute bottom-0 left-0 h-0.5 bg-pink-500"
-                      initial={{ width: 0 }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  )}
                 </div>
-
-                {/* Email Input Field with Animation */}
                 <div className="relative">
                   <input
                     type="email"
-                    id="email"
-                    name="email"
                     placeholder="ইমেইল"
                     className="w-full p-2 border-0 border-b-2 border-gray-300 focus:outline-none bg-transparent"
                     onFocus={() => setIsEmailFocused(true)}
                     onBlur={() => setIsEmailFocused(false)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
-                  {isEmailFocused && (
-                    <motion.div
-                      className="absolute bottom-0 left-0 h-0.5 bg-pink-500"
-                      initial={{ width: 0 }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  )}
                 </div>
-
-                {/* Password Input Field with Animation */}
                 <div className="relative">
                   <input
                     type="password"
-                    id="password"
-                    name="password"
                     placeholder="পাসওয়ার্ড"
                     className="w-full p-2 border-0 border-b-2 border-gray-300 focus:outline-none bg-transparent"
                     onFocus={() => setIsPasswordFocused(true)}
                     onBlur={() => setIsPasswordFocused(false)}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
                   />
-                  {isPasswordFocused && (
-                    <motion.div
-                      className="absolute bottom-0 left-0 h-0.5 bg-pink-500"
-                      initial={{ width: 0 }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  )}
                 </div>
-
-                {/* Confirm Password Input Field with Animation */}
                 <div className="relative">
                   <input
                     type="password"
-                    id="confirmpassword"
-                    name="confirmpassword"
                     placeholder="পাসওয়ার্ড নিশ্চিত করুন"
                     className="w-full p-2 border-0 border-b-2 border-gray-300 focus:outline-none bg-transparent"
                     onFocus={() => setIsConfirmPasswordFocused(true)}
                     onBlur={() => setIsConfirmPasswordFocused(false)}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
                   />
-                  {isConfirmPasswordFocused && (
-                    <motion.div
-                      className="absolute bottom-0 left-0 h-0.5 bg-pink-500"
-                      initial={{ width: 0 }}
-                      animate={{ width: "100%" }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  )}
                 </div>
-
-                {/* Register Button */}
+                {error && <p className="text-red-500 text-sm">{error}</p>}
                 <div>
                   <button
                     type="submit"
                     className="px-6 py-2 bg-[#E54981] w-1/3 text-sm text-white rounded-full mt-2"
+                    disabled={loading}
                   >
-                    রেজিস্টার
+                    {loading ? "সাইনআপ হচ্ছে..." : "রেজিস্টার"}
                   </button>
                 </div>
               </form>

@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import Calendar from "react-calendar"; // Import react-calendar
 import "react-calendar/dist/Calendar.css"; // Default styles
 import "../event/custom-calendar.css"; // Custom styles for event highlights
-
+import Cookies from "js-cookie";
+import { url } from "@/components/Url/page";
 export default function Page() {
   const router = useRouter();
   const [clubData, setClubData] = useState(null);
@@ -14,19 +15,15 @@ export default function Page() {
   const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [eventsForSelectedDate, setEventsForSelectedDate] = useState([]);
-
+  var token = Cookies.get("token");
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:4000/api/club/event/data",
-          {
-            headers: {
-              Authorization:
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA3YzkwOGJjLTYzMzQtNDFhYi1iOGZiLWFmYzU5NDE4MjI5ZiIsImVtYWlsIjoiaG9sYUBnbWFpbC5jb20iLCJpYXQiOjE3NDExOTI4MTIsImV4cCI6MTc0MTc5NzYxMn0.6HPlvRoIfxzAHFd6lNKbg6oNNK4g5-x4eMUJ5gn0__g",
-            },
-          }
-        );
+        const response = await fetch(`${url}/api/club/event/data`, {
+          headers: {
+            Authorization: token,
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch data");

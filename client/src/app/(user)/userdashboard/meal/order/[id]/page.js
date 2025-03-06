@@ -21,16 +21,19 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { useParams, useRouter } from "next/navigation";
 import { url } from "@/components/Url/page";
+import Cookies from "js-cookie";
 
 export default function Page() {
   const { id } = useParams(); // Get the `id` from the URL
   const [meal, setMeal] = useState(null); // State to store the fetched meal
-  const [cartItems, setCartItems] = useState([]); // State for cart items
+  const [cartItems, setCartItems] = useState([]);
+  var token = Cookies.get("token");
+  // State for cart items
   const router = useRouter();
   useEffect(() => {
     const fetchMeal = async () => {
       try {
-        const response = await fetch(`http://localhost:4000/api/meal/${id}`);
+        const response = await fetch(`${url}/api/meal/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch meal data");
         }
@@ -107,8 +110,7 @@ export default function Page() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNjZDdhNGU4LTMwM2UtNGYwNi05YmJmLTBmYjQ5M2RhZTM2ZCIsImVtYWlsIjoiYWJ1bEBnbWFpbC5jb20iLCJpYXQiOjE3NDExNzExNzEsImV4cCI6MTc0MTc3NTk3MX0.Fu3YgY0RN0v80is0BTG_fFxUgDh7UDigBb9LfWXVV4I",
+          Authorization: token,
         },
         body: JSON.stringify(payload), // Send the payload to the backend
       });

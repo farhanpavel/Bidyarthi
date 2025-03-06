@@ -17,7 +17,7 @@ import useFcmToken from "@/utils/hooks/useFcmToken";
 import { subscribeTokenToTopic } from "@/utils/wrapper/FCMWrapper";
 import { toast } from "react-toastify";
 import { MessageContext } from "@/utils/context/MessageContext";
-
+import Cookies from "js-cookie";
 export default function Page() {
   const [userData, setUserData] = useState(null);
   const [rsvps, setRsvps] = useState([]); // New state for real-time RSVP updates
@@ -26,7 +26,7 @@ export default function Page() {
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
   const [clubId, setClubId] = useState("");
   const { message } = useContext(MessageContext);
-
+  let token = Cookies.get("token");
   // Subscribe to FCM topic when fcmToken and clubId are available
   useEffect(() => {
     if (fcmToken && clubId) {
@@ -43,8 +43,7 @@ export default function Page() {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
-            Authorization:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjA3YzkwOGJjLTYzMzQtNDFhYi1iOGZiLWFmYzU5NDE4MjI5ZiIsImVtYWlsIjoiaG9sYUBnbWFpbC5jb20iLCJpYXQiOjE3NDExOTI4MTIsImV4cCI6MTc0MTc5NzYxMn0.6HPlvRoIfxzAHFd6lNKbg6oNNK4g5-x4eMUJ5gn0__g",
+            Authorization: token,
           },
         });
 

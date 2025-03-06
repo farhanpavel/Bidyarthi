@@ -3,6 +3,7 @@ import {
   getMeal,
   getMealByChef,
   getMealById,
+  getMealForAllUser,
   getReqMeal,
   mealDelete,
   mealquantityChanger,
@@ -14,7 +15,9 @@ import { jwtAuthentication } from "../middlewares/authMiddleware.js";
 
 const mealRouter = express.Router();
 
-mealRouter.get("/", getMeal);
+mealRouter.get("/", jwtAuthentication, getMeal);
+mealRouter.get("/all/user/data", getMealForAllUser);
+
 mealRouter.get("/:id", getMealById);
 mealRouter.get("/data/end", jwtAuthentication, getReqMeal);
 mealRouter.post("/", jwtAuthentication, putPreMeal);

@@ -11,7 +11,7 @@ admin.initializeApp({
 
 const generateToken = (user) => {
   const accessToken = jwt.sign(
-    { id: user.id, email: user.email },
+    { id: user.id, email: user.email, role: user.role },
     process.env.ACCESS_TOKEN_SECRET,
     { expiresIn: "7d" }
   );
@@ -150,7 +150,7 @@ export const userLogin = async (req, res) => {
     res.status(404).json("Password Not Match");
   }
   const token = generateToken(data);
-  res.status(200).json(token);
+  res.status(200).json({ token, role: data.role }); // Return role along with token
 };
 const RefreshToken = async (req, res) => {
   const { refreshToken } = req.body;
@@ -240,7 +240,12 @@ export const sendDataMessage = async (data, topic) => {
     });
 };
 
-export const sendNotification = async (notification, topic,data, redirection) => {
+export const sendNotification = async (
+  notification,
+  topic,
+  data,
+  redirection
+) => {
   const message = {
     notification: notification,
     topic: topic,
