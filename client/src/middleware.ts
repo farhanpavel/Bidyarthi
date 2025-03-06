@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("token")?.value;
-  const userRole = request.cookies.get("role")?.value; // Get user role from cookies
+  const userRole = request.cookies.get("role")?.value;
   const pathname = request.nextUrl.pathname;
 
   // Role-based dashboard paths
@@ -30,13 +30,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/signin", request.url));
   }
 
-  // Redirect logged-in users away from auth pages
-  if (isAuthPath && accessToken) {
+  // 🔥 If user is already logged in, redirect from /signin or /signup to their correct dashboard
+  if (isAuthPath && accessToken && userRole && roleDashboardMap[userRole]) {
     return NextResponse.redirect(
-      new URL(
-        roleDashboardMap[userRole] || "/userdashboard/overview",
-        request.url
-      )
+      new URL(`${roleDashboardMap[userRole]}/overview`, request.url)
     );
   }
 
@@ -45,7 +42,7 @@ export function middleware(request: NextRequest) {
     const allowedPath = roleDashboardMap[userRole];
     if (!pathname.startsWith(allowedPath)) {
       return NextResponse.redirect(
-        new URL(allowedPath + "/overview", request.url)
+        new URL(`${allowedPath}/overview`, request.url)
       );
     }
   }
