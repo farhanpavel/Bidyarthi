@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { url } from "@/components/Url/page";
 import { useRouter } from "next/navigation";
-export default function page() {
+export default function Page() {
   const [isLoading, setLoading] = useState(true);
   const router = useRouter();
   const [data, setData] = useState({
