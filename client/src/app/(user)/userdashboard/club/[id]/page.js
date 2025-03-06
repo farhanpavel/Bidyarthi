@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Calendar1Icon, ThumbsUp, CalendarCheck } from "lucide-react";
+import { Calendar1Icon, ThumbsUp, CalendarCheck, Trophy } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Calendar from "react-calendar"; // Import react-calendar
@@ -148,11 +148,11 @@ export default function ClubEventPage() {
     <div>
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
-          <Calendar1Icon className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
+          <Trophy className="text-3xl" />
+          <h1 className="text-2xl font-bold font-bangla">ক্লাবের মূল্যবোধ</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+        আমাদের ক্লাবের উদ্দেশ্য এবং কার্যক্রম
         </p>
 
         <div className="relative w-full h-[300px]">

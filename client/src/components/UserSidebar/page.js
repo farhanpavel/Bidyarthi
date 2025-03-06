@@ -27,27 +27,27 @@ import Cookies from "js-cookie";
 
 const navItems = [
   {
-    title: "Overview",
+    title: "পর্যালোচনা",
     href: "/userdashboard/overview",
     icon: <Home size={20} />,
   },
   {
-    title: "Meal",
+    title: "খাবার",
     href: "/userdashboard/meal",
     icon: <Salad size={20} />,
   },
   {
-    title: "Bus",
+    title: "বাস",
     href: "/userdashboard/bus",
     icon: <BusIcon size={20} />,
   },
   {
-    title: "Club",
+    title: "ক্লাব",
     href: "/userdashboard/club",
     icon: <Building2 size={20} />,
   },
   {
-    title: "Faculty",
+    title: "ফ্যাকালটি",
     href: "/userdashboard/faculty",
     icon: <BookOpen size={20} />,
   },

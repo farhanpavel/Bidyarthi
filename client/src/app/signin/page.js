@@ -79,8 +79,8 @@ export default function Signin() {
               />
             </div>
             <div className="text-center space-y-1 2xl:text-2xl text-md text-xl">
-              <h1>বিদ্ধার্থী অ্যাপে স্বাগতম!</h1>
-              <p className="text-sm">আপনার অ্যাকাউন্টে প্রবেশ করতে লগইন করুন</p>
+              <h1 className="font-bangla">বিদ্যার্থী অ্যাপে স্বাগতম!</h1>
+              <p className="text-sm font-bangla">আপনার অ্যাকাউন্টে প্রবেশ করতে লগইন করুন</p>
             </div>
             <div className="2xl:w-3/4 w-full">
               <form className="flex flex-col gap-y-2" onSubmit={handleSubmit}>
@@ -91,7 +91,7 @@ export default function Signin() {
                     id="email"
                     name="email"
                     placeholder="ইমেইল"
-                    className="w-full p-2 border-0 border-b-2 border-gray-300 focus:outline-none bg-transparent"
+                    className="w-full p-2 border-0 border-b-2 border-gray-300 focus:outline-none bg-transparent font-bangla"
                     onFocus={() => setIsEmailFocused(true)}
                     onBlur={() => setIsEmailFocused(false)}
                     value={email}
@@ -109,7 +109,7 @@ export default function Signin() {
                 </div>
                 {isvalid && (
                   <div className="text-left text-sm text-red-600 mx-1">
-                    <p>Invalid Email</p>
+                    <p className="font-bangla">সঠিক ইমেইল নয়</p>
                   </div>
                 )}
                 {/* Password Input Field with Motion Effect */}
@@ -119,7 +119,7 @@ export default function Signin() {
                     id="password"
                     placeholder="পাসওয়ার্ড"
                     name="password"
-                    className="w-full p-2 border-0 border-b-2 border-gray-300 focus:outline-none bg-transparent"
+                    className="w-full p-2 border-0 border-b-2 border-gray-300 focus:outline-none bg-transparent font-bangla"
                     onFocus={() => setIsPasswordFocused(true)}
                     onBlur={() => setIsPasswordFocused(false)}
                     value={password}
@@ -137,7 +137,7 @@ export default function Signin() {
                 </div>
                 {isvalid && (
                   <div className="text-left text-sm text-red-600 mx-1">
-                    <p>Invalid Password</p>
+                    <p className="font-bangla">সঠিক পাসওয়ার্ড নয়</p>
                   </div>
                 )}
                 {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
@@ -145,14 +145,14 @@ export default function Signin() {
                 <div className="space-x-3">
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-[#E54981] w-1/3 text-sm text-white rounded-full mt-2"
+                    className="px-6 py-2 bg-[#E54981] w-1/3 text-sm text-white rounded-full mt-2 font-bangla"
                   >
-                    {isLogged ? <ButtonLoader /> : "Login"}
+                    {isLogged ? <ButtonLoader /> : "লগইন"}
                   </button>
                 </div>
               </form>
               <div>
-                <h1 className="text-sm text-center mt-4">
+                <h1 className="text-sm text-center mt-4 font-bangla">
                   পাসওয়ার্ড ভুলে গেছেন?
                   <Link
                     href={"/signup"}

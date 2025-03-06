@@ -1,7 +1,7 @@
 "use client";
 import { url } from "@/components/Url/page";
 import { Button } from "@/components/ui/button";
-import { HandPlatter } from "lucide-react";
+import { HandPlatter, Trophy } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -38,11 +38,11 @@ export default function Page() {
     <div>
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
-          <HandPlatter className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
+          <Trophy className="text-3xl" />
+          <h1 className="text-2xl font-bold font-bangla">ক্লাব</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+        একসাথে শিখুন, বেড়ে উঠুন এবং আনন্দ উপভোগ করুন
         </p>
         <div className="grid grid-cols-3 gap-4">
           {clubs.map((club) => (
@@ -67,7 +67,7 @@ export default function Page() {
                     router.push(`/userdashboard/club/${club.id}`);
                   }}
                 >
-                  Show More
+                  বিস্তারিত দেখুন
                 </Button>
               </div>
             </div>

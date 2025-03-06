@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { HandPlatter, Plus, Trash2 } from "lucide-react";
+import { BookOpenText, HandPlatter, Plus, Trash2 } from "lucide-react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -216,11 +216,11 @@ export default function Page() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <div className="p-9">
         <div className="flex gap-x-2 items-center text-black">
-          <HandPlatter className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
+          <BookOpenText className="text-3xl" />
+          <h1 className="text-2xl font-bold font-bangla">ফ্যাকালটি</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-          আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+        শিক্ষামূলক কার্যক্রমের তথ্য
         </p>
 
         <div className="mt-5">
@@ -280,7 +280,7 @@ export default function Page() {
           className="mt-6 p-6 bg-white rounded-xl shadow-lg"
         >
           <h3 className="font-bangla font-bold text-xl text-purple-700 mb-4">
-            To-Do List
+          আপনার কাজগুলোর পরিকল্পনা করুন
           </h3>
           <div className="flex gap-2">
             <input
@@ -288,7 +288,7 @@ export default function Page() {
               value={newTodo}
               onChange={(e) => setNewTodo(e.target.value)}
               className="flex-1 p-3 border border-purple-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
-              placeholder="Add a new task"
+              placeholder="নতুন কাজ যোগ করুন"
               onKeyPress={(e) => e.key === "Enter" && handleAddTodo()}
             />
             <motion.button
@@ -298,7 +298,7 @@ export default function Page() {
               className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg shadow-md flex items-center gap-2"
             >
               <Plus size={20} />
-              Add
+              যোগ করুন
             </motion.button>
           </div>
 

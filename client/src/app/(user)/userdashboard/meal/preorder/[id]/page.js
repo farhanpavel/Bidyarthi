@@ -127,10 +127,10 @@ export default function Page() {
     <div className="p-6 max-w-6xl mx-auto space-y-6">
       <div className="flex gap-x-2 items-center text-black">
         <HandPlatter className="h-8 w-8" />
-        <h1 className="text-2xl font-bold font-bangla">প্রবেশ</h1>
+        <h1 className="text-2xl font-bold font-bangla">খাবার</h1>
       </div>
       <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-        আপনার শিক্ষার জন্য একটি নিখুঁত রোডম্যাপ তৈরি করুন।
+      আপনার পছন্দের খাবার
       </p>
 
       {/* Meal Details Card */}
@@ -164,10 +164,10 @@ export default function Page() {
               <div>
                 <h1 className="font-medium">{meal.quantity} mins</h1>{" "}
                 {/* Use meal quantity from the API */}
-                <p className="text-sm text-gray-400">Delivery Time</p>
+                <p className="text-sm text-gray-400">ডেলিভারি সময়</p>
               </div>
               <div>
-                <h1 className="font-medium">Meal Type</h1>
+                <h1 className="font-medium">খাবারের ধরণ</h1>
                 <p className="text-sm text-gray-400">{meal.mealType}</p>{" "}
                 {/* Use meal type from the API */}
               </div>
@@ -183,18 +183,18 @@ export default function Page() {
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <div className="flex items-center space-x-2">
                 <ShoppingCart className="h-5 w-5 text-muted-foreground" />
-                <h2 className="text-xl font-semibold">Your Cart</h2>
+                <h2 className="text-xl font-semibold">আপনার কার্ট</h2>
               </div>
-              <Badge variant="secondary">{cartItems.length} Items</Badge>
+              <Badge variant="secondary">{cartItems.length} আইটেমস</Badge>
             </CardHeader>
             <Separator />
             <CardContent className="pt-6">
               {cartItems.length === 0 ? (
                 <div className="text-center py-12">
                   <ShoppingCart className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium">Your cart is empty</h3>
+                  <h3 className="text-lg font-medium">আপনার কার্ট খালি</h3>
                   <p className="text-muted-foreground mt-1">
-                    Add some delicious items to get started
+                  শুরু করতে কিছু সুস্বাদু আইটেম যোগ করুন
                   </p>
                 </div>
               ) : (
@@ -216,7 +216,7 @@ export default function Page() {
                           ${item.price.toFixed(2)}
                         </p>
                         <p className="text-muted-foreground text-sm">
-                          Type: {item.mealType}
+                        ধরণ: {item.mealType}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
