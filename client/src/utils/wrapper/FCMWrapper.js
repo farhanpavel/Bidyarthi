@@ -6,9 +6,10 @@ import firebaseApp from "@/utils/firebase/firebase";
 import useFcmToken from "@/utils/hooks/useFcmToken";
 import { toast, ToastContainer } from "react-toastify";
 import {MessageContext} from "@/utils/context/MessageContext";
+import {url} from "@/components/Url/page";
 
 export function subscribeTokenToTopic(token, topic) {
-    fetch('http://localhost:4000/api/user/subscribe-to-topic', {
+    fetch(`${url}/api/user/subscribe-to-topic`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -19,6 +20,23 @@ export function subscribeTokenToTopic(token, topic) {
             throw 'Error subscribing to topic: ' + response.status + ' - ' + response.text();
         }
         console.log('Subscribed to "' + topic + '"');
+    }).catch(error => {
+        console.error(error);
+    });
+}
+
+export function unsubscribeTokenFromTopic(token, topic) {
+    fetch(`${url}/api/user/unsubscribe-from-topic`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token, topic })
+    }).then(response => {
+        if (response.status < 200 || response.status >= 400) {
+            throw 'Error unsubscribing from topic: ' + response.status + ' - ' + response.text();
+        }
+        console.log('Unsubscribed from "' + topic + '"');
     }).catch(error => {
         console.error(error);
     });

@@ -185,6 +185,23 @@ export const subscribeTokenToTopic = async (req, res) => {
     });
 };
 
+export const unsubscribeTokenFromTopic = async (req, res) => {
+    const { token, topic } = req.body;
+    admin
+        .messaging()
+        .unsubscribeFromTopic(token, topic)
+        .then(() => {
+        console.log(`Unsubscribed from "${topic}"`);
+        res.status(200).json({ message: `Unsubscribed from "${topic}"` });
+        })
+        .catch((error) => {
+        console.error(`Error unsubscribing from topic: ${error}`);
+        res
+            .status(500)
+            .json({ message: `Error unsubscribing from topic: ${error}` });
+        });
+};
+
 export const makeNotification = async (req, res) => {
   const { title, body, topic } = req.body;
   const message = {

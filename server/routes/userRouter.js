@@ -1,7 +1,7 @@
 import {
   getUser,
   getUserByroleFalse,
-  getUserByroleTrue, makeNotification, subscribeTokenToTopic,
+  getUserByroleTrue, makeNotification, subscribeTokenToTopic, unsubscribeTokenFromTopic,
   userLogin,
   userRegister,
 } from "../controllers/userController.js";
@@ -12,6 +12,7 @@ userRouter.get("/", getUser);
 userRouter.get("/:role/deactive", getUserByroleFalse);
 userRouter.get("/:role/:id/active", getUserByroleTrue);
 userRouter.post("/subscribe-to-topic", subscribeTokenToTopic);
+userRouter.post("/unsubscribe-from-topic", unsubscribeTokenFromTopic);
 userRouter.post("/create-notification", makeNotification);
 
 userRouter.post("/login", userLogin);
