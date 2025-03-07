@@ -3,6 +3,6 @@ import {publishEmergency} from "../controllers/safetyController.js";
 
 const safetyRouter = express.Router();
 
-safetyRouter.get("/publish", publishEmergency)
+safetyRouter.post("/publish", publishEmergency)
 
 export default safetyRouter;

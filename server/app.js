@@ -34,4 +34,4 @@ app.use("/api/ssl", sslRouter);
 app.use("/api/assign", clubAssignRouter);
 app.use("/api/routine", rountineRouter);
 app.use("/api/todolist", todoRouter);
-app.use("api/emergency", safetyRouter);
+app.use("/api/emergency", safetyRouter);
