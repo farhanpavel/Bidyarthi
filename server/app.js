@@ -12,6 +12,7 @@ import rountineRouter from "./routes/routineRoute.js";
 import todoRouter from "./routes/todolistRoute.js";
 import safetyRouter from "./routes/safetyRoute.js";
 import botRoute from "./routes/botRoute.js";
+import {MailRouter} from "./routes/mailRoute.js";
 
 const app = express();
 app.use(cors());
@@ -37,3 +38,4 @@ app.use("/api/routine", rountineRouter);
 app.use("/api/todolist", todoRouter);
 app.use("/api/emergency", safetyRouter);
 app.use("/api/bot", botRoute);
+app.use("/api/mail", MailRouter);

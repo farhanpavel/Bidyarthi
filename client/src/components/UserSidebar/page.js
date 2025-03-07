@@ -127,13 +127,6 @@ export default function UserSidebar() {
             </div>
           </ScrollArea>
           <div className="mt-auto border-t p-2">
-            <Link href="/userdashboard/notification?dialog=true">
-              <Button variant="ghost" className="w-full justify-start">
-                <Bell size={20} className="mr-2" />
-                নোটিফিকেশন
-              </Button>
-            </Link>
-
               <Button variant="ghost" className="w-full justify-start"
                         onClick={()=>{
                             openNotificationModal();
