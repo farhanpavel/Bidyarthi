@@ -66,10 +66,12 @@ export default function Page() {
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
           <UserPlus className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">নতুন এন্ট্রি তৈরি করুন</h1>
+          <h1 className="text-2xl font-bold font-bangla">
+            নতুন এন্ট্রি তৈরি করুন
+          </h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-        এন্ট্রি ফর্ম পূরণ করে সাবমিট করুন
+          এন্ট্রি ফর্ম পূরণ করে সাবমিট করুন
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
@@ -94,15 +96,29 @@ export default function Page() {
                       required
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="এখনও নির্ধারিত নয়" className="font-bangla" />
+                        <SelectValue
+                          placeholder="এখনও নির্ধারিত নয়"
+                          className="font-bangla"
+                        />
                       </SelectTrigger>
                       <SelectContent position="popper">
-                        <SelectItem value="Busdriver" className="font-bangla">বাস ড্রাইভার</SelectItem>
-                        <SelectItem value="Clubpresident" className="font-bangla">
+                        <SelectItem value="Busdriver" className="font-bangla">
+                          বাস ড্রাইভার
+                        </SelectItem>
+                        <SelectItem
+                          value="Clubpresident"
+                          className="font-bangla"
+                        >
                           ক্লাব সভাপতি
                         </SelectItem>
-                        <SelectItem value="Cafeteriachef" className="font-bangla">
+                        <SelectItem
+                          value="Cafeteriachef"
+                          className="font-bangla"
+                        >
                           ক্যান্টিন শেফ
+                        </SelectItem>
+                        <SelectItem value="faculty" className="font-bangla">
+                          অনুষদ
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -144,7 +160,10 @@ export default function Page() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-xs font-bangla" htmlFor="password">
+                        <Label
+                          className="text-xs font-bangla"
+                          htmlFor="password"
+                        >
                           পাসওয়ার্ড
                         </Label>
                         <Input

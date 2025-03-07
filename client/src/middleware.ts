@@ -13,6 +13,7 @@ export function middleware(request: NextRequest) {
     Busdriver: "/driverdashboard",
     Clubpresident: "/clubdashboard",
     student: "/userdashboard",
+    faculty: "/facultydashboard",
   };
 
   // List of all protected paths

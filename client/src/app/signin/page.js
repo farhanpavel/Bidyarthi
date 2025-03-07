@@ -58,6 +58,8 @@ export default function Signin() {
           router.push("/clubdashboard/event");
         } else if (data.role === "student") {
           router.push("/userdashboard/meal");
+        } else if (data.role === "faculty") {
+          router.push("/facultydashboard/talk");
         }
       }, 3000);
     } catch (err) {
@@ -87,7 +89,6 @@ export default function Signin() {
             </div>
             <div className="2xl:w-3/4 w-full">
               <form className="flex flex-col gap-y-2" onSubmit={handleSubmit}>
-               
                 <div className="relative">
                   <input
                     type="email"
@@ -115,7 +116,7 @@ export default function Signin() {
                     <p className="font-bangla">সঠিক ইমেইল নয়</p>
                   </div>
                 )}
-            
+
                 <div className="relative">
                   <input
                     type="password"
@@ -143,7 +144,6 @@ export default function Signin() {
                     <p className="font-bangla">সঠিক পাসওয়ার্ড নয়</p>
                   </div>
                 )}
-               
 
                 <div className="space-x-3">
                   <Button
