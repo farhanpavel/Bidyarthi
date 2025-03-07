@@ -1,14 +1,80 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Timer, Mail, Inbox, Send, X } from "lucide-react";
+import Cookies from "js-cookie";
+import { url } from "@/components/Url/page";
 
-export default function page() {
+export default function Page() {
   const [showCompose, setShowCompose] = useState(false);
   const [emailData, setEmailData] = useState({
     to: "",
     subject: "",
     body: "",
   });
+  const [messages, setMessages] = useState([]); // State to store fetched messages
+  const [loading, setLoading] = useState(false); // Loading state for API requests
+
+  // Fetch messages on component mount
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
+  // Fetch messages from the API
+  const fetchMessages = async () => {
+    try {
+      const token = Cookies.get("token"); // Get token from cookies
+      const response = await fetch(`${url}/api/mail/get`, {
+        method: "GET",
+        headers: {
+          Authorization: `${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch messages");
+      }
+
+      const data = await response.json();
+      setMessages(data); // Set fetched messages to state
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
+
+  // Handle sending email
+  const handleSendEmail = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const token = Cookies.get("token"); // Get token from cookies
+      const response = await fetch(`${url}/api/mail/send`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+        body: JSON.stringify(emailData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to send email");
+      }
+
+      // Clear form and close compose modal
+      setEmailData({ to: "", subject: "", body: "" });
+      setShowCompose(false);
+      alert("Email sent successfully!");
+
+      // Refresh messages after sending
+      fetchMessages();
+    } catch (error) {
+      console.error("Error sending email:", error);
+      alert("Failed to send email. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -55,7 +121,7 @@ export default function page() {
                 </button>
               </div>
 
-              <form className="p-4 space-y-4">
+              <form onSubmit={handleSendEmail} className="p-4 space-y-4">
                 <div>
                   <label
                     htmlFor="to"
@@ -123,10 +189,17 @@ export default function page() {
                   </button>
                   <button
                     type="submit"
+                    disabled={loading}
                     className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                   >
-                    <Send className="h-4 w-4" />
-                    পাঠান
+                    {loading ? (
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4" />
+                        পাঠান
+                      </>
+                    )}
                   </button>
                 </div>
               </form>
@@ -134,10 +207,24 @@ export default function page() {
           </div>
         )}
 
-        {/* Placeholder for Inbox Content */}
+        {/* Inbox Content */}
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-4">ইনবক্স</h2>
-          <p className="text-gray-500">কোনো বার্তা নেই</p>
+          {messages.length === 0 ? (
+            <p className="text-gray-500">কোনো বার্তা নেই</p>
+          ) : (
+            <div className="space-y-4">
+              {messages.map((message, index) => (
+                <div key={index} className="border-b pb-4">
+                  <h3 className="font-semibold">{message.subject}</h3>
+                  <p className="text-sm text-gray-600">{message.body}</p>
+                  <p className="text-xs text-gray-500 mt-2">
+                    প্রেরক: {message.from}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
