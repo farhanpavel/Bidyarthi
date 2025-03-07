@@ -220,7 +220,7 @@ export default function Page() {
           <h1 className="text-2xl font-bold font-bangla">ফ্যাকালটি</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-        শিক্ষামূলক কার্যক্রমের তথ্য
+          শিক্ষামূলক কার্যক্রমের তথ্য
         </p>
 
         <div className="mt-5">
@@ -245,34 +245,35 @@ export default function Page() {
           </motion.div>
         </div>
 
-        <motion.div
-          variants={fadeIn}
-          initial="initial"
-          animate="animate"
-          className="calendar-wrapper rounded-xl overflow-hidden p-6 w-full"
-        >
-          <Calendar
-            onChange={handleDateClick}
-            value={selectedDate}
-            className="react-calendar border-0  w-[500px] text-lg" // Increase height and font size
-            tileContent={tileContent}
-          />
-        </motion.div>
-
-        {selectedDate && (
+        <div className="flex">
           <motion.div
             variants={fadeIn}
             initial="initial"
             animate="animate"
-            className="mt-6 p-6 bg-white rounded-xl shadow-lg"
+            className="calendar-wrapper rounded-xl overflow-hidden p-6 w-full"
           >
-            <h3 className="font-bangla font-bold text-xl text-purple-700">
-              {selectedDate.toDateString()}
-            </h3>
-            <p className="font-bangla mt-2 text-gray-700">{classOnDate}</p>
+            <Calendar
+              onChange={handleDateClick}
+              value={selectedDate}
+              className="react-calendar border-0  w-[500px] text-lg" // Increase height and font size
+              tileContent={tileContent}
+            />
           </motion.div>
-        )}
 
+          {selectedDate && (
+            <motion.div
+              variants={fadeIn}
+              initial="initial"
+              animate="animate"
+              className="mt-6 p-6 h-1/2 bg-white rounded-xl shadow-lg"
+            >
+              <h3 className="font-bangla font-bold text-xl text-purple-700">
+                {selectedDate.toDateString()}
+              </h3>
+              <p className="font-bangla mt-2 text-gray-700">{classOnDate}</p>
+            </motion.div>
+          )}
+        </div>
         <motion.div
           variants={fadeIn}
           initial="initial"
@@ -280,7 +281,7 @@ export default function Page() {
           className="mt-6 p-6 bg-white rounded-xl shadow-lg"
         >
           <h3 className="font-bangla font-bold text-xl text-purple-700 mb-4">
-          আপনার কাজগুলোর পরিকল্পনা করুন
+            আপনার কাজগুলোর পরিকল্পনা করুন
           </h3>
           <div className="flex gap-2">
             <input
