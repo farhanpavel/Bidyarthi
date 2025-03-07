@@ -7,9 +7,9 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 export default function Page() {
   const router = useRouter();
-  const [meals, setMeals] = useState([]); // State to store fetched meals
+  const [meals, setMeals] = useState([]); 
   var token = Cookies.get("token");
-  // Fetch meals from the API
+
   useEffect(() => {
     const fetchMeals = async () => {
       try {
@@ -23,7 +23,7 @@ export default function Page() {
           throw new Error("Failed to fetch meals");
         }
         const data = await response.json();
-        setMeals(data); // Set the fetched data to state
+        setMeals(data); 
       } catch (error) {
         console.error("Error fetching meals:", error);
       }
@@ -43,7 +43,7 @@ export default function Page() {
           আপনার বাসসমূহ কার্যকরভাবে পরিচালনা করুন।
         </p>
         <div>
-          {/* All Buses Section */}
+        
           <div className="mt-4">
             <div className="flex justify-center">
               <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black">
@@ -56,7 +56,7 @@ export default function Page() {
                   key={meal.id}
                   className="bg-white shadow-xl py-3 px-5 rounded-lg flex flex-row gap-6 my-2"
                 >
-                  {/* Image on the left */}
+                
                   <div className="flex-shrink-0">
                     <img
                       src={
@@ -69,9 +69,9 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* Content on the right */}
+                  
                   <div className="flex flex-row justify-between items-center w-full">
-                    {/* Bus Route */}
+                   
                     <div className="space-y-1">
                       <p className="text-xl font-semibold">
                         {meal.startPoint} → {meal.endPoint}
@@ -79,7 +79,7 @@ export default function Page() {
                       <p className="text-sm text-gray-600">{meal.routeName}</p>
                     </div>
 
-                    {/* Bus Number */}
+                    
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-gray-500">
                         বাস নম্বর
@@ -87,7 +87,7 @@ export default function Page() {
                       <p className="text-lg font-bold">{meal.busNum}</p>
                     </div>
 
-                    {/* Departure Time */}
+                   
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-gray-500">
                         প্রস্থান সময়
@@ -95,7 +95,7 @@ export default function Page() {
                       <p className="text-lg font-bold">{meal.schedule}</p>
                     </div>
 
-                    {/* Manage Button */}
+                    
                     <div className="space-y-1">
                       <Button
                         onClick={() =>

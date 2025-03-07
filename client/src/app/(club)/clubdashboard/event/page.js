@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Calendar1Icon, Wallpaper } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Calendar from "react-calendar"; // Import react-calendar
-import "react-calendar/dist/Calendar.css"; // Default styles
-import "../event/custom-calendar.css"; // Custom styles for event highlights
+import Calendar from "react-calendar"; 
+import "react-calendar/dist/Calendar.css"; 
+import "../event/custom-calendar.css"; 
 import Cookies from "js-cookie";
 import { url } from "@/components/Url/page";
 export default function Page() {
@@ -30,7 +30,7 @@ export default function Page() {
         }
 
         const data = await response.json();
-        setClubData(data[0]); // Assuming the API returns an array with one club object
+        setClubData(data[0]); 
       } catch (error) {
         setError(error.message);
       } finally {
@@ -45,21 +45,20 @@ export default function Page() {
   if (error) return <div>Error: {error}</div>;
   if (!clubData) return <div>No data found</div>;
 
-  // Convert event dates into a Set for quick lookup
+
   const eventDates = new Set(
     clubData.club.events.map((event) => new Date(event.date).toDateString())
   );
 
-  // Function to check if a date has an event
+
   const isEventDate = (date) => eventDates.has(date.toDateString());
 
-  // Function to get events for a specific date
+
   const getEventsForDate = (date) =>
     clubData.club.events.filter(
       (event) => new Date(event.date).toDateString() === date.toDateString()
     );
 
-  // Function to handle date selection
   const handleDateClick = (date) => {
     setSelectedDate(date);
     setEventsForSelectedDate(getEventsForDate(date));
@@ -95,7 +94,7 @@ export default function Page() {
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">
-          {/* Calendar with highlighted events */}
+ 
           <div>
             <Calendar
               onChange={handleDateClick}
@@ -114,7 +113,6 @@ export default function Page() {
             />
           </div>
 
-          {/* Display events for the selected date */}
           <div className="col-span-2">
             <h2 className="text-lg font-bold mb-2">
               {selectedDate

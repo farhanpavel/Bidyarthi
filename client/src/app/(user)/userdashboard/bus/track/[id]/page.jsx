@@ -18,14 +18,14 @@ import { url } from "@/components/Url/page";
 import { TrafficCone } from "lucide-react";
 
 export default function Page() {
-  const { id } = useParams(); // Get the `id` from the URL
-  const [bus, setBus] = useState(null); // State to store the fetched bus data
+  const { id } = useParams(); 
+  const [bus, setBus] = useState(null); 
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
-  // Check notification subscription status on mount
-  const [isSubscribed, setIsSubscribed] = useState(false); // State to manage notification subscription
-  const [showToast, setShowToast] = useState(false); // State to control toast display
+
+  const [isSubscribed, setIsSubscribed] = useState(false); 
+  const [showToast, setShowToast] = useState(false); 
   const { message } = useContext(MessageContext);
 
   useEffect(() => {
@@ -36,8 +36,8 @@ export default function Page() {
           throw new Error("Failed to fetch bus data");
         }
         const data = await response.json();
-        setBus(data); // Set the fetched bus data
-        setLoading(false); // Set loading state to false
+        setBus(data); 
+        setLoading(false); 
       } catch (error) {
         console.error("Error fetching bus data:", error);
       }
@@ -49,18 +49,16 @@ export default function Page() {
   useEffect(() => {
     if (fcmToken) {
       console.log("FCM token bus:", fcmToken);
-      // Subscribe to a topic
       subscribeTokenToTopic(fcmToken, `bus-${id}`);
     }
   }, [fcmToken]);
 
   useEffect(() => {
-    // Set a timer to allow toast notifications after 2 seconds
     const timer = setTimeout(() => {
       setShowToast(true);
     }, 2000);
 
-    return () => clearTimeout(timer); // Cleanup the timer on component unmount
+    return () => clearTimeout(timer); 
   }, []);
 
   useEffect(() => {
@@ -78,7 +76,7 @@ export default function Page() {
             setBus((prevBus) => ({
               ...prevBus,
               currentLocation: message.data.currentLocation,
-            })); // Update the bus data
+            })); 
             console.log("Bus updated with new location");
           } else {
             console.log("Topic not matched");
@@ -92,10 +90,10 @@ export default function Page() {
   }, [message]);
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading state while fetching data
+    return <div>Loading...</div>; 
   }
 
-  // Handle notification subscription/unsubscription
+  
   const handleNotificationSubscription = async () => {
     if (!fcmToken) {
       console.error("FCM token not available");
@@ -104,13 +102,13 @@ export default function Page() {
 
     try {
       if (isSubscribed) {
-        // Unsubscribe from the notification topic
+        
         await unsubscribeTokenFromTopic(fcmToken, `bus-${id}-notifications`);
         localStorage.setItem(`bus-${id}-notifications-subscribed`, "false");
         setIsSubscribed(false);
         console.log("Unsubscribed from bus notifications");
       } else {
-        // Subscribe to the notification topic
+        
         await subscribeTokenToTopic(fcmToken, `bus-${id}-notifications`);
         localStorage.setItem(`bus-${id}-notifications-subscribed`, "true");
         setIsSubscribed(true);
@@ -121,10 +119,10 @@ export default function Page() {
     }
   };
 
-  // Extract location names from the comma-separated routeName
+  
   const locations = bus.routeName.split(",").map((location) => location.trim());
 
-  // Find the index of the current location
+  
   const currentLocationIndex = locations.indexOf(bus.currentLocation);
 
   return (
@@ -138,7 +136,6 @@ export default function Page() {
         বাস রুট পরিচালনা করুন এবং বর্তমান অবস্থান আপডেট করুন।
       </p>
 
-      {/* Bus Details Card */}
       <Card className="bg-[#202020] border-none overflow-hidden">
         <CardHeader>
           <h1 className="text-2xl font-bold text-white">
@@ -153,12 +150,12 @@ export default function Page() {
             <p className="text-gray-300">{bus.currentLocation}</p>
           </div>
 
-          {/* Dot-Connect UI for Bus Route */}
+    
           <div className="mt-6 bg-black p-8 rounded-lg">
             <ol className="relative border-s border-gray-600 mx-auto max-w-md">
               {locations.map((location, index) => (
                 <li key={index} className="mb-10 ms-6">
-                  {/* Dot with Icon */}
+                
                   <span
                     className={`absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-black ${
                       index === currentLocationIndex
@@ -181,10 +178,10 @@ export default function Page() {
                     </svg>
                   </span>
 
-                  {/* Location Name */}
+                  
                   <h3 className="flex items-center mb-1 text-lg font-semibold text-white">
                     {location}
-                    {/* Current Location Chip */}
+                   
                     {index === currentLocationIndex && (
                       <span className="bg-green-500 text-white text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm ms-3">
                         বর্তমান অবস্থান
@@ -196,7 +193,6 @@ export default function Page() {
             </ol>
           </div>
 
-          {/* Subscribe to Notifications Button */}
           <div className="mt-6 flex justify-center">
             <Button
               onClick={handleNotificationSubscription}
@@ -214,7 +210,7 @@ export default function Page() {
         </CardContent>
       </Card>
 
-      {/* Additional Bus Information */}
+
       <Card>
         <CardHeader>
           <h2 className="text-xl font-semibold">বাসের তথ্য</h2>

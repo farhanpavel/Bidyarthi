@@ -68,7 +68,7 @@ export default function Page() {
       if (response.ok) {
         const result = await response.json();
         console.log("Event created successfully:", result);
-        router.back(); // Redirect to events page
+        router.back(); 
       } else {
         console.error("Failed to create event");
       }

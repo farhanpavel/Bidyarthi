@@ -20,14 +20,14 @@ import { MessageContext } from "@/utils/context/MessageContext";
 import Cookies from "js-cookie";
 export default function Page() {
   const [userData, setUserData] = useState(null);
-  const [rsvps, setRsvps] = useState([]); // New state for real-time RSVP updates
+  const [rsvps, setRsvps] = useState([]); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { fcmToken, notificationPermissionStatus } = useFcmToken();
   const [clubId, setClubId] = useState("");
   const { message } = useContext(MessageContext);
   let token = Cookies.get("token");
-  // Subscribe to FCM topic when fcmToken and clubId are available
+
   useEffect(() => {
     if (fcmToken && clubId) {
       console.log("FCM token club:", fcmToken);
@@ -35,7 +35,7 @@ export default function Page() {
     }
   }, [fcmToken, clubId]);
 
-  // Fetch initial user data and RSVPs
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -52,9 +52,9 @@ export default function Page() {
         }
 
         const data = await response.json();
-        setClubId(data.id); // Set clubId from fetched data
+        setClubId(data.id); 
         setUserData(data);
-        // Initialize RSVPs from fetched data
+  
         const initialRsvps = data.clubMemberships.flatMap((membership) =>
           membership.club.events.flatMap((event) =>
             event.rsvps.map((rsvp) => ({
@@ -77,7 +77,7 @@ export default function Page() {
     fetchUserData();
   }, []);
 
-  // Handle real-time RSVP updates via FCM
+
   useEffect(() => {
     if (message) {
       console.log("Message received: ", message);
@@ -85,18 +85,17 @@ export default function Page() {
       if (message.data?.topic === `club-${clubId}`) {
         const { topic, ...rest } = message.data;
 
-        // Create a new RSVP object from the message data
+  
         const newRsvp = {
-          userName: rest.userName || "Unknown User", // Fallback if userName isn't sent
-          eventName: rest.name, // From notificationData.name
-          eventLocation: rest.location, // From notificationData.location
-          eventStatus: rest.status, // From notificationData.status
-          eventId: rest.eventId || Date.now().toString(), // Fallback ID if not provided
+          userName: rest.userName || "Unknown User", 
+          eventName: rest.name, 
+          eventLocation: rest.location, 
+          eventStatus: rest.status, 
+          eventId: rest.eventId || Date.now().toString(), 
         };
 
-        // Update the RSVPs state with the new RSVP
         setRsvps((prevRsvps) => {
-          // Check if this RSVP already exists (optional deduplication)
+         
           const rsvpExists = prevRsvps.some(
             (rsvp) =>
               rsvp.eventId === newRsvp.eventId &&
@@ -105,10 +104,10 @@ export default function Page() {
           if (!rsvpExists) {
             return [...prevRsvps, newRsvp];
           }
-          return prevRsvps; // If it exists, don't add duplicate
+          return prevRsvps; 
         });
 
-        // Show a toast notification
+
         toast.success(
           <div>
             <strong>New RSVP Update:</strong>
@@ -129,13 +128,12 @@ export default function Page() {
         console.log("topic: ", message.data?.topic);
       }
     }
-  }, [message, clubId]); // Changed chefId to clubId
+  }, [message, clubId]); 
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!userData) return <div>No data found</div>;
 
-  // Use rsvps state for rendering instead of flattenedData
   return (
     <div>
       <div className="p-9 space-y-2">
@@ -147,7 +145,7 @@ export default function Page() {
           আপনার ইভেন্টসমূহের প্রতিক্রিয়া দেখুন
         </p>
 
-        {/* Updated Table to use rsvps state */}
+ 
         <div>
           <Table>
             <TableCaption>ইভেন্টের RSVP তালিকা.</TableCaption>

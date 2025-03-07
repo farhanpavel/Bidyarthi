@@ -8,9 +8,8 @@ import React, { useEffect, useState } from "react";
 
 export default function Page() {
   const router = useRouter();
-  const [meals, setMeals] = useState([]); // State to store fetched meals
+  const [meals, setMeals] = useState([]); 
 
-  // Fetch meals from the API
   useEffect(() => {
     const fetchMeals = async () => {
       try {
@@ -19,7 +18,7 @@ export default function Page() {
           throw new Error("Failed to fetch meals");
         }
         const data = await response.json();
-        setMeals(data); // Set the fetched data to state
+        setMeals(data); 
       } catch (error) {
         console.error("Error fetching meals:", error);
       }
@@ -50,7 +49,7 @@ export default function Page() {
             </Button>
           </div>
 
-          {/* Image Grid */}
+         
           <div className="grid grid-cols-3 gap-4 mt-5">
             {[
               {
@@ -86,7 +85,7 @@ export default function Page() {
             ))}
           </div>
 
-          {/* Menu Section */}
+          
           <div className="mt-4">
             <div className="flex justify-center">
               <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black">
@@ -100,7 +99,7 @@ export default function Page() {
                   className="bg-white shadow-xl p-5 rounded-lg flex flex-col justify-between h-full"
                 >
                   <div className="space-y-3 flex-grow">
-                    {/* Meal Image */}
+                    
                     <div className="flex justify-center">
                       <img
                         src={meal.meal_url}
@@ -111,7 +110,7 @@ export default function Page() {
                       />
                     </div>
 
-                    {/* Meal Details */}
+                   
                     <div className="flex justify-between items-center w-full">
                       <div className="space-y-1 w-full">
                         <p className="text-xl font-semibold truncate">
@@ -121,7 +120,7 @@ export default function Page() {
                       </div>
                     </div>
 
-                    {/* Meal Type and Price */}
+                   
                     <div className="flex justify-between items-center w-full">
                       <p className="text-xs">{meal.mealType}</p>
                       <div className="flex items-center">
@@ -130,7 +129,7 @@ export default function Page() {
                       </div>
                     </div>
 
-                    {/* Restaurant Name and Quantity */}
+                  
                     <div className="flex justify-between items-center w-full">
                       <div className="flex items-center text-xs space-x-1">
                         <Map className="w-4 h-4 text-[#FC8019]" />
@@ -145,7 +144,7 @@ export default function Page() {
                     </div>
                   </div>
 
-                  {/* Buttons - Always Aligned at the End */}
+                 
                   <div className="mt-5 flex justify-end w-full">
                     <Button
                       disabled={meal.quantity <= 0}
