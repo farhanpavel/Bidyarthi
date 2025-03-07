@@ -81,6 +81,7 @@ const FCMWrapper = ({ children }) => {
             // Subscribe to a topic
             subscribeTokenToTopic(fcmToken, 'all');
             subscribeTokenToTopic(fcmToken, 'emergency');
+            subscribeTokenToTopic(fcmToken, 'announcement');
         }
     }, [fcmToken]);
 
@@ -92,37 +93,55 @@ const FCMWrapper = ({ children }) => {
                 console.log('Foreground push notification received:', payload);
                 setMessage(payload); // Broadcast the message
 
-                if (payload.notification && !payload.data) {
-                    toast.success(
-                        <div>
-                            <strong>{payload.notification.title}</strong>
-                            <p>{payload.notification.body}</p>
-                        </div>,
-                        {
-                            position: "top-right",
-                            autoClose: 3000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
+                if (payload.notification) {
+                    let showNotification = true;
+                    if(payload.data){
+                        if (payload.data.topic){
+                            if(payload.data.topic==='emergency'){
+                                const role = Cookies.get('role');
+                                if (role !== 'student')
+                                showNotification = false;
+                            }else if (payload.data.topic==='announcement'){
+                                const role = Cookies.get('role');
+                                if(role!=='student')
+                                showNotification = false;
+                            }
                         }
-                    );
-                } else if(payload.data){
+                    }
+                    if(showNotification)
+                        toast.success(
+                            <div>
+                                <strong>{payload.notification.title}</strong>
+                                <p>{payload.notification.body}</p>
+                            </div>,
+                            {
+                                position: "top-right",
+                                autoClose: 3000,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                            }
+                        );
+                    else {
+                        console.log('Notification not shown for not matching role');
+                    }
+                }
+                if(payload.data){
                     if (payload.data.topic){
                         if (payload.data.topic==='emergency'){
-
                             const role = Cookies.get('role');
-                            if (role === 'student')
-
-                            //nice popup
-                            setEmergencyData({
-                                message: payload.data.message || `Emergency on ${payload.data.location || 'Campus Emergency Alert!'}`,
-                                overlayText: payload.data.location || 'Emergency Area',
-                                instructions: payload.data.message || 'Please follow the instructions from the authorities.',
-                                emergencyLevel: payload.data.emergencyLevel || "MEDIUM"
-                            })
-                            setIsEmergencyPopupVisible(true)
+                            console.log(role)
+                             if (role === 'student'){
+                                    setEmergencyData({
+                                        message: payload.data.message || `Emergency on ${payload.data.location || 'Campus Emergency Alert!'}`,
+                                        overlayText: payload.data.location || 'Emergency Area',
+                                        instructions: payload.data.message || 'Please follow the instructions from the authorities.',
+                                        emergencyLevel: payload.data.emergencyLevel || "MEDIUM"
+                                    })
+                                setIsEmergencyPopupVisible(true)
+                            }
                         }
                     }
                 }
