@@ -32,7 +32,7 @@ import Cookies from "js-cookie";
 
 const navItems = [
   {
-    title: "সমস্যা",
+    title: "বার্তাসমূহ",
     href: "/facultydashboard/talk",
     icon: <Calendar size={20} />,
   },

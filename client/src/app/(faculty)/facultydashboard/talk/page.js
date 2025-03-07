@@ -16,11 +16,11 @@ export default function page() {
       <div className="bg-white shadow">
         <div className="p-6 space-y-2">
           <div className="flex gap-x-2 items-center text-black">
-            <Timer className="h-8 w-8" />
-            <h1 className="text-2xl font-bold">সময়সূচী</h1>
+            <Mail className="h-8 w-8" />
+            <h1 className="text-2xl font-bold">বার্তা আদান প্রদান</h1>
           </div>
           <p className="text-sm text-gray-600 border-black border-b-[2px] pb-4">
-            আপনার বাসসমূহ কার্যকরভাবে পরিচালনা করুন।
+            আপনার পাঠানো এবং প্রাপ্ত বার্তাগুলো এখানে পাবেন
           </p>
         </div>
       </div>
@@ -33,11 +33,11 @@ export default function page() {
             className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
           >
             <Mail className="h-5 w-5" />
-            Compose
+            লিখুন
           </button>
           <button className="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 rounded-lg border hover:bg-gray-50 transition-colors">
             <Inbox className="h-5 w-5" />
-            Inbox
+            ইনবক্স
           </button>
         </div>
 
@@ -46,7 +46,7 @@ export default function page() {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
             <div className="bg-white rounded-lg w-full max-w-2xl">
               <div className="flex justify-between items-center p-4 border-b">
-                <h2 className="text-xl font-semibold">Compose Email</h2>
+                <h2 className="text-xl font-semibold">ইমেইল লিখুন</h2>
                 <button
                   onClick={() => setShowCompose(false)}
                   className="text-gray-500 hover:text-gray-700"
@@ -61,7 +61,7 @@ export default function page() {
                     htmlFor="to"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    To:
+                    ব্যক্তির ইমেইল:
                   </label>
                   <input
                     type="email"
@@ -80,7 +80,7 @@ export default function page() {
                     htmlFor="subject"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Subject:
+                    বিষয়:
                   </label>
                   <input
                     type="text"
@@ -99,7 +99,7 @@ export default function page() {
                     htmlFor="body"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Message:
+                    বার্তা:
                   </label>
                   <textarea
                     id="body"
@@ -119,14 +119,14 @@ export default function page() {
                     onClick={() => setShowCompose(false)}
                     className="px-4 py-2 text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
                   >
-                    Cancel
+                    বাদ দিন
                   </button>
                   <button
                     type="submit"
                     className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                   >
                     <Send className="h-4 w-4" />
-                    Send
+                    পাঠান
                   </button>
                 </div>
               </form>
@@ -136,8 +136,8 @@ export default function page() {
 
         {/* Placeholder for Inbox Content */}
         <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">Inbox</h2>
-          <p className="text-gray-500">No messages yet</p>
+          <h2 className="text-xl font-semibold mb-4">ইনবক্স</h2>
+          <p className="text-gray-500">কোনো বার্তা নেই</p>
         </div>
       </div>
     </div>
