@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Bot, MessageCircle, X } from "lucide-react";
+import { Bot, MessageCircle, X, Loader2 } from "lucide-react"; // Import Loader2 for the spinner
 import { url } from "../Url/page";
 
 const Chatbot = () => {
@@ -10,6 +10,7 @@ const Chatbot = () => {
     { text: "Hello! How can I help you today?", sender: "bot" },
   ]); // Initial bot message
   const [inputText, setInputText] = useState(""); // User's input
+  const [loading, setLoading] = useState(false); // Loading state
 
   const toggleChatbot = () => {
     setIsOpen(!isOpen);
@@ -28,6 +29,7 @@ const Chatbot = () => {
       { text: inputText, sender: "user" },
     ]);
     setInputText(""); // Clear input field
+    setLoading(true); // Start loading
 
     try {
       // Send user's message to the backend
@@ -53,6 +55,8 @@ const Chatbot = () => {
         ...prevMessages,
         { text: "Failed to get a response. Please try again.", sender: "bot" },
       ]);
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -108,12 +112,18 @@ const Chatbot = () => {
                 onKeyPress={(e) => {
                   if (e.key === "Enter") handleSendMessage();
                 }}
+                disabled={loading} // Disable input while loading
               />
               <button
                 onClick={handleSendMessage}
-                className="bg-black text-white p-2 rounded-lg  transition-all"
+                className="bg-black text-white p-2 rounded-lg transition-all flex items-center justify-center"
+                disabled={loading}
               >
-                Send
+                {loading ? (
+                  <Loader2 className="h-4 w-4 animate-spin" /> // Show spinner while loading
+                ) : (
+                  "Send"
+                )}
               </button>
             </div>
           </div>
