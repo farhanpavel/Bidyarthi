@@ -11,7 +11,7 @@ import {
   BusIcon,
   BookOpen,
   Building2,
-  Bell,
+  Bell, Mail,
 } from "lucide-react";
 import {
   Tooltip,
@@ -47,6 +47,11 @@ const navItems = [
     title: "ফ্যাকালটি",
     href: "/userdashboard/faculty",
     icon: <BookOpen size={20} />,
+  },
+  {
+    title: "Mails",
+    href: "/userdashboard/talk",
+    icon: <Mail size={20} />,
   },
 ];
 

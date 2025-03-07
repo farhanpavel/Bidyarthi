@@ -14,24 +14,24 @@ export default function Page() {
 
   const [inbox,setInbox] = useState([]);
 
-  useEffect(() => {
-    const token = Cookies.get("token");
-    fetch(`${url}/api/mail/get`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${token}`,
-      },
-    })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setInbox(data);
+    useEffect(() => {
+        const token = Cookies.get("token");
+        fetch(`${url}/api/mail/get`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `${token}`,
+            },
         })
-        .catch((err) => {
-          console.log(err);
-        });
-  },[]);
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                setInbox(data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    },[]);
 
   // Handle form submission
   const handleSubmit = async (e) => {
