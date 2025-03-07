@@ -23,7 +23,7 @@ export const columns = [
         className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Message
+        বার্তা
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
@@ -36,7 +36,7 @@ export const columns = [
         className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Location <ArrowUpDown className="ml-2 h-4 w-4" />
+        স্থান <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
 
@@ -49,7 +49,7 @@ export const columns = [
         className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Type <ArrowUpDown className="ml-2 h-4 w-4" />
+        ধরন <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
 
@@ -62,7 +62,7 @@ export const columns = [
         className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        Publish Time <ArrowUpDown className="ml-2 h-4 w-4" />
+        পাবলিশের সময় <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
 
