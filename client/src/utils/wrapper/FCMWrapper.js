@@ -86,6 +86,7 @@ const FCMWrapper = ({ children }) => {
             subscribeTokenToTopic(fcmToken, 'all');
             subscribeTokenToTopic(fcmToken, 'emergency');
             subscribeTokenToTopic(fcmToken, 'announcement');
+            subscribeTokenToTopic(fcmToken, 'panic');
         }
     }, [fcmToken]);
 
@@ -109,6 +110,10 @@ const FCMWrapper = ({ children }) => {
                                 const role = Cookies.get('role');
                                 if(role!=='student')
                                 showNotification = false;
+                            }else if (payload.data.topic==='panic') {
+                                const role = Cookies.get('role');
+                                if (role !== 'admin')
+                                    showNotification = false;
                             }
                         }
                     }

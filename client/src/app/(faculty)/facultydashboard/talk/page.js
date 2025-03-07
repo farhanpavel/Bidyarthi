@@ -54,7 +54,11 @@ export default function Page() {
           "Content-Type": "application/json",
           Authorization: `${token}`,
         },
-        body: JSON.stringify(emailData),
+        body: JSON.stringify({
+            email: emailData.to,
+            subject: emailData.subject,
+            message: emailData.body,
+        }),
       });
 
       if (!response.ok) {
@@ -217,9 +221,9 @@ export default function Page() {
               {messages.map((message, index) => (
                 <div key={index} className="border-b pb-4">
                   <h3 className="font-semibold">{message.subject}</h3>
-                  <p className="text-sm text-gray-600">{message.body}</p>
+                  <p className="text-sm text-gray-600">{message.message}</p>
                   <p className="text-xs text-gray-500 mt-2">
-                    প্রেরক: {message.from}
+                    প্রেরক: {message.from.name}
                   </p>
                 </div>
               ))}
