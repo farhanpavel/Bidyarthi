@@ -31,7 +31,7 @@ export default function Home() {
         <Footer />
       </div>
 
-      {/* Add Chatbot */}
+      
       <Chatbot />
     </div>
   );

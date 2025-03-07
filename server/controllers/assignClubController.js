@@ -3,9 +3,9 @@ import prisma from "../db.js";
 import { sendDataMessage, sendNotification } from "./userController.js";
 
 export const eventAssignforUser = async (req, res) => {
-  const userId = req.user.id; // The user who is creating the event RSVP
+  const userId = req.user.id; 
   try {
-    // Create a new event RSVP
+   
     const eventData = await prisma.eventRSVP.create({
       data: {
         userId,
@@ -19,7 +19,7 @@ export const eventAssignforUser = async (req, res) => {
         id: userId,
       },
     });
-    // Fetch event details
+  
     const event = await prisma.event.findFirst({
       where: {
         id: req.body.eventId,
@@ -35,13 +35,13 @@ export const eventAssignforUser = async (req, res) => {
       return res.status(404).json({ error: "Event not found" });
     }
 
-    // Fetch the club membership for the user
+
     const clubMembership = await prisma.club.findFirst({
       where: {
-        id: event.clubId, // Ensure it's for the correct club
+        id: event.clubId, 
       },
       include: {
-        memberships: true, // Include user details
+        memberships: true, 
       },
     });
 
@@ -49,7 +49,7 @@ export const eventAssignforUser = async (req, res) => {
       return res.status(404).json({ error: "Club membership not found" });
     }
 
-    // Construct notification data
+
     const notificationData = {
       userName: String(userData.name),
       name: String(event.name),
@@ -60,13 +60,13 @@ export const eventAssignforUser = async (req, res) => {
 
     console.log("Notification Data:", notificationData);
 
-    // Send data message
+
     await sendDataMessage(
       notificationData,
       `club-${clubMembership.memberships[0].userId}`
     );
 
-    // Send notification
+
     await sendNotification(
       {
         title: "New Event Received",
@@ -102,12 +102,12 @@ export const getFlag = async (req, res) => {
 };
 
 export const getClubEventsWithRSVPs = async (req, res) => {
-  const userId = req.user.id; // Assuming the user making the request is logged in
+  const userId = req.user.id; 
   try {
-    // Fetching club membership details for the president (assuming the president is a user with specific role)
+    
     const userData = await prisma.user.findUnique({
       where: {
-        id: userId, // Find user by their ID (club president)
+        id: userId, 
       },
       include: {
         clubMemberships: {
@@ -118,7 +118,7 @@ export const getClubEventsWithRSVPs = async (req, res) => {
                   include: {
                     rsvps: {
                       include: {
-                        user: true, // Include all users who RSVP'd to the event
+                        user: true, 
                       },
                     },
                   },
@@ -130,12 +130,12 @@ export const getClubEventsWithRSVPs = async (req, res) => {
       },
     });
 
-    // Check if user data is found (club president and their club events)
+  
     if (!userData || userData.clubMemberships.length === 0) {
       return res.status(404).json({ error: "No club found for the president" });
     }
 
-    // Return the fetched data
+
     res.status(200).json(userData);
   } catch (error) {
     console.error("Error fetching data:", error);

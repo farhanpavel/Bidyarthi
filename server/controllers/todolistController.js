@@ -1,6 +1,6 @@
 import prisma from "../db.js";
 
-// Add a to-do item
+
 export const addTodo = async (req, res) => {
   const routineId = req.user.id;
   const { task } = req.body;
@@ -17,7 +17,7 @@ export const addTodo = async (req, res) => {
   }
 };
 
-// Update a to-do item (mark as completed)
+
 export const updateTodo = async (req, res) => {
   const { id, completed } = req.body;
 
@@ -34,7 +34,7 @@ export const updateTodo = async (req, res) => {
   }
 };
 
-// Delete a to-do item
+
 export const deleteTodo = async (req, res) => {
   const { id } = req.params;
 
