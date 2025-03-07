@@ -49,7 +49,7 @@ const navItems = [
     icon: <BookOpen size={20} />,
   },
   {
-    title: "Mails",
+    title: "ইমেইল",
     href: "/userdashboard/talk",
     icon: <Mail size={20} />,
   },

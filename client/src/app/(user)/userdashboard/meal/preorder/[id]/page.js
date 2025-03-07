@@ -162,10 +162,10 @@ export default function Page() {
               <div>
                 <h1 className="font-medium">{meal.quantity} mins</h1>{" "}
              
-                <p className="text-sm text-gray-400">ডেলিভারি সময়</p>
+                <p className="text-sm text-gray-400 font-bangla">ডেলিভারি সময়</p>
               </div>
               <div>
-                <h1 className="font-medium">খাবারের ধরণ</h1>
+                <h1 className="font-medium font-bangla">খাবারের ধরণ</h1>
                 <p className="text-sm text-gray-400">{meal.mealType}</p>{" "}
              
               </div>
@@ -181,7 +181,7 @@ export default function Page() {
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <div className="flex items-center space-x-2">
                 <ShoppingCart className="h-5 w-5 text-muted-foreground" />
-                <h2 className="text-xl font-semibold">আপনার কার্ট</h2>
+                <h2 className="text-xl font-semibold font-bangla">আপনার কার্ট</h2>
               </div>
               <Badge variant="secondary">{cartItems.length} আইটেমস</Badge>
             </CardHeader>
@@ -190,8 +190,8 @@ export default function Page() {
               {cartItems.length === 0 ? (
                 <div className="text-center py-12">
                   <ShoppingCart className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <h3 className="text-lg font-medium">আপনার কার্ট খালি</h3>
-                  <p className="text-muted-foreground mt-1">
+                  <h3 className="text-lg font-medium font-bangla">আপনার কার্ট খালি</h3>
+                  <p className="text-muted-foreground mt-1 font-bangla">
                   শুরু করতে কিছু সুস্বাদু আইটেম যোগ করুন
                   </p>
                 </div>
@@ -213,7 +213,7 @@ export default function Page() {
                         <p className="text-muted-foreground text-sm">
                           ${item.price.toFixed(2)}
                         </p>
-                        <p className="text-muted-foreground text-sm">
+                        <p className="text-muted-foreground text-sm font-bangla">
                         ধরণ: {item.mealType}
                         </p>
                       </div>

@@ -49,7 +49,7 @@ export default function Page() {
         <div>
           <div className="mt-2">
             <div className="flex justify-center">
-              <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black">
+              <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black font-bangla">
               অনুরোধকৃত অর্ডার
               </h1>
             </div>
