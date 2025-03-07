@@ -7,7 +7,6 @@ export default function Bottom() {
   return (
     <div className="container mx-auto">
       <div className="flex justify-center">
-        {/* Left Section */}
         <div className="bg-[#E54981] w-[40%] p-10 text-white space-y-5 flex justify-center flex-col rounded-l-lg">
           <h1 className="font-bold text-xl">বিদ্ধার্থী ব্যবহার শুরু করুন</h1>
           <p className="text-sm">
@@ -16,7 +15,6 @@ export default function Bottom() {
           </p>
         </div>
 
-        {/* Right Section */}
         <div className="bg-[#220F48] w-[40%] p-10 space-y-5 text-white rounded-r-lg">
           <Input
             className="w-full px-4 py-3 rounded-sm text-white placeholder-white"

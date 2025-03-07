@@ -23,19 +23,19 @@ export const ActionsCell = ({ user }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel className="text-xs text-[#4a4a4a]">
-          কার্যক্রম
+            Actions
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={() => {
-              router.push(`/admindashboard/cafeteria/assign/${user.id}`);
+              router.push(`/admindashboard/clubs/assign/${user.id}`);
             }}
             className="hover:bg-blue-200 rounded-lg hover:transition-all hover:delay-100 text-xs text-[#4a4a4a]"
           >
-            দায়িত্ব প্রদান করা
+            Assign
           </DropdownMenuItem>
           <DropdownMenuItem className="hover:bg-blue-200 rounded-lg hover:transition-all hover:delay-100 text-xs text-[#4a4a4a]">
-          বাতিল করা
+            Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

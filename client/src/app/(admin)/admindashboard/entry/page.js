@@ -6,7 +6,7 @@ import {
   useReactTable,
   getCoreRowModel,
   getSortedRowModel,
-  getPaginationRowModel, // Add this for pagination
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -17,9 +17,9 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { columns } from "./_datatable/action"; // Ensure this import is correct
+import { columns } from "./_datatable/action"; 
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button"; // Add Button component for pagination controls
+import { Button } from "@/components/ui/button";
 import { url } from "@/components/Url/page";
 
 export default function Page() {
@@ -46,10 +46,10 @@ export default function Page() {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(), // Enable pagination
+    getPaginationRowModel: getPaginationRowModel(), 
     initialState: {
       pagination: {
-        pageSize: 5, // Set the default page size
+        pageSize: 5, 
       },
     },
   });
@@ -61,7 +61,7 @@ export default function Page() {
           <LayoutDashboard className="text-3xl" />
           <h1 className="text-2xl font-bold font-bangla">ব্যবহারকারী ব্যবস্থাপনা ড্যাশবোর্ড</h1>
         </div>
-        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
+        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4 font-bangla">
         ব্যবহারকারীদের তথ্য ও কার্যক্রম পর্যবেক্ষণ করুন
         </p>
 
@@ -79,7 +79,7 @@ export default function Page() {
             </div>
             <div className="flex items-center">
               <Link
-                className="bg-black  py-2 px-4 rounded-[5px] text-white text-xs transition-all delay-200"
+                className="bg-black  py-2 px-4 rounded-[5px] text-white text-xs transition-all delay-200 font-bangla"
                 href="/admindashboard/entry/new"
               >
                 তৈরি করুন
@@ -135,12 +135,12 @@ export default function Page() {
             </Table>
           </div>
 
-          {/* Pagination Controls */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
                 size="sm"
+                className="font-bangla"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
@@ -149,6 +149,7 @@ export default function Page() {
               <Button
                 variant="outline"
                 size="sm"
+                className="font-bangla"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
               >
@@ -170,7 +171,7 @@ export default function Page() {
                 className="border rounded p-1 text-sm"
               >
                 {[5, 10, 20, 30, 40, 50].map((pageSize) => (
-                  <option key={pageSize} value={pageSize}>
+                  <option key={pageSize} value={pageSize} className="font-bangla">
                     {pageSize} প্রতি পৃষ্ঠায়
                   </option>
                 ))}

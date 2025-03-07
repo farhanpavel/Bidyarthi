@@ -1,12 +1,18 @@
 "use client";
-import { Bus, CalendarCheck, LayoutDashboard } from "lucide-react";
+import {
+  BellIcon,
+  CalendarCheck,
+  LayoutDashboard,
+  ShieldAlert,
+  Trophy,
+} from "lucide-react";
 import React, { useState, useEffect } from "react";
 import {
   flexRender,
   useReactTable,
   getCoreRowModel,
   getSortedRowModel,
-  getPaginationRowModel,
+  getPaginationRowModel, // Add this for pagination
 } from "@tanstack/react-table";
 import {
   Table,
@@ -17,9 +23,9 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { columns } from "./_datatable/action"; 
+import { columns } from "./_datatable/action"; // Ensure this import is correct
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button"; 
+import { Button } from "@/components/ui/button"; // Add Button component for pagination controls
 import { url } from "@/components/Url/page";
 
 export default function Page() {
@@ -27,7 +33,7 @@ export default function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${url}/api/bus`, {
+      const response = await fetch(`${url}/api/club`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -46,10 +52,10 @@ export default function Page() {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(), 
+    getPaginationRowModel: getPaginationRowModel(), // Enable pagination
     initialState: {
       pagination: {
-        pageSize: 5, 
+        pageSize: 5, // Set the default page size
       },
     },
   });
@@ -58,11 +64,11 @@ export default function Page() {
     <div>
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
-          <Bus className="text-3xl" />
-          <h1 className="text-2xl font-bold font-bangla">বাস সেবা</h1>
+          <BellIcon className="text-3xl" />
+          <h1 className="text-2xl font-bold font-bangla">নোটিফিকেশন প্যানেল</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4 font-bangla">
-        আপনার যাত্রা আরও সহজ এবং সুবিধাজনক করুন
+          আপনার জরুরি আপডেট এবং নোটিফিকেশনগুলি প্রদান করুন।
         </p>
 
         <div className="space-y-4">
@@ -79,9 +85,10 @@ export default function Page() {
             </div>
             <div className="flex items-center">
               <Link
-                className="bg-black  py-2 px-4 rounded-[5px] text-white text-xs transition-all delay-200 font-bangla"
-                href="/admindashboard/bus/new"
+                className="flex items-center gap-x-1 bg-gradient-to-r from-red-500 to-red-700 py-2 px-4 rounded-[5px] text-white text-xs transition-all delay-200 font-bangla"
+                href="/admindashboard/notification/new"
               >
+                <ShieldAlert className="w-4 h-4" />
                 তৈরি করুন
               </Link>
             </div>
@@ -135,12 +142,12 @@ export default function Page() {
             </Table>
           </div>
 
+          {/* Pagination Controls */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
                 size="sm"
-                className="font-bangla"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
@@ -149,7 +156,6 @@ export default function Page() {
               <Button
                 variant="outline"
                 size="sm"
-                className="font-bangla"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
               >
@@ -168,7 +174,7 @@ export default function Page() {
                 onChange={(e) => {
                   table.setPageSize(Number(e.target.value));
                 }}
-                className="border rounded p-1 text-sm font-bangla"
+                className="border rounded p-1 text-sm"
               >
                 {[5, 10, 20, 30, 40, 50].map((pageSize) => (
                   <option key={pageSize} value={pageSize}>

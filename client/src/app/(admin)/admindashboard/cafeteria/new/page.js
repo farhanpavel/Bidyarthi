@@ -69,14 +69,14 @@ export default function Page() {
           <SquarePen className="text-3xl" />
           <h1 className="text-2xl font-bold font-bangla">নতুন ক্যাফেটেরিয়া যোগ করুন</h1>
         </div>
-        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
+        <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4 font-bangla">
         নিচের তথ্য পূরণ করে ক্যাফেটেরিয়া নিবন্ধন করুন
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
             <CardHeader className="space-y-4">
-              <CardTitle>ক্যাফেটেরিয়া বিবরণ</CardTitle>
-              <CardDescription>
+              <CardTitle className="font-bangla">ক্যাফেটেরিয়া বিবরণ</CardTitle>
+              <CardDescription className="font-bangla">
                 দয়া করে ক্যাফেটেরিয়ার প্রয়োজনীয় তথ্য
                 পূরণ করুন।
               </CardDescription>
@@ -95,13 +95,13 @@ export default function Page() {
 
                   <div className="flex flex-col space-y-6">
                     <div>
-                      <h1 className="font-semibold text-sm">
+                      <h1 className="font-semibold text-sm font-bangla">
                         ক্যাফেটেরিয়ার তথ্য প্রদান করুন
                       </h1>
                     </div>
                     <div className="space-y-2 ">
                       <div className="space-y-2 ">
-                        <Label className="text-xs" htmlFor="name">
+                        <Label className="text-xs font-bangla" htmlFor="name">
                           নাম
                         </Label>
                         <Input
@@ -114,7 +114,7 @@ export default function Page() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="email">
+                        <Label className="text-xs font-bangla" htmlFor="email">
                           ঠিকানা
                         </Label>
                         <Input
@@ -133,7 +133,7 @@ export default function Page() {
                   {isLoading ? (
                     <Button
                       type="submit"
-                      className="  hover:transition-all hover:delay-100"
+                      className="  hover:transition-all hover:delay-100 font-bangla"
                     >
                       প্রদান করুন
                     </Button>

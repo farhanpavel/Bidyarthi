@@ -23,7 +23,7 @@ export const ActionsCell = ({ user }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel className="text-xs text-[#4a4a4a]">
-            Actions
+          কার্যক্রম
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -32,10 +32,10 @@ export const ActionsCell = ({ user }) => {
             }}
             className="hover:bg-blue-200 rounded-lg hover:transition-all hover:delay-100 text-xs text-[#4a4a4a]"
           >
-            Assign
+            দায়িত্ব প্রদান করা
           </DropdownMenuItem>
           <DropdownMenuItem className="hover:bg-blue-200 rounded-lg hover:transition-all hover:delay-100 text-xs text-[#4a4a4a]">
-            Delete
+          বাতিল করা
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

@@ -36,7 +36,7 @@ export default function Page() {
           <h1 className="text-2xl font-bold font-bangla">মেনু তালিকা</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-        আপনার পছন্দের খাবার নির্বাচন করুন
+          আপনার পছন্দের খাবার নির্বাচন করুন
         </p>
         <div>
           <div className="flex justify-end space-x-3">
@@ -53,10 +53,22 @@ export default function Page() {
           {/* Image Grid */}
           <div className="grid grid-cols-3 gap-4 mt-5">
             {[
-  { src: "/images/meal2.jpg", title: "নাস্তা", description: 'সকালের প্রয়োজনীয় শক্তির উৎস' },
-  { src: "/images/meal.png", title: "মধ্যাহ্নভোজ", description: 'একটি স্বাস্থ্যকর এবং পুষ্টিকর খাবার' },
-  { src: "/images/breakfast.png", title: "রাতের খাবার", description: 'স্বাস্থ্যকর ও পরিপূর্ণ রাতের খাবার' }
-].map((item, index) => (
+              {
+                src: "/images/meal2.jpg",
+                title: "নাস্তা",
+                description: "সকালের প্রয়োজনীয় শক্তির উৎস",
+              },
+              {
+                src: "/images/meal.png",
+                title: "মধ্যাহ্নভোজ",
+                description: "একটি স্বাস্থ্যকর এবং পুষ্টিকর খাবার",
+              },
+              {
+                src: "/images/breakfast.png",
+                title: "রাতের খাবার",
+                description: "স্বাস্থ্যকর ও পরিপূর্ণ রাতের খাবার",
+              },
+            ].map((item, index) => (
               <div key={index} className="relative w-full h-64">
                 <Image
                   src={item.src}
@@ -68,9 +80,7 @@ export default function Page() {
                   <h1 className="text-lg font-bold text-[#FC8A06]">
                     {item.title}
                   </h1>
-                  <p className="text-xs text-left">
-                    {item.description}
-                  </p>
+                  <p className="text-xs text-left">{item.description}</p>
                 </div>
               </div>
             ))}
@@ -80,7 +90,7 @@ export default function Page() {
           <div className="mt-4">
             <div className="flex justify-center">
               <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black">
-              মেনু
+                মেনু
               </h1>
             </div>
             <div className="grid grid-cols-4 gap-4">

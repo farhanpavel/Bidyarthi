@@ -10,6 +10,7 @@ import sslRouter from "./routes/sslRoute.js";
 import clubAssignRouter from "./routes/clubAssignRoute.js";
 import rountineRouter from "./routes/routineRoute.js";
 import todoRouter from "./routes/todolistRoute.js";
+import safetyRouter from "./routes/safetyRoute.js";
 
 const app = express();
 app.use(cors());
@@ -33,3 +34,4 @@ app.use("/api/ssl", sslRouter);
 app.use("/api/assign", clubAssignRouter);
 app.use("/api/routine", rountineRouter);
 app.use("/api/todolist", todoRouter);
+app.use("/api/emergency", safetyRouter);

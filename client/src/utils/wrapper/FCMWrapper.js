@@ -1,12 +1,14 @@
 // components/FCMWrapper.js
 "use client"; // Mark as a Client Component
-import React, { useEffect, useContext } from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import { getMessaging, onMessage } from 'firebase/messaging';
 import firebaseApp from "@/utils/firebase/firebase";
 import useFcmToken from "@/utils/hooks/useFcmToken";
 import { toast, ToastContainer } from "react-toastify";
 import {MessageContext} from "@/utils/context/MessageContext";
 import {url} from "@/components/Url/page";
+import EmergencyPopup from "@/components/Safety/EmergencyPopup";
+import Cookies from "js-cookie";
 
 export function subscribeTokenToTopic(token, topic) {
     fetch(`${url}/api/user/subscribe-to-topic`, {
@@ -59,6 +61,14 @@ const FCMWrapper = ({ children }) => {
     const { fcmToken, notificationPermissionStatus } = useFcmToken();
     const { setMessage } = useContext(MessageContext);
 
+    // State for emergency popup
+    const [isEmergencyPopupVisible, setIsEmergencyPopupVisible] = useState(false);
+    const [emergencyData, setEmergencyData] = useState({
+        message: '',
+        overlayText: '',
+        instructions: ''
+    });
+
     // Request notification permission
     useEffect(() => {
         requestNotificationPermission().then(r => console.log(r));
@@ -70,6 +80,7 @@ const FCMWrapper = ({ children }) => {
             console.log('FCM token:', fcmToken);
             // Subscribe to a topic
             subscribeTokenToTopic(fcmToken, 'all');
+            subscribeTokenToTopic(fcmToken, 'emergency');
         }
     }, [fcmToken]);
 
@@ -81,7 +92,7 @@ const FCMWrapper = ({ children }) => {
                 console.log('Foreground push notification received:', payload);
                 setMessage(payload); // Broadcast the message
 
-                if (payload.notification) {
+                if (payload.notification && !payload.data) {
                     toast.success(
                         <div>
                             <strong>{payload.notification.title}</strong>
@@ -97,7 +108,25 @@ const FCMWrapper = ({ children }) => {
                             progress: undefined,
                         }
                     );
-                } else {
+                } else if(payload.data){
+                    if (payload.data.topic){
+                        if (payload.data.topic==='emergency'){
+
+                            const role = Cookies.get('role');
+                            if (role === 'student')
+
+                            //nice popup
+                            setEmergencyData({
+                                message: payload.data.message || `Emergency on ${payload.data.location || 'Campus Emergency Alert!'}`,
+                                overlayText: payload.data.location || 'Emergency Area',
+                                instructions: payload.data.message || 'Please follow the instructions from the authorities.',
+                                emergencyLevel: payload.data.emergencyLevel || "MEDIUM"
+                            })
+                            setIsEmergencyPopupVisible(true)
+                        }
+                    }
+                }
+                else {
                     console.log('No notification received');
                 }
             });
@@ -109,6 +138,14 @@ const FCMWrapper = ({ children }) => {
 
     return <>
         <ToastContainer />
+        {isEmergencyPopupVisible && (
+            <EmergencyPopup
+                message={emergencyData.message}
+                overlayText={emergencyData.overlayText}
+                instructions={emergencyData.instructions}
+                onClose={() => setIsEmergencyPopupVisible(false)}
+            />
+        )}
         {children}
     </>;
 };
