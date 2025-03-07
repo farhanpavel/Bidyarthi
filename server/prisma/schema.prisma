@@ -210,10 +210,9 @@ model BusDriverAssignment {
   routeId   String   @unique // Changed to String (UUID)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
   // Relationships
-  user  User     @relation(fields: [userId], references: [id])
-  route BusRoute @relation(fields: [routeId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  route     BusRoute @relation(fields: [routeId], references: [id])
 }
 
 model Restaurant {
@@ -270,16 +269,22 @@ model Todolist {
 }
 
 model SafetyAlert {
-  id             String         @id @default(uuid())
+  id             String           @id @default(uuid())
   message        String
   location       String?
-  emergencyLevel EmergencyLevel @default(MEDIUM)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  emergencyLevel EmergencyLevel   @default(MEDIUM)
+  type           AnnouncementType
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
 }
 
 enum EmergencyLevel {
   LOW
   MEDIUM
   HIGH
+}
+
+enum AnnouncementType {
+  EMERGENCY
+  ANNOUNCEMENT
 }
