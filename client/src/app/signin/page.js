@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { url } from "@/components/Url/page";
 import { useRouter } from "next/navigation";
 import ButtonLoader from "@/components/ButtonLoader/page";
+import { Button } from "@/components/ui/button";
 
 export default function Signin() {
   const [isEmailFocused, setIsEmailFocused] = useState(false);
@@ -145,12 +146,12 @@ export default function Signin() {
                 {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
 
                 <div className="space-x-3">
-                  <button
+                  <Button
                     type="submit"
-                    className="px-6 py-2 bg-[#E54981] w-1/3 text-sm text-white rounded-full mt-2 font-bangla"
+                    className="px-7 py-2 bg-[#E54981] w-1/3 xl:w-[35%] text-sm text-white rounded-full mt-2 font-bangla"
                   >
                     {isLogged ? <ButtonLoader /> : "লগইন"}
-                  </button>
+                  </Button>
                 </div>
               </form>
               <div>
