@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Mail, Inbox, Send, X } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { Timer, Mail, Inbox, Send, X } from "lucide-react";
 import Cookies from "js-cookie";
-import { url } from "@/components/Url/page"; // Import js-cookie
+import { url } from "@/components/Url/page";
 
 export default function Page() {
   const [showCompose, setShowCompose] = useState(false);
@@ -76,130 +76,6 @@ export default function Page() {
     }
   };
 
-  const [inbox, setInbox] = useState([]);
-
-  useEffect(() => {
-    const token = Cookies.get("token");
-    fetch(`${url}/api/mail/get`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setInbox(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-
-    // Get the token from cookies
-    const token = Cookies.get("token");
-
-    try {
-      // Send a POST request to the API endpoint
-      const response = await fetch(`${url}/api/mail/send`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${token}`, // Include the token in the headers
-        },
-        body: JSON.stringify({
-          email: emailData.to, // Use the `to` field as the recipient email
-          subject: emailData.subject,
-          message: emailData.body,
-        }),
-      });
-
-      // Parse the response
-      const result = await response.json();
-
-      if (response.ok) {
-        // Handle success
-        alert("Email sent successfully!");
-        setShowCompose(false); // Close the compose modal
-        setEmailData({ to: "", subject: "", body: "" }); // Clear the form
-      } else {
-        // Handle error
-        alert(`Failed to send email: ${result.message || "Unknown error"}`);
-      }
-    } catch (error) {
-      // Handle network or other errors
-      console.error("Error sending email:", error);
-      alert("An error occurred while sending the email.");
-    }
-  };
-
-  const [inbox, setInbox] = useState([]);
-
-  useEffect(() => {
-    const token = Cookies.get("token");
-    fetch(`${url}/api/mail/get`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setInbox(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-
-    // Get the token from cookies
-    const token = Cookies.get("token");
-
-    try {
-      // Send a POST request to the API endpoint
-      const response = await fetch(`${url}/api/mail/send`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `${token}`, // Include the token in the headers
-        },
-        body: JSON.stringify({
-          email: emailData.to, // Use the `to` field as the recipient email
-          subject: emailData.subject,
-          message: emailData.body,
-        }),
-      });
-
-      // Parse the response
-      const result = await response.json();
-
-      if (response.ok) {
-        // Handle success
-        alert("Email sent successfully!");
-        setShowCompose(false); // Close the compose modal
-        setEmailData({ to: "", subject: "", body: "" }); // Clear the form
-      } else {
-        // Handle error
-        alert(`Failed to send email: ${result.message || "Unknown error"}`);
-      }
-    } catch (error) {
-      // Handle network or other errors
-      console.error("Error sending email:", error);
-      alert("An error occurred while sending the email.");
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -245,7 +121,7 @@ export default function Page() {
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="p-4 space-y-4">
+              <form onSubmit={handleSendEmail} className="p-4 space-y-4">
                 <div>
                   <label
                     htmlFor="to"
@@ -313,10 +189,17 @@ export default function Page() {
                   </button>
                   <button
                     type="submit"
+                    disabled={loading}
                     className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                   >
-                    <Send className="h-4 w-4" />
-                    পাঠান
+                    {loading ? (
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                    ) : (
+                      <>
+                        <Send className="h-4 w-4" />
+                        পাঠান
+                      </>
+                    )}
                   </button>
                 </div>
               </form>
@@ -324,10 +207,24 @@ export default function Page() {
           </div>
         )}
 
-        {/* Placeholder for Inbox Content */}
+        {/* Inbox Content */}
         <div className="bg-white rounded-lg shadow p-6">
           <h2 className="text-xl font-semibold mb-4">ইনবক্স</h2>
-          <p className="text-gray-500">কোনো বার্তা নেই</p>
+          {messages.length === 0 ? (
+            <p className="text-gray-500">কোনো বার্তা নেই</p>
+          ) : (
+            <div className="space-y-4">
+              {messages.map((message, index) => (
+                <div key={index} className="border-b pb-4">
+                  <h3 className="font-semibold">{message.subject}</h3>
+                  <p className="text-sm text-gray-600">{message.body}</p>
+                  <p className="text-xs text-gray-500 mt-2">
+                    প্রেরক: {message.from}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
