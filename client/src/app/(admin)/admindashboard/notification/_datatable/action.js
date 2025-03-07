@@ -17,26 +17,26 @@ import { ActionsCell } from "./data";
 
 export const columns = [
   {
-    accessorKey: "name",
+    accessorKey: "message",
     header: ({ column }) => (
       <button
         className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        নাম
+        বার্তা
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
     enableSorting: true,
   },
   {
-    accessorKey: "description",
+    accessorKey: "message",
     header: ({ column }) => (
       <button
         className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        ক্লাব নম্বর
+        জরুরি স্তর
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),

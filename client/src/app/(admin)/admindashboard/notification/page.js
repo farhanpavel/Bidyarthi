@@ -1,5 +1,11 @@
 "use client";
-import { BellIcon, CalendarCheck, LayoutDashboard, Trophy } from "lucide-react";
+import {
+  BellIcon,
+  CalendarCheck,
+  LayoutDashboard,
+  ShieldAlert,
+  Trophy,
+} from "lucide-react";
 import React, { useState, useEffect } from "react";
 import {
   flexRender,
@@ -79,9 +85,10 @@ export default function Page() {
             </div>
             <div className="flex items-center">
               <Link
-                className="bg-black  py-2 px-4 rounded-[5px] text-white text-xs transition-all delay-200 font-bangla"
-                href="/admindashboard/clubs/new"
+                className="flex items-center gap-x-1 bg-gradient-to-r from-red-500 to-red-700 py-2 px-4 rounded-[5px] text-white text-xs transition-all delay-200 font-bangla"
+                href="/admindashboard/notification/new"
               >
+                <ShieldAlert className="w-4 h-4" />
                 তৈরি করুন
               </Link>
             </div>
