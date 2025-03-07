@@ -30,11 +30,11 @@ import { useEffect, useState } from "react"; // Import useEffect and useState
 import Cookies from "js-cookie";
 
 const navItems = [
-  {
-    title: "সংক্ষিপ্ত বিবরণ",
-    href: "/chefdashboard/overview",
-    icon: <Home size={20} />,
-  },
+  // {
+  //   title: "সংক্ষিপ্ত বিবরণ",
+  //   href: "/chefdashboard/overview",
+  //   icon: <Home size={20} />,
+  // },
   {
     title: "মেনু তালিকা",
     href: "/chefdashboard/entry",

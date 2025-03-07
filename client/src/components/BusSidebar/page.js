@@ -29,11 +29,11 @@ import { useEffect, useState } from "react"; // Import useEffect and useState
 import Cookies from "js-cookie";
 
 const navItems = [
-  {
-    title: "সংক্ষিপ্ত বিবরণ",
-    href: "/driverdashboard/overview",
-    icon: <Home size={20} />,
-  },
+  // {
+  //   title: "সংক্ষিপ্ত বিবরণ",
+  //   href: "/driverdashboard/overview",
+  //   icon: <Home size={20} />,
+  // },
   {
     title: "প্রবেশ",
     href: "/driverdashboard/bus",

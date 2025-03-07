@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import React from "react";
@@ -7,7 +8,9 @@ import { FaAmazon } from "react-icons/fa6";
 import { SiAdidas } from "react-icons/si";
 import { SiDell } from "react-icons/si";
 import { GrHpi } from "react-icons/gr";
+import { useRouter } from "next/navigation";
 export default function Hero() {
+  const router = useRouter();
   return (
     <div>
       <div className="mt-6 font-bangla container mx-auto">
@@ -23,10 +26,16 @@ export default function Hero() {
           </div>
 
           <div className="space-x-5">
-            <Button className="rounded-full px-6 bg-yellow-500 text-white hover:bg-yellow-500">
+            <Button
+              onClick={() => router.push("/signin")}
+              className="rounded-full px-6 bg-yellow-500 text-white hover:bg-yellow-500"
+            >
               সাইন ইন
             </Button>
-            <Button className="rounded-full px-6 border-yellow-500 bg-white border-2 text-yellow-500 hover:bg-white hover:text-yellow-500">
+            <Button
+              onClick={() => router.push("/signup")}
+              className="rounded-full px-6 border-yellow-500 bg-white border-2 text-yellow-500 hover:bg-white hover:text-yellow-500"
+            >
               সাইন আপ
             </Button>
           </div>

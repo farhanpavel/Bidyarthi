@@ -48,15 +48,15 @@ export default function Signin() {
         console.log("Login successful:", data);
 
         if (data.role === "admin") {
-          router.push("/admindashboard/overview");
+          router.push("/admindashboard/entry");
         } else if (data.role === "Cafeteriachef") {
-          router.push("/chefdashboard/overview");
+          router.push("/chefdashboard/entry");
         } else if (data.role === "Busdriver") {
-          router.push("/driverdashboard/overview");
+          router.push("/driverdashboard/bus");
         } else if (data.role === "Clubpresident") {
-          router.push("/clubdashboard/overview");
+          router.push("/clubdashboard/event");
         } else if (data.role === "student") {
-          router.push("/userdashboard/overview");
+          router.push("/userdashboard/meal");
         }
       }, 3000);
     } catch (err) {
@@ -80,7 +80,9 @@ export default function Signin() {
             </div>
             <div className="text-center space-y-1 2xl:text-2xl text-md text-xl">
               <h1 className="font-bangla">বিদ্যার্থী অ্যাপে স্বাগতম!</h1>
-              <p className="text-sm font-bangla">আপনার অ্যাকাউন্টে প্রবেশ করতে লগইন করুন</p>
+              <p className="text-sm font-bangla">
+                আপনার অ্যাকাউন্টে প্রবেশ করতে লগইন করুন
+              </p>
             </div>
             <div className="2xl:w-3/4 w-full">
               <form className="flex flex-col gap-y-2" onSubmit={handleSubmit}>
