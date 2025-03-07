@@ -12,6 +12,7 @@ import {
   Bus,
   School,
   Anvil,
+  Bell,
 } from "lucide-react";
 import {
   Tooltip,
@@ -51,6 +52,11 @@ const navItems = [
     title: "ক্লাব",
     href: "/admindashboard/clubs",
     icon: <Anvil size={20} />,
+  },
+  {
+    title: "নোটিফিকেশন",
+    href: "/admindashboard/notification",
+    icon: <Bell size={20} />,
   },
 ];
 
