@@ -46,11 +46,6 @@ const navItems = [
     href: "/userdashboard/faculty",
     icon: <BookOpen size={20} />,
   },
-  {
-    title: "নোটিফিকেশন",
-    href: "/userdashboard/notification?dialog=true", // Always add dialog=true
-    icon: <Bell size={20} />,
-  },
 ];
 
 export default function UserSidebar() {
@@ -110,6 +105,14 @@ export default function UserSidebar() {
               })}
             </div>
           </ScrollArea>
+          <div className="mt-auto border-t p-2">
+            <Link href="/userdashboard/notification?dialog=true">
+              <Button variant="ghost" className="w-full justify-start">
+                <Bell size={20} className="mr-2" />
+                নোটিফিকেশন
+              </Button>
+            </Link>
+          </div>
           <div className="mt-auto border-t p-2">
             <Link href="/">
               <Button

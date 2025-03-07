@@ -31,9 +31,9 @@ model User {
 
 // AI-Powered Chatbot for FAQs
 model ChatbotInteraction {
-  id        String   @id @default(uuid())
-  question  String
-  createdAt DateTime @default(now())
+  id          String   @id @default(uuid())
+  description String
+  createdAt   DateTime @default(now())
 }
 
 // Secure Student-Faculty Messaging Platform
