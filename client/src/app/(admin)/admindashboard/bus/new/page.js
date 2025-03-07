@@ -40,94 +40,94 @@ export default function Page() {
 
   const GEOAPIFY_API_KEY = process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY;
 
-    useEffect(() => {
-      async function fetchPlaces() {
-        try {
-          const response = await fetch(
-            `https://api.geoapify.com/v2/places?categories=commercial,education,public_transport&filter=circle:90.4125,23.8103,10000&limit=20&apiKey=${GEOAPIFY_API_KEY}`
-          );
-          const data = await response.json();
-  
-          if (data.features) {
-            setPlaces(
-              data.features
-                .map((place) => ({
-                  name: place.properties.suburb,
-                }))
-                .filter((place) => place.name)
-            );
-            setPlaces((prev) => [
-              ...prev,
-              {
-                name: "Campus",
-              },
-            ]);
-          }
-        } catch (error) {
-          console.error("Error fetching places:", error);
-        }
-      }
-  
-      fetchPlaces();
-    }, []);  
-
-    const handleChange = (e) => {
-      setData({ ...data, [e.target.name]: e.target.value });
-    };
-  
-    const handleSelectChange = (name, value) => {
-      setData({ ...data, [name]: value });
-    };
-  
-    const handleFileChange = (e) => {
-      if (e.target.files && e.target.files.length > 0) {
-        setFile(e.target.files[0]);
-      }
-    };
-
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      setLoading(false);
-  
-
-      if (data.startPoint !== "Campus" && data.endPoint !== "Campus") {
-        alert("Either startPoint or endPoint must be set to 'Campus'.");
-        setLoading(true);
-        return;
-      }
-  
-      if (!file) {
-        alert("Please select a file before uploading.");
-        return;
-      }
-  
+  useEffect(() => {
+    async function fetchPlaces() {
       try {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("busNum", data.busNum);
-        formData.append("routeName", data.routeName);
-        formData.append("startPoint", data.startPoint);
-        formData.append("endPoint", data.endPoint);
-        formData.append("schedule", data.schedule);
-  
-        const response = await fetch(`${url}/api/bus`, {
-          method: "POST",
-          body: formData,
-        });
-  
-        if (!response.ok) {
-          alert("Server Error");
-          throw new Error("Failed to upload file");
-        } else {
-          if (response.ok) {
-            setLoading(true);
-            router.back();
-          }
+        const response = await fetch(
+          `https://api.geoapify.com/v2/places?categories=commercial,education,public_transport&filter=circle:90.4125,23.8103,10000&limit=20&apiKey=${GEOAPIFY_API_KEY}`
+        );
+        const data = await response.json();
+
+        if (data.features) {
+          // Filter unique place names using Set
+          const uniquePlaces = [
+            ...new Set(
+              data.features
+                .map((place) => place.properties.suburb)
+                .filter((name) => name) // Remove undefined/null values
+            ),
+          ].map((name) => ({ name })); // Convert to array of objects
+
+          // Add "Campus" to the list
+          uniquePlaces.push({ name: "Campus" });
+
+          setPlaces(uniquePlaces);
         }
-      } catch (err) {
-        console.error("Upload error", err);
+      } catch (error) {
+        console.error("Error fetching places:", error);
       }
-    };
+    }
+
+    fetchPlaces();
+  }, []);
+
+  const handleChange = (e) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const handleSelectChange = (name, value) => {
+    setData({ ...data, [name]: value });
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(false);
+
+    if (data.startPoint !== "Campus" && data.endPoint !== "Campus") {
+      alert("Either startPoint or endPoint must be set to 'Campus'.");
+      setLoading(true);
+      return;
+    }
+
+    if (!file) {
+      alert("Please select a file before uploading.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("busNum", data.busNum);
+      formData.append("routeName", data.routeName);
+      formData.append("startPoint", data.startPoint);
+      formData.append("endPoint", data.endPoint);
+      formData.append("schedule", data.schedule);
+
+      const response = await fetch(`${url}/api/bus`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        alert("Server Error");
+        throw new Error("Failed to upload file");
+      } else {
+        if (response.ok) {
+          setLoading(true);
+          router.back();
+        }
+      }
+    } catch (err) {
+      console.error("Upload error", err);
+    }
+  };
+
   const switchPoints = () => {
     setData((prev) => ({
       ...prev,
@@ -135,7 +135,6 @@ export default function Page() {
       endPoint: prev.startPoint,
     }));
   };
-
 
   return (
     <div>
@@ -145,7 +144,7 @@ export default function Page() {
           <h1 className="text-2xl font-bold font-bangla">বাস এন্ট্রি ফর্ম</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4">
-        বাস রুট, সময়সূচী এবং অন্যান্য তথ্য যোগ করে নতুন বাস সেবা শুরু করুন।
+          বাস রুট, সময়সূচী এবং অন্যান্য তথ্য যোগ করে নতুন বাস সেবা শুরু করুন।
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
@@ -188,7 +187,10 @@ export default function Page() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-bangla" htmlFor="routeName">
+                        <Label
+                          className="text-xs font-bangla"
+                          htmlFor="routeName"
+                        >
                           রুট নাম
                         </Label>
                         <Input
@@ -201,18 +203,24 @@ export default function Page() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-bangla" htmlFor="startPoint">
+                        <Label
+                          className="text-xs font-bangla"
+                          htmlFor="startPoint"
+                        >
                           শুরুর স্থান
                         </Label>
                         <Select
                           onValueChange={(value) =>
                             handleSelectChange("startPoint", value)
                           }
-                          value={data.startPoint} 
+                          value={data.startPoint}
                           required
                         >
                           <SelectTrigger className="w-1/2 border-[1px] border-gray-600">
-                            <SelectValue className="font-bangla" placeholder="স্থান নির্বাচন করুন" />
+                            <SelectValue
+                              className="font-bangla"
+                              placeholder="স্থান নির্বাচন করুন"
+                            />
                           </SelectTrigger>
                           <SelectContent className="max-h-60 overflow-y-auto">
                             {places.map((place, index) => (
@@ -229,23 +237,31 @@ export default function Page() {
                           onClick={switchPoints}
                           className="flex items-center gap-x-2"
                         >
-                          <ArrowUpDown size={24}/>
-                          <span className="font-bangla">শুরু এবং শেষ স্থান পরিবর্তন করুন</span>
+                          <ArrowUpDown size={24} />
+                          <span className="font-bangla">
+                            শুরু এবং শেষ স্থান পরিবর্তন করুন
+                          </span>
                         </Button>
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs font-bangla" htmlFor="endPoint">
+                        <Label
+                          className="text-xs font-bangla"
+                          htmlFor="endPoint"
+                        >
                           শেষ স্থান
                         </Label>
                         <Select
                           onValueChange={(value) =>
                             handleSelectChange("endPoint", value)
                           }
-                          value={data.endPoint} 
+                          value={data.endPoint}
                           required
                         >
                           <SelectTrigger className="w-1/2 border-[1px] border-gray-600">
-                            <SelectValue className="font-bangla" placeholder="স্থান নির্বাচন করুন" />
+                            <SelectValue
+                              className="font-bangla"
+                              placeholder="স্থান নির্বাচন করুন"
+                            />
                           </SelectTrigger>
                           <SelectContent className="max-h-60 overflow-y-auto">
                             {places.map((place, index) => (
@@ -256,9 +272,12 @@ export default function Page() {
                           </SelectContent>
                         </Select>
                       </div>
-                      
+
                       <div className="space-y-2">
-                        <Label className="text-xs font-bangla" htmlFor="schedule">
+                        <Label
+                          className="text-xs font-bangla"
+                          htmlFor="schedule"
+                        >
                           সময়সূচী
                         </Label>
                         <Input
@@ -277,7 +296,7 @@ export default function Page() {
                   {isLoading ? (
                     <Button
                       type="submit"
-                      className="  hover:transition-all hover:delay-100 font-bangla"
+                      className="hover:transition-all hover:delay-100 font-bangla"
                     >
                       প্রদান করুন
                     </Button>
@@ -285,7 +304,7 @@ export default function Page() {
                     <Button
                       type="submit"
                       disabled
-                      className="  hover:transition-all hover:delay-100"
+                      className="hover:transition-all hover:delay-100"
                     >
                       <Loader2 className="h-4 w-4 animate-spin" />
                     </Button>
