@@ -35,7 +35,7 @@ const navItems = [
   //   icon: <Home size={20} />,
   // },
   {
-    title: "প্রবেশ",
+    title: "বাসের সময়সূচী",
     href: "/driverdashboard/bus",
     icon: <AppWindowIcon size={20} />,
   },

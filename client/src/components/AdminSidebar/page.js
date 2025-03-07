@@ -34,7 +34,7 @@ const navItems = [
   //   icon: <Home size={20} />,
   // },
   {
-    title: "প্রবেশ",
+    title: "ব্যবহারকারীদের তালিকা",
     href: "/admindashboard/entry",
     icon: <AppWindowIcon size={20} />,
   },

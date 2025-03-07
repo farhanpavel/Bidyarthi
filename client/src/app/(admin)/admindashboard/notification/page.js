@@ -141,6 +141,7 @@ export default function Page() {
               <Button
                 variant="outline"
                 size="sm"
+                className="font-bangla"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
@@ -149,6 +150,7 @@ export default function Page() {
               <Button
                 variant="outline"
                 size="sm"
+                className="font-bangla"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
               >
