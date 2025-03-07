@@ -1,6 +1,7 @@
 import prisma from "../db.js";
 import {sendNotification} from "./userController.js";
 import {AnnouncementType, EmergencyLevel} from "@prisma/client";
+
 export const publishEmergency = async (req, res) => {
     try {
         const {
@@ -14,21 +15,21 @@ export const publishEmergency = async (req, res) => {
             type: AnnouncementType.EMERGENCY
         },
         });
-        sendNotification({
-            notification: {
+        sendNotification(
+            {
                 title: "Emergency Alert",
                 body: message,
             },
-            topic: "emergency",
-            data: {
+            "emergency",
+            {
                 topic: "emergency",
                 message: message,
                 type: "emergency",
                 emergencyLevel: emergencyLevel,
                 location: location
             },
-            redirection: "http://localhost:3000/userdashboard/emergency"
-        });
+            "http://localhost:3000/userdashboard/emergency"
+        );
         res.status(201).json(publishedEmergency);
     } catch (error) {
         res.status(400).json({ message: error.message });
