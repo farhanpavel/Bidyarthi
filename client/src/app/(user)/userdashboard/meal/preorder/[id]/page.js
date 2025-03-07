@@ -23,9 +23,9 @@ import { useParams, useRouter } from "next/navigation";
 import { url } from "@/components/Url/page";
 import Cookies from "js-cookie";
 export default function Page() {
-  const { id } = useParams(); // Get the `id` from the URL
-  const [meal, setMeal] = useState(null); // State to store the fetched meal
-  const [cartItems, setCartItems] = useState([]); // State for cart items
+  const { id } = useParams(); 
+  const [meal, setMeal] = useState(null); 
+  const [cartItems, setCartItems] = useState([]); 
   const router = useRouter();
   var token = Cookies.get("token");
   useEffect(() => {
@@ -36,15 +36,14 @@ export default function Page() {
           throw new Error("Failed to fetch meal data");
         }
         const data = await response.json();
-        setMeal(data[0]); // Set the fetched meal data
+        setMeal(data[0]); 
 
-        // Automatically add the fetched meal to the cart
         setCartItems([
           {
             id: data[0].id,
             name: data[0].mealName,
             price: data[0].price,
-            quantity: 1, // Default quantity
+            quantity: 1, 
             image: data[0].meal_url,
             mealType: data[0].mealType,
           },
@@ -57,7 +56,7 @@ export default function Page() {
     fetchMeal();
   }, [id]);
 
-  // Cart functionality
+
   const increaseQuantity = (id) => {
     setCartItems(
       cartItems.map((item) =>
@@ -91,7 +90,7 @@ export default function Page() {
   const tax = calculateSubtotal() * 0.08;
 
   if (!meal) {
-    return <div>Loading...</div>; // Show loading state while fetching data
+    return <div>Loading...</div>; 
   }
   const handlePay = async () => {
     const totalAmount = calculateSubtotal() + deliveryFee + tax;
@@ -109,7 +108,7 @@ export default function Page() {
           "Content-Type": "application/json",
           Authorization: token,
         },
-        body: JSON.stringify(payload), // Send the payload to the backend
+        body: JSON.stringify(payload), 
       });
 
       const result = await response.json();
@@ -133,12 +132,11 @@ export default function Page() {
       আপনার পছন্দের খাবার
       </p>
 
-      {/* Meal Details Card */}
       <Card className="bg-[#202020] border-none overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="relative h-48 md:h-full">
             <img
-              src={meal.meal_url} // Use the meal image URL from the API
+              src={meal.meal_url} 
               fill
               style={{ objectFit: "cover" }}
               alt="food"
@@ -149,34 +147,34 @@ export default function Page() {
             <div className="flex justify-between items-start">
               <div>
                 <h1 className="text-2xl font-bold">{meal.mealName}</h1>{" "}
-                {/* Use meal name from the API */}
+              
                 <p className="text-gray-300">{meal.description}</p>{" "}
-                {/* Use meal description from the API */}
+            
               </div>
             </div>
 
             <div className="text-white flex flex-wrap gap-6 mt-5">
               <div className="flex items-center">
                 <h1 className="mr-1">{meal.price}</h1>{" "}
-                {/* Use meal price from the API */}
+                
                 <DollarSign className="w-4 h-4 text-[#1AC84B]" />
               </div>
               <div>
                 <h1 className="font-medium">{meal.quantity} mins</h1>{" "}
-                {/* Use meal quantity from the API */}
+             
                 <p className="text-sm text-gray-400">ডেলিভারি সময়</p>
               </div>
               <div>
                 <h1 className="font-medium">খাবারের ধরণ</h1>
                 <p className="text-sm text-gray-400">{meal.mealType}</p>{" "}
-                {/* Use meal type from the API */}
+             
               </div>
             </div>
           </div>
         </div>
       </Card>
 
-      {/* Cart Section */}
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="md:col-span-2">
           <Card>
@@ -259,7 +257,7 @@ export default function Page() {
           </Card>
         </div>
 
-        {/* Order Summary */}
+
         <div>
           <Card>
             <CardHeader>

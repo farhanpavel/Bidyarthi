@@ -25,7 +25,6 @@ export default function Page() {
   const [chefId, setChefId] = useState("");
   const { message } = useContext(MessageContext);
   let token = Cookies.get("token");
-  // Subscribe to FCM topic when fcmToken and chefId are available
   useEffect(() => {
     if (fcmToken && chefId) {
       console.log("FCM token chef:", fcmToken);
@@ -40,32 +39,32 @@ export default function Page() {
       if (message.data?.topic === `chef-${chefId}`) {
         const { topic, ...rest } = message.data;
 
-        // Create a new order object from the message data
+
         const newOrder = {
-          id: rest.orderId, // Ensure the backend sends an orderId
-          userId: rest.userId, // Ensure the backend sends a userId
-          menuId: rest.menuId, // Ensure the backend sends a menuId
-          quantity: Number(rest.quantity), // Convert to number
-          paid: rest.paid === "true", // Convert to boolean
-          preOrder: rest.preOrder === "true", // Convert to boolean
+          id: rest.orderId, 
+          userId: rest.userId, 
+          menuId: rest.menuId, 
+          quantity: Number(rest.quantity), 
+          paid: rest.paid === "true", 
+          preOrder: rest.preOrder === "true", 
           user: {
             name: rest.userName,
           },
         };
 
-        // Update the orders state with the new order
+        
         setOrders((prevOrders) =>
           prevOrders.map((order) =>
             order.id === rest.menuId
               ? {
                   ...order,
-                  orders: [...order.orders, newOrder], // Add the new order to the meal's orders array
+                  orders: [...order.orders, newOrder], 
                 }
               : order
           )
         );
 
-        // Show a toast notification
+
         toast.success(
           <div>
             <strong>New Order Update:</strong>
@@ -87,7 +86,7 @@ export default function Page() {
       }
     }
   }, [message, chefId]);
-  // Fetch initial orders
+
   useEffect(() => {
     const fetchOrders = async () => {
       try {
@@ -112,7 +111,7 @@ export default function Page() {
     fetchOrders();
   }, []);
 
-  // Handle order actions (accept/decline)
+
   const handleOrderAction = async (
     orderId,
     preOrder,

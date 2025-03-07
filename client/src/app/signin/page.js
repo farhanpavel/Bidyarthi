@@ -86,7 +86,7 @@ export default function Signin() {
             </div>
             <div className="2xl:w-3/4 w-full">
               <form className="flex flex-col gap-y-2" onSubmit={handleSubmit}>
-                {/* Email Input Field with Motion Effect */}
+               
                 <div className="relative">
                   <input
                     type="email"
@@ -114,7 +114,7 @@ export default function Signin() {
                     <p className="font-bangla">সঠিক ইমেইল নয়</p>
                   </div>
                 )}
-                {/* Password Input Field with Motion Effect */}
+            
                 <div className="relative">
                   <input
                     type="password"
@@ -142,7 +142,7 @@ export default function Signin() {
                     <p className="font-bangla">সঠিক পাসওয়ার্ড নয়</p>
                   </div>
                 )}
-                {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
+               
 
                 <div className="space-x-3">
                   <button

@@ -3,19 +3,19 @@ import { Button } from "@/components/ui/button";
 import { Calendar1Icon, ThumbsUp, CalendarCheck, Trophy } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import Calendar from "react-calendar"; // Import react-calendar
-import "react-calendar/dist/Calendar.css"; // Default styles
-import "./custom-calendar.css"; // Custom styles for event highlights
+import Calendar from "react-calendar"; 
+import "react-calendar/dist/Calendar.css"; 
+import "./custom-calendar.css"; 
 import { url } from "@/components/Url/page";
 import Cookies from "js-cookie";
 export default function ClubEventPage() {
-  const { id } = useParams(); // Get the dynamic id from URL
+  const { id } = useParams(); 
   const router = useRouter();
   const [clubData, setClubData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [disabledEvents, setDisabledEvents] = useState(new Set()); // Track disabled events
+  const [disabledEvents, setDisabledEvents] = useState(new Set()); 
   var token = Cookies.get("token");
 
   useEffect(() => {
@@ -34,9 +34,9 @@ export default function ClubEventPage() {
 
         const data = await response.json();
 
-        // Ensure data is an array and get the first item
+        
         if (Array.isArray(data) && data.length > 0) {
-          setClubData(data[0]); // Extract first club entry
+          setClubData(data[0]); 
         } else {
           setClubData(null);
         }
@@ -50,7 +50,7 @@ export default function ClubEventPage() {
     if (id) fetchData();
   }, [id]);
 
-  // Function to check if an event is disabled (flag is true)
+  
   const checkEventFlag = async (eventId) => {
     try {
       const response = await fetch(`${url}/api/assign/${eventId}`, {
@@ -66,14 +66,14 @@ export default function ClubEventPage() {
       }
 
       const data = await response.json();
-      return data?.flag === true; // Return true if flag is true
+      return data?.flag === true; 
     } catch (error) {
       console.error("Error fetching flag:", error);
       return false;
     }
   };
 
-  // Check flag status for all events on component mount
+  
   useEffect(() => {
     const fetchFlags = async () => {
       if (clubData?.club?.events) {
@@ -95,27 +95,25 @@ export default function ClubEventPage() {
   if (error) return <div>Error: {error}</div>;
   if (!clubData) return <div>No data found</div>;
 
-  // Function to format the date
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleString("default", { month: "short", day: "numeric" });
   };
 
-  // Convert event dates into a Set for quick lookup
+
   const eventDates = new Set(
     clubData.club.events.map((event) => new Date(event.date).toDateString())
   );
 
-  // Function to check if a date has an event
+
   const isEventDate = (date) => eventDates.has(date.toDateString());
 
-  // Function to get events for a specific date
   const getEventsForDate = (date) =>
     clubData.club.events.filter(
       (event) => new Date(event.date).toDateString() === date.toDateString()
     );
 
-  // Function to handle button click (Interested / Going)
   const handleButtonClick = async (eventId, status) => {
     console.log(eventId);
     try {
@@ -137,7 +135,7 @@ export default function ClubEventPage() {
         alert("Successfully assigned!");
       }
 
-      // Disable the button after it has been clicked
+
       setDisabledEvents((prev) => new Set(prev.add(eventId)));
     } catch (error) {
       console.error("Error assigning event:", error);
@@ -168,7 +166,7 @@ export default function ClubEventPage() {
         </div>
 
         <div className="grid grid-cols-3 gap-4">
-          {/* Calendar with highlighted events */}
+      
           <div>
             <Calendar
               onChange={setSelectedDate}
@@ -187,27 +185,27 @@ export default function ClubEventPage() {
             />
           </div>
 
-          {/* Render Events Dynamically */}
+
           {clubData.club.events.map((event) => (
             <div
               key={event.id}
               className="bg-white shadow-xl rounded-lg flex flex-col h-full"
             >
-              {/* Event Image */}
+             
               <img
                 src={event.url}
                 alt={event.name}
                 className="rounded-t-xl w-full h-48 object-cover"
               />
 
-              {/* Event Details */}
+             
               <div className="flex gap-x-3 p-3 flex-grow">
                 <div>
                   <p className="text-[#3D37F1] text-center text-[0.6rem] font-bold">
-                    {formatDate(event.date).split(" ")[0]} {/* Month */}
+                    {formatDate(event.date).split(" ")[0]} 
                   </p>
                   <h1 className="font-bold text-lg text-center">
-                    {formatDate(event.date).split(" ")[1]} {/* Day */}
+                    {formatDate(event.date).split(" ")[1]} 
                   </h1>
                 </div>
                 <div className="space-y-2">
@@ -216,7 +214,7 @@ export default function ClubEventPage() {
                 </div>
               </div>
 
-              {/* Buttons - Always at Bottom */}
+              
               <div className="mt-auto flex justify-between p-3">
                 <Button
                   className="bg-gradient-to-r py-2 px-4 text-xs from-green-400 to-blue-500 text-white hover:from-green-500 hover:to-blue-600 flex items-center"

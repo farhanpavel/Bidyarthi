@@ -10,12 +10,12 @@ import { url } from "@/components/Url/page";
 import { TrafficCone } from "lucide-react";
 
 export default function Page() {
-  const { id } = useParams(); // Get the `id` from the URL
-  const [bus, setBus] = useState(null); // State to store the fetched bus data
+  const { id } = useParams(); 
+  const [bus, setBus] = useState(null); 
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  // Fetch bus data on mount
+
   useEffect(() => {
     const fetchBus = async () => {
       try {
@@ -24,8 +24,8 @@ export default function Page() {
           throw new Error("Failed to fetch bus data");
         }
         const data = await response.json();
-        setBus(data); // Set the fetched bus data
-        setLoading(false); // Set loading state to false
+        setBus(data); 
+        setLoading(false); 
       } catch (error) {
         console.error("Error fetching bus data:", error);
       }
@@ -34,27 +34,27 @@ export default function Page() {
     fetchBus();
   }, [id]);
 
-  // Function to update the current location to the next stop
+ 
   const updateCurrentLocation = async () => {
     if (!bus) return;
 
-    // Extract locations from the route
+ 
     const locations = bus.routeName
       .split(",")
       .map((location) => location.trim());
     const currentLocationIndex = locations.indexOf(bus.currentLocation);
 
-    // Check if the current location is the last stop
+  
     if (currentLocationIndex === locations.length - 1) {
       toast.info("The bus has reached its final destination.");
       return;
     }
 
-    // Calculate the next location
+  
     const nextLocation = locations[currentLocationIndex + 1];
 
     try {
-      // Send a PUT request to update the current location
+      
       const response = await fetch(`${url}/api/bus/track/${id}`, {
         method: "PUT",
         headers: {
@@ -67,7 +67,7 @@ export default function Page() {
         throw new Error("Failed to update bus location");
       }
 
-      // Update the local state with the new location
+  
       setBus((prevBus) => ({
         ...prevBus,
         currentLocation: nextLocation,
@@ -81,13 +81,11 @@ export default function Page() {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading state while fetching data
+    return <div>Loading...</div>; 
   }
 
-  // Extract location names from the comma-separated routeName
   const locations = bus.routeName.split(",").map((location) => location.trim());
 
-  // Find the index of the current location
   const currentLocationIndex = locations.indexOf(bus.currentLocation);
 
   return (
@@ -101,7 +99,7 @@ export default function Page() {
         বাস রুট পরিচালনা করুন এবং বর্তমান অবস্থান আপডেট করুন।
       </p>
 
-      {/* Bus Details Card */}
+   
       <Card className="bg-[#202020] border-none overflow-hidden">
         <CardHeader>
           <h1 className="text-2xl font-bold text-white">
@@ -116,12 +114,12 @@ export default function Page() {
             <p className="text-gray-300">{bus.currentLocation}</p>
           </div>
 
-          {/* Dot-Connect UI for Bus Route */}
+     
           <div className="mt-6 bg-black p-8 rounded-lg">
             <ol className="relative border-s border-gray-600 mx-auto max-w-md">
               {locations.map((location, index) => (
                 <li key={index} className="mb-10 ms-6">
-                  {/* Dot with Icon */}
+            
                   <span
                     className={`absolute flex items-center justify-center w-6 h-6 rounded-full -start-3 ring-8 ring-black ${
                       index === currentLocationIndex
@@ -144,10 +142,10 @@ export default function Page() {
                     </svg>
                   </span>
 
-                  {/* Location Name */}
+               
                   <h3 className="flex items-center mb-1 text-lg font-semibold text-white">
                     {location}
-                    {/* Current Location Chip */}
+                    
                     {index === currentLocationIndex && (
                       <span className="bg-green-500 text-white text-sm font-medium me-2 px-2.5 py-0.5 rounded-sm ms-3">
                         বর্তমান অবস্থান
@@ -159,7 +157,7 @@ export default function Page() {
             </ol>
           </div>
 
-          {/* Button to update current location */}
+          
           <div className="mt-6 flex justify-center">
             <Button
               onClick={updateCurrentLocation}
@@ -178,7 +176,7 @@ export default function Page() {
         </CardContent>
       </Card>
 
-      {/* Additional Bus Information */}
+      
       <Card>
         <CardHeader>
           <h2 className="text-xl font-semibold">বাসের তথ্য</h2>

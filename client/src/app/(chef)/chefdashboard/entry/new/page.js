@@ -31,24 +31,24 @@ export default function Page() {
     description: "",
     price: "",
     quantity: "",
-    mealType: "", // New state for meal type
+    mealType: "", 
   });
 
   const router = useRouter();
 
-  // Handle file selection
+
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       setFile(e.target.files[0]);
     }
   };
 
-  // Handle input changes
+
   const handleChange = (e) => {
     setMealData({ ...mealData, [e.target.name]: e.target.value });
   };
 
-  // Handle form submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -66,7 +66,7 @@ export default function Page() {
       formData.append("description", mealData.description);
       formData.append("price", parseFloat(mealData.price));
       formData.append("quantity", parseInt(mealData.quantity, 10));
-      formData.append("mealType", mealData.mealType); // Append meal type
+      formData.append("mealType", mealData.mealType); 
       console.group(formData);
       const response = await fetch(`${url}/api/meal/data/all`, {
         method: "POST",

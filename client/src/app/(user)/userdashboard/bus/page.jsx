@@ -8,9 +8,8 @@ import React, { useEffect, useState } from "react";
 
 export default function Page() {
   const router = useRouter();
-  const [meals, setMeals] = useState([]); // State to store fetched meals
+  const [meals, setMeals] = useState([]); 
 
-  // Fetch meals from the API
   useEffect(() => {
     const fetchMeals = async () => {
       try {
@@ -19,7 +18,7 @@ export default function Page() {
           throw new Error("Failed to fetch meals");
         }
         const data = await response.json();
-        setMeals(data); // Set the fetched data to state
+        setMeals(data); 
       } catch (error) {
         console.error("Error fetching meals:", error);
       }
@@ -28,42 +27,37 @@ export default function Page() {
     fetchMeals();
   }, []);
 
-  // Function to calculate time difference in minutes
+
   const getTimeDifferenceInMinutes = (departureTime) => {
-    // Get current time in 24-hour format
     const now = new Date();
     const currentHours = now.getHours();
     const currentMinutes = now.getMinutes();
 
-    // Parse departure time (e.g., "3:15")
     const [departureHours, departureMinutes] = departureTime
       .split(":")
       .map(Number);
 
-    // Calculate total minutes for current time and departure time
     const currentTotalMinutes = currentHours * 60 + currentMinutes;
     const departureTotalMinutes = departureHours * 60 + departureMinutes;
 
-    // Calculate the difference
     return departureTotalMinutes - currentTotalMinutes;
   };
 
-  // Filter buses departing in the next 30 minutes
   const busesDepartingSoon = meals.filter((meal) => {
     const timeDifference = getTimeDifferenceInMinutes(meal.schedule);
-    return timeDifference > 0 && timeDifference <= 30; // Departure within 30 minutes
+    return timeDifference > 0 && timeDifference <= 30; 
   });
 
-  // Filter buses departing later than 30 minutes
+
   const moreBuses = meals.filter((meal) => {
     const timeDifference = getTimeDifferenceInMinutes(meal.schedule);
-    return timeDifference > 30; // Departure after 30 minutes
+    return timeDifference > 30; 
   });
 
-  // Filter buses that have already left
+ 
   const busesDeparted = meals.filter((meal) => {
     const timeDifference = getTimeDifferenceInMinutes(meal.schedule);
-    return timeDifference < 0; // Departure time is earlier than current time
+    return timeDifference < 0; 
   });
 
   return (
@@ -77,7 +71,6 @@ export default function Page() {
           বাস রুটের বিস্তারিত
         </p>
         <div>
-          {/* Departure in 30 Minutes Section */}
           <div className="mt-4">
             <div className="flex justify-center">
               <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black">
@@ -90,7 +83,6 @@ export default function Page() {
                   key={meal.id}
                   className="bg-white shadow-xl py-3 px-5 rounded-lg flex flex-row gap-6"
                 >
-                  {/* Image on the left */}
                   <div className="flex-shrink-0">
                     <img
                       src={
@@ -103,9 +95,7 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* Content on the right */}
                   <div className="flex flex-row justify-between items-center w-full">
-                    {/* Bus Route */}
                     <div className="space-y-1">
                       <p className="text-xl font-semibold">
                         {meal.startPoint} → {meal.endPoint}
@@ -113,7 +103,6 @@ export default function Page() {
                       <p className="text-sm text-gray-600">{meal.routeName}</p>
                     </div>
 
-                    {/* Bus Number */}
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-gray-500">
                         বাস নম্বর
@@ -121,7 +110,6 @@ export default function Page() {
                       <p className="text-lg font-bold">{meal.busNum}</p>
                     </div>
 
-                    {/* Departure Time */}
                     <div className="space-y-1">
                       <p className="text-sm font-medium text-gray-500">
                         প্রস্থান সময়
@@ -134,7 +122,6 @@ export default function Page() {
             </div>
           </div>
 
-          {/* More Buses Section */}
           <div className="flex justify-center mt-6">
             <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black">
               আরও বাস
@@ -146,7 +133,6 @@ export default function Page() {
                 key={meal.id}
                 className="bg-white shadow-xl py-3 px-5 rounded-lg flex flex-row gap-6"
               >
-                {/* Image on the left */}
                 <div className="flex-shrink-0">
                   <img
                     src={
@@ -159,9 +145,7 @@ export default function Page() {
                   />
                 </div>
 
-                {/* Content on the right */}
                 <div className="flex flex-row justify-between items-center w-full">
-                  {/* Bus Route */}
                   <div className="space-y-1">
                     <p className="text-xl font-semibold">
                       {meal.startPoint} → {meal.endPoint}
@@ -169,7 +153,7 @@ export default function Page() {
                     <p className="text-sm text-gray-600">{meal.routeName}</p>
                   </div>
 
-                  {/* Bus Number */}
+       
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-gray-500">
                       বাস নম্বর
@@ -177,7 +161,6 @@ export default function Page() {
                     <p className="text-lg font-bold">{meal.busNum}</p>
                   </div>
 
-                  {/* Departure Time */}
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-gray-500">
                       প্রস্থান সময়
@@ -189,7 +172,6 @@ export default function Page() {
             ))}
           </div>
 
-          {/* Departed Buses Section */}
           <div className="flex justify-center mt-6">
             <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black">
               প্রস্থান করা বাসসমূহ
@@ -201,12 +183,12 @@ export default function Page() {
                 key={meal.id}
                 className="bg-white shadow-xl py-3 px-5 my-3 rounded-lg flex flex-row relative overflow-hidden"
               >
-                {/* Departed Label */}
+         
                 <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
                   প্রস্থান করেছে
                 </div>
 
-                {/* Image on the left */}
+   
                 <div className="flex-shrink-0 mr-2">
                   <img
                     src={
@@ -219,9 +201,9 @@ export default function Page() {
                   />
                 </div>
 
-                {/* Content on the right */}
+     
                 <div className="flex flex-row justify-between items-center w-full">
-                  {/* Bus Route */}
+             
                   <div className="space-y-1">
                     <p className="text-xl font-semibold">
                       {meal.startPoint} → {meal.endPoint}
@@ -229,7 +211,7 @@ export default function Page() {
                     <p className="text-sm text-gray-600">{meal.routeName}</p>
                   </div>
 
-                  {/* Bus Number */}
+          
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-gray-500">
                       বাস নম্বর
@@ -237,7 +219,7 @@ export default function Page() {
                     <p className="text-lg font-bold">{meal.busNum}</p>
                   </div>
 
-                  {/* Departure Time */}
+            
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-gray-500">
                       প্রস্থান সময়
@@ -246,7 +228,7 @@ export default function Page() {
                   </div>
                 </div>
 
-                {/* Track Button Overlay */}
+            
                 <div className="absolute inset-0 bg-black bg-opacity-40 flex justify-center items-center">
                   <button
                     onClick={() => router.push(`bus/track/${meal.id}`)}

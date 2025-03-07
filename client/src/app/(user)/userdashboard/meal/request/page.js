@@ -8,9 +8,9 @@ import { url } from "@/components/Url/page";
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
 export default function Page() {
-  const [meals, setMeals] = useState([]); // State to store fetched meals
+  const [meals, setMeals] = useState([]); 
   var token = Cookies.get("token");
-  // Fetch meals from the API
+
   useEffect(() => {
     const fetchMeals = async () => {
       try {
@@ -26,7 +26,7 @@ export default function Page() {
         }
 
         const data = await response.json();
-        setMeals(data); // Set the fetched data to state
+        setMeals(data); 
       } catch (error) {
         console.error("Error fetching meal data:", error);
       }
@@ -61,7 +61,6 @@ export default function Page() {
                 className="bg-white shadow-xl p-5 rounded-lg flex flex-col justify-between h-full"
               >
                 <div className="space-y-3 flex-grow">
-                  {/* Meal Image */}
                   <div className="flex justify-center">
                     <img
                       src={meal.menu.meal_url}
@@ -72,7 +71,6 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* Meal Details in One Line */}
                   <div className="flex justify-between items-center w-full ">
                     <div className="truncate space-y-1">
                       <p className="text-xl font-semibold">
@@ -84,7 +82,7 @@ export default function Page() {
                     </div>
                   </div>
 
-                  {/* Meal Type and Price */}
+
                   <div className="flex justify-between items-center w-full">
                     <p className="text-xs">{meal.menu.mealType}</p>
                     <div className="flex items-center">
@@ -94,7 +92,7 @@ export default function Page() {
                     </div>
                   </div>
 
-                  {/* Restaurant Name and Quantity in One Line */}
+        
                   <div className="flex justify-between items-center w-full">
                     <div className="flex items-center text-xs space-x-1 truncate">
                       <Map className="w-4 h-4 text-[#FC8019]" />
@@ -106,7 +104,6 @@ export default function Page() {
                     </div>
                   </div>
 
-                  {/* Badges - Keep in One Line */}
                   <div className="space-x-1 flex flex-wrap justify-end">
                     <Badge className="bg-green-600 text-white">
                       {meal.status ? "Taken" : "Pending"}
