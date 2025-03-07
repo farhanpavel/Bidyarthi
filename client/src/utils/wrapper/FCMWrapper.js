@@ -81,7 +81,7 @@ const FCMWrapper = ({ children }) => {
                 console.log('Foreground push notification received:', payload);
                 setMessage(payload); // Broadcast the message
 
-                if (payload.notification) {
+                if (payload.notification && !payload.data) {
                     toast.success(
                         <div>
                             <strong>{payload.notification.title}</strong>
@@ -97,7 +97,15 @@ const FCMWrapper = ({ children }) => {
                             progress: undefined,
                         }
                     );
-                } else {
+                } else if(payload.data){
+                    if (payload.data.topic){
+                        if (payload.data.topic==='emergency'){
+                            //nice popup
+
+                        }
+                    }
+                }
+                else {
                     console.log('No notification received');
                 }
             });
