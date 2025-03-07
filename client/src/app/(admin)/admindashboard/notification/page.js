@@ -80,7 +80,7 @@ export default function Page() {
             <div className="flex items-center">
               <Link
                 className="bg-black  py-2 px-4 rounded-[5px] text-white text-xs transition-all delay-200 font-bangla"
-                href="/admindashboard/clubs/new"
+                href="/admindashboard/notification/new"
               >
                 তৈরি করুন
               </Link>
