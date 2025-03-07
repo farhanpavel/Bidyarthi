@@ -9,6 +9,8 @@ import {MessageContext} from "@/utils/context/MessageContext";
 import {url} from "@/components/Url/page";
 import EmergencyPopup from "@/components/Safety/EmergencyPopup";
 import Cookies from "js-cookie";
+import {useNotificationModalStore} from "@/components/Notification/store";
+import NotificationModal from "@/components/Notification/NotificationModal";
 
 export function subscribeTokenToTopic(token, topic) {
     fetch(`${url}/api/user/subscribe-to-topic`, {
@@ -60,6 +62,8 @@ const requestNotificationPermission = async () => {
 const FCMWrapper = ({ children }) => {
     const { fcmToken, notificationPermissionStatus } = useFcmToken();
     const { setMessage } = useContext(MessageContext);
+    const { isNotificationModalOpen, closeNotificationModal } =
+        useNotificationModalStore();
 
     // State for emergency popup
     const [isEmergencyPopupVisible, setIsEmergencyPopupVisible] = useState(false);
@@ -157,6 +161,10 @@ const FCMWrapper = ({ children }) => {
 
     return <>
         <ToastContainer />
+        <NotificationModal
+            isOpen={isNotificationModalOpen}
+            onClose={closeNotificationModal}
+        />
         {isEmergencyPopupVisible && (
             <EmergencyPopup
                 message={emergencyData.message}
