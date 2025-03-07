@@ -246,33 +246,44 @@ export default function Page() {
         </div>
 
         <div className="flex">
-          <motion.div
-            variants={fadeIn}
-            initial="initial"
-            animate="animate"
-            className="calendar-wrapper rounded-xl overflow-hidden p-6 w-full"
-          >
-            <Calendar
-              onChange={handleDateClick}
-              value={selectedDate}
-              className="react-calendar border-0  w-[500px] text-lg" // Increase height and font size
-              tileContent={tileContent}
-            />
-          </motion.div>
-
-          {selectedDate && (
+          <div>
             <motion.div
               variants={fadeIn}
               initial="initial"
               animate="animate"
-              className="mt-6 p-6 h-1/2 bg-white rounded-xl shadow-lg"
+              className="calendar-wrapper rounded-xl overflow-hidden p-6 w-full"
             >
-              <h3 className="font-bangla font-bold text-xl text-purple-700">
-                {selectedDate.toDateString()}
-              </h3>
-              <p className="font-bangla mt-2 text-gray-700">{classOnDate}</p>
+              <Calendar
+                onChange={handleDateClick}
+                value={selectedDate}
+                className="react-calendar border-0  w-[500px] text-lg" // Increase height and font size
+                tileContent={tileContent}
+              />
             </motion.div>
-          )}
+          </div>
+
+          <div className="w-full">
+            {selectedDate && (
+              <motion.div
+                variants={fadeIn}
+                initial="initial"
+                animate="animate"
+                className="mt-6 p-6 h-1/2 bg-white rounded-xl shadow-lg"
+              >
+                <h3 className="font-bangla font-bold text-xl text-purple-700">
+                  {selectedDate.toDateString()}
+                </h3>
+                <p className="font-bangla mt-2 text-gray-700">
+                  {classOnDate.split(",").map((item, index) => (
+                    <span key={index}>
+                      {item}
+                      <br />
+                    </span>
+                  ))}
+                </p>
+              </motion.div>
+            )}
+          </div>
         </div>
         <motion.div
           variants={fadeIn}
