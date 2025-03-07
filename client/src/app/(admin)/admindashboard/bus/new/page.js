@@ -38,10 +38,8 @@ export default function Page() {
   const [file, setFile] = useState(null);
   const [places, setPlaces] = useState([]);
 
-  // Replace with your Geoapify API key
   const GEOAPIFY_API_KEY = process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY;
 
-    // Fetch places in Dhaka using Geoapify API with a bounding box
     useEffect(() => {
       async function fetchPlaces() {
         try {
@@ -56,7 +54,7 @@ export default function Page() {
                 .map((place) => ({
                   name: place.properties.suburb,
                 }))
-                .filter((place) => place.name) // Skip places with undefined or empty 'name'
+                .filter((place) => place.name)
             );
             setPlaces((prev) => [
               ...prev,
@@ -91,7 +89,7 @@ export default function Page() {
       e.preventDefault();
       setLoading(false);
   
-      // Ensure either startPoint or endPoint is "Campus"
+
       if (data.startPoint !== "Campus" && data.endPoint !== "Campus") {
         alert("Either startPoint or endPoint must be set to 'Campus'.");
         setLoading(true);
@@ -130,7 +128,6 @@ export default function Page() {
         console.error("Upload error", err);
       }
     };
-      // Function to switch startPoint and endPoint values
   const switchPoints = () => {
     setData((prev) => ({
       ...prev,
@@ -153,8 +150,8 @@ export default function Page() {
         <div>
           <Card className="border-[1px] border-gray-300">
             <CardHeader className="space-y-4">
-              <CardTitle>বাস বিবরণ</CardTitle>
-              <CardDescription>
+              <CardTitle className="font-bangla">বাস বিবরণ</CardTitle>
+              <CardDescription className="font-bangla">
                 দয়া করে বাসের প্রয়োজনীয় তথ্য পূরণ করুন।
               </CardDescription>
             </CardHeader>
@@ -172,13 +169,13 @@ export default function Page() {
 
                   <div className="flex flex-col space-y-6">
                     <div>
-                      <h1 className="font-semibold text-sm">
+                      <h1 className="font-semibold text-sm font-bangla">
                         বাসের তথ্য প্রদান করুন
                       </h1>
                     </div>
                     <div className="space-y-2">
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="busNum">
+                        <Label className="text-xs font-bangla" htmlFor="busNum">
                           বাস নম্বর
                         </Label>
                         <Input
@@ -191,7 +188,7 @@ export default function Page() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="routeName">
+                        <Label className="text-xs font-bangla" htmlFor="routeName">
                           রুট নাম
                         </Label>
                         <Input
@@ -204,18 +201,18 @@ export default function Page() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="startPoint">
+                        <Label className="text-xs font-bangla" htmlFor="startPoint">
                           শুরুর স্থান
                         </Label>
                         <Select
                           onValueChange={(value) =>
                             handleSelectChange("startPoint", value)
                           }
-                          value={data.startPoint} // Controlled value
+                          value={data.startPoint} 
                           required
                         >
                           <SelectTrigger className="w-1/2 border-[1px] border-gray-600">
-                            <SelectValue placeholder="স্থান নির্বাচন করুন" />
+                            <SelectValue className="font-bangla" placeholder="স্থান নির্বাচন করুন" />
                           </SelectTrigger>
                           <SelectContent className="max-h-60 overflow-y-auto">
                             {places.map((place, index) => (
@@ -233,22 +230,22 @@ export default function Page() {
                           className="flex items-center gap-x-2"
                         >
                           <ArrowUpDown size={24}/>
-                          <span>শুরু এবং শেষ স্থান পরিবর্তন করুন</span>
+                          <span className="font-bangla">শুরু এবং শেষ স্থান পরিবর্তন করুন</span>
                         </Button>
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="endPoint">
+                        <Label className="text-xs font-bangla" htmlFor="endPoint">
                           শেষ স্থান
                         </Label>
                         <Select
                           onValueChange={(value) =>
                             handleSelectChange("endPoint", value)
                           }
-                          value={data.endPoint} // Controlled value
+                          value={data.endPoint} 
                           required
                         >
                           <SelectTrigger className="w-1/2 border-[1px] border-gray-600">
-                            <SelectValue placeholder="স্থান নির্বাচন করুন" />
+                            <SelectValue className="font-bangla" placeholder="স্থান নির্বাচন করুন" />
                           </SelectTrigger>
                           <SelectContent className="max-h-60 overflow-y-auto">
                             {places.map((place, index) => (
@@ -261,7 +258,7 @@ export default function Page() {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="schedule">
+                        <Label className="text-xs font-bangla" htmlFor="schedule">
                           সময়সূচী
                         </Label>
                         <Input
@@ -280,7 +277,7 @@ export default function Page() {
                   {isLoading ? (
                     <Button
                       type="submit"
-                      className="  hover:transition-all hover:delay-100"
+                      className="  hover:transition-all hover:delay-100 font-bangla"
                     >
                       প্রদান করুন
                     </Button>

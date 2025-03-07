@@ -86,32 +86,27 @@ export default function Hero() {
           </div>
 
           <div className="flex justify-evenly">
-            {/* Google Icon */}
             <div className="group">
               <FaGoogle className="text-4xl text-[#f42727]" />
             </div>
 
-            {/* Meta Icon */}
             <div className="group">
               <FaMeta className="text-4xl text-[#1877F2]" />
             </div>
 
-            {/* Amazon Icon */}
+
             <div className="group">
               <FaAmazon className="text-4xl text-[#FF9900]" />
             </div>
 
-            {/* Adidas Icon */}
             <div className="group">
               <SiAdidas className="text-4xl text-[#000000]" />
             </div>
 
-            {/* Dell Icon */}
             <div className="group">
               <SiDell className="text-4xl text-[#007DB8]" />
             </div>
 
-            {/* HP Icon */}
             <div className="group">
               <GrHpi className="text-4xl text-[#0096D6]" />
             </div>

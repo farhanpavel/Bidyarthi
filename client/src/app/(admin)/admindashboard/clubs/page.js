@@ -6,7 +6,7 @@ import {
   useReactTable,
   getCoreRowModel,
   getSortedRowModel,
-  getPaginationRowModel, // Add this for pagination
+  getPaginationRowModel,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -17,9 +17,9 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { columns } from "./_datatable/action"; // Ensure this import is correct
+import { columns } from "./_datatable/action"; 
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button"; // Add Button component for pagination controls
+import { Button } from "@/components/ui/button";
 import { url } from "@/components/Url/page";
 
 export default function Page() {
@@ -46,10 +46,10 @@ export default function Page() {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(), // Enable pagination
+    getPaginationRowModel: getPaginationRowModel(), 
     initialState: {
       pagination: {
-        pageSize: 5, // Set the default page size
+        pageSize: 5, 
       },
     },
   });
@@ -135,12 +135,12 @@ export default function Page() {
             </Table>
           </div>
 
-          {/* Pagination Controls */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
                 size="sm"
+                className="font-bangla"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
@@ -149,6 +149,7 @@ export default function Page() {
               <Button
                 variant="outline"
                 size="sm"
+                className="font-bangla"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
               >
@@ -170,7 +171,7 @@ export default function Page() {
                 className="border rounded p-1 text-sm"
               >
                 {[5, 10, 20, 30, 40, 50].map((pageSize) => (
-                  <option key={pageSize} value={pageSize}>
+                  <option key={pageSize} value={pageSize} className="font-bangla text-sm">
                     {pageSize} প্রতি পৃষ্ঠায়
                   </option>
                 ))}

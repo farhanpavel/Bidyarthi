@@ -15,25 +15,6 @@ export const ActionsCell = ({ user }) => {
   const router = useRouter();
   const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
-  // const handleDelete = async () => {
-  //   try {
-  //     const response = await fetch(`${url}/api/police/${userData.id}`, {
-  //       method: "DELETE",
-  //     });
-
-  //     if (!response.ok) {
-  //       alert("Failed to delete user");
-  //       throw new Error("Failed to delete user");
-  //     } else {
-  //       setpoliceData((prevData) =>
-  //         prevData.filter((item) => item.id !== user.id)
-  //       );
-  //       setDeleteDialogOpen(false);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error deleting user:", error);
-  //   }
-  // };
 
   return (
     <>
@@ -45,7 +26,7 @@ export const ActionsCell = ({ user }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel className="text-xs text-[#4a4a4a]">
-            Actions
+          কার্যক্রম
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -55,7 +36,7 @@ export const ActionsCell = ({ user }) => {
             }}
             className="hover:bg-blue-200 rounded-lg hover:transition-all hover:delay-100 text-xs text-[#4a4a4a]"
           >
-            Update
+            হালনাগাদ করা
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => {
@@ -64,7 +45,7 @@ export const ActionsCell = ({ user }) => {
             }}
             className="hover:bg-blue-200 rounded-lg hover:transition-all hover:delay-100 text-xs text-[#4a4a4a]"
           >
-            Delete
+            বাতিল করা
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
