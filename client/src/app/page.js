@@ -6,6 +6,7 @@ import About from "./_home/About";
 import Work from "./_home/Work";
 import Bottom from "./_home/Bottom";
 import Footer from "@/components/Footer/page";
+import Chatbot from "@/components/ChatBot/page";
 
 export default function Home() {
   return (
@@ -29,6 +30,9 @@ export default function Home() {
       <div className="mt-10">
         <Footer />
       </div>
+
+      {/* Add Chatbot */}
+      <Chatbot />
     </div>
   );
 }

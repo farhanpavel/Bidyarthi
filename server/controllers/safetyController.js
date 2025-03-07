@@ -5,19 +5,21 @@ import {AnnouncementType, EmergencyLevel} from "@prisma/client";
 export const publishEmergency = async (req, res) => {
     try {
         const {
-            message, location, emergencyLevel
+            message, location, emergencyLevel, type
         } = req.body;
         const publishedEmergency = await prisma.safetyAlert.create({
         data: {
             message: message,
-            location: location? location: null,
+            location: location? location: "---",
             emergencyLevel: emergencyLevel? emergencyLevel: EmergencyLevel.MEDIUM,
-            type: AnnouncementType.EMERGENCY
+            type: type? type : AnnouncementType.ANNOUNCEMENT
         },
         });
+
+        if(type===AnnouncementType.EMERGENCY){
         sendNotification(
             {
-                title: "Emergency Alert",
+                title: "Announcement",
                 body: message,
             },
             "emergency",
@@ -28,10 +30,41 @@ export const publishEmergency = async (req, res) => {
                 emergencyLevel: emergencyLevel,
                 location: location
             },
-            "http://localhost:3000/userdashboard/emergency"
+            "http://localhost:3000/userdashboard/notification"
         );
+        }
+        else {
+            sendNotification(
+                {
+                    title: "Safety Alert",
+                    body: message,
+                },
+                "announcement",
+                {
+                    topic: "announcement",
+                    message: message,
+                    type: AnnouncementType.ANNOUNCEMENT,
+                    emergencyLevel: emergencyLevel,
+                    location: location
+                },
+                "http://localhost:3000/userdashboard/notification"
+            );
+        }
         res.status(201).json(publishedEmergency);
     } catch (error) {
         res.status(400).json({ message: error.message });
+    }
+};
+
+export const getAll = async (req, res) => {
+    try {
+        const safetyAlerts = await prisma.safetyAlert.findMany({
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+        res.status(200).json(safetyAlerts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };

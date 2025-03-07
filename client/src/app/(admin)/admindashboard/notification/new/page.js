@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
+import {url} from "@/components/Url/page";
 
 export default function Page() {
   const [isLoading, setLoading] = useState(true);
@@ -44,7 +45,7 @@ export default function Page() {
     setLoading(false);
 
     try {
-      const response = await fetch(`${url}/api/safety-alert`, {
+      const response = await fetch(`${url}/api/emergency/publish`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +90,7 @@ export default function Page() {
                     {/* Message Field */}
                     <div className="space-y-2">
                       <Label className="text-xs" htmlFor="message">
-                        Message
+                        Instruction/Message
                       </Label>
                       <Input
                         id="message"

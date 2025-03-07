@@ -103,6 +103,8 @@ export const postBus = async (req, res) => {
       stream.end(req.file.buffer);
     });
 
+    const firstRouteName = req.body.routeName.split(",")[0].trim();
+
     const newCafe = await prisma.busRoute.create({
       data: {
         bus_url: result.secure_url,
@@ -111,6 +113,7 @@ export const postBus = async (req, res) => {
         startPoint: req.body.startPoint,
         endPoint: req.body.endPoint,
         schedule: req.body.schedule,
+        currentLocation: firstRouteName
       },
     });
 
