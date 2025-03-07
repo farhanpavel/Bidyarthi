@@ -1,5 +1,5 @@
 "use client";
-import { FireExtinguisher, Loader2 } from "lucide-react";
+import { Bell, FireExtinguisher, Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import {
   Card,
@@ -29,7 +29,7 @@ export default function Page() {
     message: "",
     location: "",
     type: "",
-    emergencyLevel: "MEDIUM", // Default value for emergency level
+    emergencyLevel: "MEDIUM", 
   });
 
   const handleChange = (e) => {
@@ -69,28 +69,28 @@ export default function Page() {
     <div>
       <div className="p-9 space-y-2">
         <div className="flex gap-x-2 items-center text-black">
-          <FireExtinguisher />
-          <h1 className="text-2xl font-bold font-bangla">Safety Alert Form</h1>
+          <Bell />
+          <h1 className="text-2xl font-bold font-bangla">নিরাপত্তা সতর্কতা ফর্ম</h1>
         </div>
-        <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4">
-          Submit a safety alert to notify the university community.
+        <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
+        বিশ্ববিদ্যালয় সম্প্রদায়কে জানাতে একটি নিরাপত্তা সতর্কতা জমা দিন।
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
             <CardHeader className="space-y-4">
-              <CardTitle>Safety Alert Details</CardTitle>
-              <CardDescription>
-                Please provide the necessary details for the safety alert.
+              <CardTitle className="font-bangla">নিরাপত্তা সতর্কতার বিবরণ</CardTitle>
+              <CardDescription className="font-bangla">
+              অনুগ্রহ করে নিরাপত্তা সতর্কতার জন্য প্রয়োজনীয় বিবরণ প্রদান করুন।
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col space-y-6">
-                    {/* Message Field */}
+                   
                     <div className="space-y-2">
-                      <Label className="text-xs" htmlFor="message">
-                        Instruction/Message
+                      <Label className="text-xs font-bangla" htmlFor="message">
+                      নির্দেশনা/বার্তা
                       </Label>
                       <Input
                         id="message"
@@ -103,10 +103,10 @@ export default function Page() {
                       />
                     </div>
 
-                    {/* Location Field */}
+                    
                     <div className="space-y-2">
-                      <Label className="text-xs" htmlFor="location">
-                        Location (Optional)
+                      <Label className="text-xs font-bangla" htmlFor="location">
+                      স্থান (ঐচ্ছিক)
                       </Label>
                       <Input
                         id="location"
@@ -118,10 +118,10 @@ export default function Page() {
                       />
                     </div>
 
-                    {/* Type Field */}
+                    
                     <div className="space-y-2">
-                      <Label className="text-xs" htmlFor="type">
-                        Type
+                      <Label className="text-xs font-bangla" htmlFor="type">
+                      ধরন
                       </Label>
                       <Select
                         onValueChange={(value) =>
@@ -134,19 +134,19 @@ export default function Page() {
                           <SelectValue placeholder="Select type" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="ANNOUNCEMENT">
-                            Announcement
+                          <SelectItem value="ANNOUNCEMENT" className="font-bangla">
+                          ঘোষণা
                           </SelectItem>
-                          <SelectItem value="EMERGENCY">Emergency</SelectItem>
+                          <SelectItem value="EMERGENCY" className="font-bangla">জরুরি</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
-                    {/* Emergency Level Field (Conditional) */}
+                    
                     {data.type === "EMERGENCY" && (
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="emergencyLevel">
-                          Emergency Level
+                        <Label className="text-xs font-bangla" htmlFor="emergencyLevel">
+                        জরুরি স্তর
                         </Label>
                         <Select
                           onValueChange={(value) =>
@@ -159,9 +159,9 @@ export default function Page() {
                             <SelectValue placeholder="Select emergency level" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="LOW">Low</SelectItem>
-                            <SelectItem value="MEDIUM">Medium</SelectItem>
-                            <SelectItem value="HIGH">High</SelectItem>
+                            <SelectItem value="LOW" className="font-bangla">নিম্ন</SelectItem>
+                            <SelectItem value="MEDIUM" className="font-bangla">মধ্যম</SelectItem>
+                            <SelectItem value="HIGH" className="font-bangla">উচ্চ</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -172,9 +172,9 @@ export default function Page() {
                   {isLoading ? (
                     <Button
                       type="submit"
-                      className="hover:transition-all hover:delay-100"
+                      className="hover:transition-all hover:delay-100 font-bangla"
                     >
-                      Submit
+                      জমা দিন
                     </Button>
                   ) : (
                     <Button
