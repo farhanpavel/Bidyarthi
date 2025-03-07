@@ -11,6 +11,7 @@ import {
   BusIcon,
   BookOpen,
   Building2,
+  Bell,
 } from "lucide-react";
 import {
   Tooltip,
@@ -20,17 +21,11 @@ import {
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-
 import Image from "next/image";
-import { useEffect, useState } from "react"; // Import useEffect and useState
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 const navItems = [
-  // {
-  //   title: "পর্যালোচনা",
-  //   href: "/userdashboard/overview",
-  //   icon: <Home size={20} />,
-  // },
   {
     title: "খাবার",
     href: "/userdashboard/meal",
@@ -51,15 +46,22 @@ const navItems = [
     href: "/userdashboard/faculty",
     icon: <BookOpen size={20} />,
   },
+  {
+    title: "নোটিফিকেশন",
+    href: "/userdashboard/notification?dialog=true", // Always add dialog=true
+    icon: <Bell size={20} />,
+  },
 ];
 
 export default function UserSidebar() {
   const pathname = usePathname();
   const [tripPlanId, setTripPlanId] = useState("");
+
   const handleClick = () => {
     Cookies.remove("token");
     Cookies.remove("role");
   };
+
   useEffect(() => {
     // Parse query parameters from the URL
     const queryParams = new URLSearchParams(window.location.search);
@@ -86,9 +88,10 @@ export default function UserSidebar() {
                 const href = item.disabled
                   ? "/"
                   : `${item.href}${
-                      tripPlanId ? `?tripPlanId=${tripPlanId}` : ""
+                      tripPlanId ? `&tripPlanId=${tripPlanId}` : ""
                     }`;
-                const isActive = pathname.startsWith(item.href);
+                // Check if the current path matches the item's href, ignoring query parameters
+                const isActive = pathname.startsWith(item.href.split("?")[0]);
 
                 return (
                   <Link key={index} href={href}>
