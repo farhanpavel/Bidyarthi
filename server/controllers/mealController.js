@@ -70,7 +70,7 @@ export const getMealByChef = async (req, res) => {
         },
         orders: {
           include: {
-            user: true, // Include the user relation here
+            user: true, 
           },
         },
       },
@@ -95,7 +95,7 @@ export const getMealById = async (req, res) => {
 };
 
 export const getReqMeal = async (req, res) => {
-  const userId = req.user.id; // Student ID
+  const userId = req.user.id; 
 
   try {
     const mealData = await prisma.cafeteriaOrder.findMany({
@@ -107,7 +107,7 @@ export const getReqMeal = async (req, res) => {
               include: {
                 chefAssignment: {
                   include: {
-                    restaurant: true, // Include restaurant details
+                    restaurant: true, 
                   },
                 },
               },
@@ -161,7 +161,7 @@ export const putPreMeal = async (req, res) => {
 
     const chefId = meal.user.id;
 
-    // Construct notification data
+
     const notificationData = {
       orderId: String(mealData.id),
       userId: String(userId),

@@ -41,10 +41,10 @@ export const initiatePayment = async (req, res) => {
     ship_state: "Dhaka",
     ship_postcode: 1000,
     ship_country: "Bangladesh",
-    opt_a: userId, // Pass userId as custom field
-    opt_b: menuId, // Pass menuId as custom field
-    opt_c: quantity, // Pass quantity as custom field
-    opt_d: paid, // Pass paid status as custom field
+    opt_a: userId, 
+    opt_b: menuId, 
+    opt_c: quantity, 
+    opt_d: paid, 
   };
 
   const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
@@ -58,35 +58,13 @@ export const successPayment = async (req, res) => {
   try {
     const { userId, menuId, quantity } = req.query;
 
-    // Decrease quantity of the ordered meal in stock
+   
     await prisma.cafeteriaMenu.update({
       where: { id: menuId },
       data: { quantity: { decrement: Number(quantity) } },
     });
 
-    // Fetch meal data for the user
-    // const mealData = await prisma.cafeteriaOrder.findMany({
-    //   where: { userId },
-    //   include: {
-    //     menu: {
-    //       include: {
-    //         user: {
-    //           include: {
-    //             chefAssignment: {
-    //               include: { restaurant: true },
-    //             },
-    //           },
-    //         },
-    //       },
-    //     },
-    //   },
-    // });
-
-    // if (!mealData.length) {
-    //   return res.status(404).json({ error: "Meal data not found" });
-    // }
-
-    // Create a new order
+    
     const newOrder = await prisma.cafeteriaOrder.create({
       data: {
         userId,
@@ -101,7 +79,7 @@ export const successPayment = async (req, res) => {
       return res.status(500).json({ error: "Order creation failed" });
     }
 
-    // Fetch the chef's information based on the menuId
+   
     const meal = await prisma.cafeteriaMenu.findUnique({
       where: { id: menuId },
       include: {
@@ -125,7 +103,6 @@ export const successPayment = async (req, res) => {
 
     const chefId = meal.user.id;
 
-    // Construct notification data
     const notificationData = {
       orderId: String(newOrder.id),
       userId: String(userId),
@@ -150,7 +127,7 @@ export const successPayment = async (req, res) => {
       `chef-${chefId}-notifications`
     );
 
-    // Redirect user after successful payment
+ 
     res.redirect("http://localhost:3000/userdashboard/meal/request");
   } catch (error) {
     res.status(500).json({

@@ -143,7 +143,7 @@ export const updateLocation = async (req, res) => {
       `bus-${req.params.id}`
     );
 
-    //bus-${id}-notifications-subscribed
+  
 
     await sendNotification(
       {

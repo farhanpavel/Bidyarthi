@@ -15,13 +15,13 @@ export const postBot = async (req, res) => {
 };
 
 export const getBotResponse = async (req, res) => {
-  const { prompt } = req.body; // User's prompt
+  const { prompt } = req.body; 
 
   try {
-    // Fetch the project description from the database
+    
     const projectDescription = await prisma.chatbotInteraction.findFirst({
       orderBy: {
-        createdAt: "desc", // Get the latest project description
+        createdAt: "desc", 
       },
     });
 
@@ -29,18 +29,18 @@ export const getBotResponse = async (req, res) => {
       return res.status(404).json({ error: "No project description found" });
     }
 
-    // Combine the project description and user prompt
+
     const fullPrompt = `
       Project Description: ${projectDescription.description}
       User Prompt: ${prompt}
       give response in just 1 line write in bangla
     `;
 
-    // Generate AI response
+
     const result = await model.generateContent(fullPrompt);
     const aiResponse = result.response.text();
 
-    // Return the AI response to the client
+
     res.status(200).json({ response: aiResponse });
   } catch (error) {
     console.error("Error in getBotResponse:", error);

@@ -150,7 +150,7 @@ export const userLogin = async (req, res) => {
     return res.status(401).json({ message: "Invalid email or password" });
   }
   const token = generateToken(data);
-  res.status(200).json({ token, role: data.role }); // Return role along with token
+  res.status(200).json({ token, role: data.role }); 
 };
 const RefreshToken = async (req, res) => {
   const { refreshToken } = req.body;
@@ -212,17 +212,17 @@ export const makeNotification = async (req, res) => {
     topic: topic,
     webpush: {
       headers: {
-        TTL: "86400", // Time-to-Live (1 day)
+        TTL: "86400", 
       },
       notification: {
-        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", // Ensure a valid icon URL
-        click_action: "https://localhost:3000", // Ensure this matches your app domain
+        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", 
+        click_action: "https://localhost:3000", 
       },
     },
     android: {
       notification: {
-        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", // Ensure a valid icon URL
-        click_action: "https://localhost:3000", // Ensure this matches your app domain
+        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", 
+        click_action: "https://localhost:3000", 
       },
     },
   };
@@ -269,11 +269,11 @@ export const sendNotification = async (
     data: data,
     webpush: {
       headers: {
-        TTL: "86400", // Time-to-Live (1 day)
+        TTL: "86400", 
       },
       notification: {
-        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", // Ensure a valid icon URL
-        click_action: redirection, // Ensure this matches your app domain
+        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", 
+        click_action: redirection, 
       },
     },
   };
