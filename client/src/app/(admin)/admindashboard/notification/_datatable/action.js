@@ -23,26 +23,49 @@ export const columns = [
         className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        বার্তা
+        Message
         <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
     enableSorting: true,
   },
   {
-    accessorKey: "message",
+    accessorKey: "location",
     header: ({ column }) => (
       <button
         className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
       >
-        জরুরি স্তর
-        <ArrowUpDown className="ml-2 h-4 w-4" />
+        Location <ArrowUpDown className="ml-2 h-4 w-4" />
       </button>
     ),
-    cell: ({ row }) => (
-      <span>{row.getValue("description")?.substring(0, 6)}</span>
+
+    enableSorting: true,
+  },
+  {
+    accessorKey: "type",
+    header: ({ column }) => (
+      <button
+        className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Type <ArrowUpDown className="ml-2 h-4 w-4" />
+      </button>
     ),
+
+    enableSorting: true,
+  },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <button
+        className="hover:bg-pink-200 flex items-center px-4 py-2 rounded-full hover:transition-all hover:delay-100 font-bangla"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      >
+        Publish Time <ArrowUpDown className="ml-2 h-4 w-4" />
+      </button>
+    ),
+
     enableSorting: true,
   },
   {

@@ -150,7 +150,7 @@ export default function ClubEventPage() {
           <h1 className="text-2xl font-bold font-bangla">ক্লাবের মূল্যবোধ</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-        আমাদের ক্লাবের উদ্দেশ্য এবং কার্যক্রম
+          আমাদের ক্লাবের উদ্দেশ্য এবং কার্যক্রম
         </p>
 
         <div className="relative w-full h-[300px]">
