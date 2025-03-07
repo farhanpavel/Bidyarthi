@@ -68,14 +68,14 @@ export default function Page() {
           <UserPlus className="text-3xl" />
           <h1 className="text-2xl font-bold font-bangla">নতুন এন্ট্রি তৈরি করুন</h1>
         </div>
-        <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4">
+        <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
         এন্ট্রি ফর্ম পূরণ করে সাবমিট করুন
         </p>
         <div>
           <Card className="border-[1px] border-gray-300">
             <CardHeader className="space-y-4">
-              <CardTitle>ব্যবহারকারী বিবরণ</CardTitle>
-              <CardDescription>
+              <CardTitle className="font-bangla">ব্যবহারকারী বিবরণ</CardTitle>
+              <CardDescription className="font-bangla">
                 ব্যবহারকারী বিবরণ: দয়া করে ব্যবহারকারীর পদ নির্বাচন করুন এবং
                 প্রয়োজনীয় তথ্য পূর্ণ করুন।
               </CardDescription>
@@ -84,7 +84,7 @@ export default function Page() {
               <form onSubmit={handleSubmit}>
                 <div className="grid w-full items-center gap-4">
                   <div className="flex flex-col w-1/4 space-y-3">
-                    <Label htmlFor="role" className="text-xs">
+                    <Label htmlFor="role" className="text-xs font-bangla">
                       পদ নির্বাচন করুন
                     </Label>
                     <Select
@@ -94,14 +94,14 @@ export default function Page() {
                       required
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="এখনও নির্ধারিত নয়" />
+                        <SelectValue placeholder="এখনও নির্ধারিত নয়" className="font-bangla" />
                       </SelectTrigger>
                       <SelectContent position="popper">
-                        <SelectItem value="Busdriver">বাস ড্রাইভার</SelectItem>
-                        <SelectItem value="Clubpresident">
+                        <SelectItem value="Busdriver" className="font-bangla">বাস ড্রাইভার</SelectItem>
+                        <SelectItem value="Clubpresident" className="font-bangla">
                           ক্লাব সভাপতি
                         </SelectItem>
-                        <SelectItem value="Cafeteriachef">
+                        <SelectItem value="Cafeteriachef" className="font-bangla">
                           ক্যান্টিন শেফ
                         </SelectItem>
                       </SelectContent>
@@ -109,13 +109,13 @@ export default function Page() {
                   </div>
                   <div className="flex flex-col gap-y-6">
                     <div>
-                      <h1 className="font-semibold text-sm">
+                      <h1 className="font-semibold text-sm font-bangla">
                         ব্যবহারকারীর তথ্য প্রদান করুন
                       </h1>
                     </div>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="name">
+                        <Label className="text-xs font-bangla" htmlFor="name">
                           নাম
                         </Label>
                         <Input
@@ -129,7 +129,7 @@ export default function Page() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="email">
+                        <Label className="text-xs font-bangla" htmlFor="email">
                           ইমেইল
                         </Label>
                         <Input
@@ -144,7 +144,7 @@ export default function Page() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label className="text-xs" htmlFor="password">
+                        <Label className="text-xs font-bangla" htmlFor="password">
                           পাসওয়ার্ড
                         </Label>
                         <Input
@@ -164,7 +164,7 @@ export default function Page() {
                   {isLoading ? (
                     <Button
                       type="submit"
-                      className="  hover:transition-all hover:delay-100"
+                      className="  hover:transition-all hover:delay-100 font-bangla"
                     >
                       প্রদান করুন
                     </Button>

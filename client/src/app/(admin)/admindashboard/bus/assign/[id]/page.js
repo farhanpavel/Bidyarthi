@@ -63,11 +63,10 @@ export default function Page() {
       if (!response.ok) {
         alert("Failed to assign provost");
       } else {
-        // Update state in real-time
         const userToAssign = user.find((u) => u.id === user_id);
         if (userToAssign) {
-          setAssignedUser(userToAssign); // Move user to assigned box
-          setUser((prevUsers) => prevUsers.filter((u) => u.id !== user_id)); // Remove user from unassigned box
+          setAssignedUser(userToAssign); 
+          setUser((prevUsers) => prevUsers.filter((u) => u.id !== user_id));
         }
         alert("Success");
       }
@@ -91,10 +90,9 @@ export default function Page() {
       if (!response.ok) {
         alert("Failed to unassign provost");
       } else {
-        // Update state in real-time
         if (assignedUser) {
-          setUser((prevUsers) => [...prevUsers, assignedUser]); // Move user back to unassigned box
-          setAssignedUser(null); // Clear assigned user
+          setUser((prevUsers) => [...prevUsers, assignedUser]); 
+          setAssignedUser(null); 
         }
         alert("Success");
       }
@@ -107,15 +105,15 @@ export default function Page() {
     <div className="p-9 space-y-2">
       <div className="flex gap-x-2 items-center text-black">
         <BellElectric className="text-3xl" />
-        <h1 className="text-2xl font-bold">বাস প্রবেশাধিকার ব্যবস্থাপনা</h1>
+        <h1 className="text-2xl font-bold font-bangla">বাস প্রবেশাধিকার ব্যবস্থাপনা</h1>
       </div>
-      <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4">
+      <p className="text-xs text-[#4a4a4a] border-black  border-b-[2px] pb-4 font-bangla">
       বাস প্রবেশে সহায়তার জন্য যোগাযোগের তথ্য।
       </p>
       <Card className="border-[1px] border-gray-300">
         <CardHeader>
-          <CardTitle className="text-lg">বাস প্রবেশ ব্যবস্থাপনা</CardTitle>
-          <CardDescription className="text-xs">
+          <CardTitle className="text-lg font-bangla">বাস প্রবেশ ব্যবস্থাপনা</CardTitle>
+          <CardDescription className="text-xs font-bangla">
           বাস প্রবেশাধিকার পরিচালনা করুন
           </CardDescription>
         </CardHeader>
@@ -126,10 +124,10 @@ export default function Page() {
                 <CardHeader>
                   <div className="py-3 text-[#4a4a4a] flex justify-between text-xs border-b-[1px] border-gray-300">
                     <div>
-                      <h1>বাস নির্বাচন করুন</h1>
+                      <h1 className="font-bangla">বাস নির্বাচন করুন</h1>
                     </div>
                     <div>
-                      <h1>নিয়োগ করুন</h1>
+                      <h1 className="font-bangla">নিয়োগ করুন</h1>
                     </div>
                   </div>
                 </CardHeader>
@@ -159,10 +157,10 @@ export default function Page() {
                 <CardHeader>
                   <div className="py-3 text-[#4a4a4a] flex justify-between text-xs border-b-[1px] border-gray-300">
                     <div>
-                      <h1>অপসারণ করুন</h1>
+                      <h1 className="font-bangla">অপসারণ করুন</h1>
                     </div>
                     <div>
-                      <h1>বাস থেকে</h1>
+                      <h1 className="font-bangla">বাস থেকে</h1>
                     </div>
                   </div>
                 </CardHeader>
