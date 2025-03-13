@@ -2,79 +2,66 @@
 
 import { BellIcon, X } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { url } from "@/components/Url/page";
 
 export default function NotificationPage() {
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const searchParams = useSearchParams();
-
   const [notifications, setNotifications] = useState([]);
+  const pathname = usePathname(); // Get the current path
 
+  // Extract query parameter manually
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const searchParams = new URLSearchParams(window.location.search);
+      if (searchParams.get("dialog") === "true") {
+        setDialogOpen(true);
+      }
+    }
+  }, [pathname]); // Re-run when pathname changes
+
+  // Fetch notifications
   const fetchNotifications = async () => {
     const response = await fetch(`${url}/api/emergency`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
     });
     const json = await response.json();
-    console.log(json);
-    if (response.ok) {
-      setNotifications(json);
-    }
+    if (response.ok) setNotifications(json);
   };
 
   useEffect(() => {
     fetchNotifications();
   }, []);
 
-  // Open dialog if the `dialog` query parameter is present
-  useEffect(() => {
-    if (searchParams.get("dialog") === "true") {
-      setDialogOpen(true);
-    }
-  }, [searchParams]); // Re-run effect when searchParams change
-
   const closeDialog = () => {
     setDialogOpen(false);
   };
 
-  // Format the date for display
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleString(); // Adjust the format as needed
-  };
+  // Format date
+  const formatDate = (dateString) => new Date(dateString).toLocaleString();
 
   return (
     <div>
-      {/* Dialog Box */}
       {isDialogOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-11/12 max-w-md relative">
-            {/* Close Button */}
             <button
               onClick={closeDialog}
               className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100 transition-all"
             >
               <X className="h-5 w-5 text-gray-600" />
             </button>
-
-            {/* Dialog Header */}
             <div className="flex gap-x-2 items-center text-black">
               <BellIcon className="text-3xl" />
               <h1 className="text-2xl font-bold font-bangla">
                 নোটিফিকেশন প্যানেল
               </h1>
             </div>
-
-            {/* Dialog Content */}
             <div className="mt-4 space-y-4">
               <p className="text-sm text-gray-600 font-bangla">
                 জরুরি আপডেট এবং নোটিফিকেশনগুলি এখানে পাবেন
               </p>
-
-              {/* Notifications List */}
               <div className="space-y-2 max-h-[60vh] overflow-y-auto">
                 {notifications.length > 0 ? (
                   notifications.map((notification) => (
@@ -114,8 +101,6 @@ export default function NotificationPage() {
                 )}
               </div>
             </div>
-
-            {/* Dialog Footer */}
             <div className="mt-6 flex justify-end">
               <button
                 onClick={closeDialog}

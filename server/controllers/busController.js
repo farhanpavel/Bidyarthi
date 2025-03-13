@@ -21,15 +21,15 @@ export const getAssignedBus = async (req, res) => {
     const busData = await prisma.busRoute.findMany({
       where: {
         busDriverAssignments: {
-          userId: userId
-        }
+          userId: userId,
+        },
       },
     });
     res.status(200).json(busData);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch data" });
   }
-}
+};
 
 export const getSingleBus = async (req, res) => {
   try {
@@ -103,17 +103,13 @@ export const postBus = async (req, res) => {
       stream.end(req.file.buffer);
     });
 
-    const firstRouteName = req.body.routeName.split(",")[0].trim();
-
     const newCafe = await prisma.busRoute.create({
       data: {
         bus_url: result.secure_url,
         busNum: req.body.busNum,
-        routeName: req.body.routeName,
         startPoint: req.body.startPoint,
         endPoint: req.body.endPoint,
         schedule: req.body.schedule,
-        currentLocation: firstRouteName
       },
     });
 
@@ -126,39 +122,49 @@ export const postBus = async (req, res) => {
 
 export const updateLocation = async (req, res) => {
   try {
+    const { currentLatitude, currentLongitude } = req.body; // Match frontend field names
+
+    // Ensure ID is correctly extracted
+    const { id } = req.params;
+
+    if (!id) {
+      return res.status(400).json({ error: "Bus ID is required" });
+    }
+
+    // Update the bus location in the database
     const busData = await prisma.busRoute.update({
-      where: {
-        id: req.params.id,
-      },
-      data: {
-        currentLocation: req.body.currentLocation,
-      },
+      where: { id },
+      data: { currentLatitude, currentLongitude },
     });
 
+    const currentLatitudeStr = currentLatitude.toString();
+    const currentLongitudeStr = currentLongitude.toString();
+
+    // Send real-time data to WebSocket
     await sendDataMessage(
       {
-        currentLocation: req.body.currentLocation,
-        topic: `bus-${req.params.id}`,
+        currentLatitude: currentLatitudeStr,
+        currentLongitude: currentLongitudeStr,
       },
-      `bus-${req.params.id}`
+      `bus-${id}`
     );
 
-  
-
+    // Send notification
     await sendNotification(
       {
-        title: `Bus Update: ${busData.busNum}: (${busData.startPoint} → ${busData.endPoint})`,
-        body: `Bus ${busData.busNum}: (${busData.startPoint} → ${busData.endPoint}) is now at ${req.body.currentLocation}`,
+        title: `Bus Update: ${busData.busNum}`,
+        body: `Bus ${busData.busNum} is at Lat: ${currentLatitudeStr}, Long: ${currentLongitudeStr}`,
       },
-      `bus-${req.params.id}-notifications`,
-        {
-          currentLocation: req.body.currentLocation,
-          topic: `bus-${req.params.id}`,
-        },
-        `http://localhost:3000/userdashboard/bus/track/${req.params.id}`
+      `bus-${id}-notifications`,
+      {
+        currentLatitude: currentLatitudeStr,
+        currentLongitude: currentLongitudeStr,
+      }
     );
+
     res.status(200).json(busData);
   } catch (error) {
+    console.error("Error updating location:", error);
     res.status(500).json({ error: "Failed to update location" });
   }
 };

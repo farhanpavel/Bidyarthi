@@ -30,7 +30,6 @@ export default function Page() {
   const router = useRouter();
   const [data, setData] = useState({
     busNum: "",
-    routeName: "",
     startPoint: "Campus",
     endPoint: "",
     schedule: "",
@@ -104,7 +103,6 @@ export default function Page() {
       const formData = new FormData();
       formData.append("file", file);
       formData.append("busNum", data.busNum);
-      formData.append("routeName", data.routeName);
       formData.append("startPoint", data.startPoint);
       formData.append("endPoint", data.endPoint);
       formData.append("schedule", data.schedule);
@@ -186,22 +184,7 @@ export default function Page() {
                           required
                         />
                       </div>
-                      <div className="space-y-2">
-                        <Label
-                          className="text-xs font-bangla"
-                          htmlFor="routeName"
-                        >
-                          রুট নাম
-                        </Label>
-                        <Input
-                          id="routeName"
-                          type="text"
-                          className="w-1/2 border-[1px] border-gray-600"
-                          name="routeName"
-                          onChange={handleChange}
-                          required
-                        />
-                      </div>
+
                       <div className="space-y-2">
                         <Label
                           className="text-xs font-bangla"

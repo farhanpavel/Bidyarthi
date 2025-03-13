@@ -107,11 +107,11 @@ model ChefAssignment {
 model BusRoute {
   id                   String               @id @default(uuid())
   busNum               String
-  routeName            String
   startPoint           String
   endPoint             String
   schedule             String
-  currentLocation      String               @default("Campus")
+  currentLatitude      Float                @default(23.8069)
+  currentLongitude     Float                @default(90.3686)
   createdAt            DateTime             @default(now())
   updatedAt            DateTime             @updatedAt
   bus_url              String
