@@ -16,7 +16,7 @@ export const initiatePayment = async (req, res) => {
     total_amount: amount,
     currency: "BDT",
     tran_id: uuidv4(),
-    success_url: `http://localhost:4000/api/ssl/success?userId=${userId}&menuId=${menuId}&quantity=${quantity}&paid=${paid}`,
+    success_url: `http://192.168.0.104:4000/api/ssl/success?userId=${userId}&menuId=${menuId}&quantity=${quantity}&paid=${paid}`,
     fail_url: "http://localhost:3000/userdashboard/meal",
     cancel_url: "http://localhost:3030/cancel",
     ipn_url: "http://localhost:3030/ipn",
@@ -41,10 +41,10 @@ export const initiatePayment = async (req, res) => {
     ship_state: "Dhaka",
     ship_postcode: 1000,
     ship_country: "Bangladesh",
-    opt_a: userId, 
-    opt_b: menuId, 
-    opt_c: quantity, 
-    opt_d: paid, 
+    opt_a: userId,
+    opt_b: menuId,
+    opt_c: quantity,
+    opt_d: paid,
   };
 
   const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
@@ -58,13 +58,11 @@ export const successPayment = async (req, res) => {
   try {
     const { userId, menuId, quantity } = req.query;
 
-   
     await prisma.cafeteriaMenu.update({
       where: { id: menuId },
       data: { quantity: { decrement: Number(quantity) } },
     });
 
-    
     const newOrder = await prisma.cafeteriaOrder.create({
       data: {
         userId,
@@ -79,7 +77,6 @@ export const successPayment = async (req, res) => {
       return res.status(500).json({ error: "Order creation failed" });
     }
 
-   
     const meal = await prisma.cafeteriaMenu.findUnique({
       where: { id: menuId },
       include: {
@@ -127,8 +124,7 @@ export const successPayment = async (req, res) => {
       `chef-${chefId}-notifications`
     );
 
- 
-    res.redirect("http://localhost:3000/userdashboard/meal/request");
+    res.json({ success: true, redirectScreen: "ReqScreen" });
   } catch (error) {
     res.status(500).json({
       error: "Failed to process order",

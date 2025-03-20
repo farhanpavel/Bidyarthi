@@ -12,7 +12,8 @@ import rountineRouter from "./routes/routineRoute.js";
 import todoRouter from "./routes/todolistRoute.js";
 import safetyRouter from "./routes/safetyRoute.js";
 import botRoute from "./routes/botRoute.js";
-import {MailRouter} from "./routes/mailRoute.js";
+import { MailRouter } from "./routes/mailRoute.js";
+import wasteRouter from "./routes/wasteRoute.js";
 
 const app = express();
 app.use(cors());
@@ -23,8 +24,8 @@ app.get("/", (req, res) => {
   return res.send("hello");
 });
 
-app.listen(PORT, () => {
-  console.log(`app is listening on Port ${PORT}`);
+app.listen(4000, "0.0.0.0", () => {
+  console.log("Server running on 0.0.0.0:4000");
 });
 
 app.use("/api/user", userRouter);
@@ -39,3 +40,4 @@ app.use("/api/todolist", todoRouter);
 app.use("/api/emergency", safetyRouter);
 app.use("/api/bot", botRoute);
 app.use("/api/mail", MailRouter);
+app.use("/api/waste", wasteRouter);

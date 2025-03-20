@@ -3,7 +3,6 @@ import { postBot, getBotResponse } from "../controllers/botController.js";
 
 const botRoute = express.Router();
 
-
 botRoute.post("/", postBot);
 
 botRoute.post("/response", getBotResponse);

@@ -120,6 +120,9 @@ export default function Page() {
                         <SelectItem value="faculty" className="font-bangla">
                           অনুষদ
                         </SelectItem>
+                        <SelectItem value="cleaner" className="font-bangla">
+                          পরিচ্ছন্নতাকর্মী
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>

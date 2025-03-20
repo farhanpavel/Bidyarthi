@@ -8,7 +8,7 @@ import { url } from "@/components/Url/page";
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
 export default function Page() {
-  const [meals, setMeals] = useState([]); 
+  const [meals, setMeals] = useState([]);
   var token = Cookies.get("token");
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function Page() {
         }
 
         const data = await response.json();
-        setMeals(data); 
+        setMeals(data);
       } catch (error) {
         console.error("Error fetching meal data:", error);
       }
@@ -43,14 +43,14 @@ export default function Page() {
           <h1 className="text-2xl font-bold font-bangla">খাবার</h1>
         </div>
         <p className="text-xs text-[#4a4a4a] border-black border-b-[2px] pb-4 font-bangla">
-        আপনার পছন্দের খাবার
+          আপনার পছন্দের খাবার
         </p>
 
         <div>
           <div className="mt-2">
             <div className="flex justify-center">
               <h1 className="text-xl inline-block text-[#504D4E] mb-4 text-center font-semibold border-b-4 border-black font-bangla">
-              অনুরোধকৃত অর্ডার
+                অনুরোধকৃত অর্ডার
               </h1>
             </div>
           </div>
@@ -82,7 +82,6 @@ export default function Page() {
                     </div>
                   </div>
 
-
                   <div className="flex justify-between items-center w-full">
                     <p className="text-xs">{meal.menu.mealType}</p>
                     <div className="flex items-center">
@@ -92,7 +91,6 @@ export default function Page() {
                     </div>
                   </div>
 
-        
                   <div className="flex justify-between items-center w-full">
                     <div className="flex items-center text-xs space-x-1 truncate">
                       <Map className="w-4 h-4 text-[#FC8019]" />

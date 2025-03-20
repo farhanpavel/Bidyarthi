@@ -60,6 +60,8 @@ export default function Signin() {
           router.push("/userdashboard/meal");
         } else if (data.role === "faculty") {
           router.push("/facultydashboard/talk");
+        } else if (data.role === "cleaner") {
+          router.push("/cleanerdashboard/entry");
         }
       }, 3000);
     } catch (err) {

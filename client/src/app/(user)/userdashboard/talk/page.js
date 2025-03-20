@@ -89,9 +89,9 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
       {/* Header */}
-      <div className="bg-white shadow">
+      <div className=" ">
         <div className="p-6 space-y-2">
           <div className="flex gap-x-2 items-center text-black">
             <Mail className="h-8 w-8" />

@@ -228,15 +228,12 @@ export default function Page() {
             variants={fadeIn}
             initial="initial"
             animate="animate"
-            className="flex justify-between items-center mb-6"
+            className="flex justify-end items-center mb-6"
           >
-            <h2 className="text-2xl font-bangla font-bold text-purple-700">
-              ক্যালেন্ডার
-            </h2>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-bangla shadow-lg"
+              className="px-6 py-2 bg-black text-white rounded-lg font-bangla shadow-lg"
               onClick={() => setIsDialogOpen(true)}
               disabled={loading}
             >
@@ -270,7 +267,7 @@ export default function Page() {
                 animate="animate"
                 className="mt-6 p-6 h-1/2 bg-white rounded-xl shadow-lg"
               >
-                <h3 className="font-bangla font-bold text-xl text-purple-700">
+                <h3 className="font-bangla font-bold text-xl text-black">
                   {selectedDate.toDateString()}
                 </h3>
                 <p className="font-bangla mt-2 text-gray-700">
@@ -291,7 +288,7 @@ export default function Page() {
           animate="animate"
           className="mt-6 p-6 bg-white rounded-xl shadow-lg"
         >
-          <h3 className="font-bangla font-bold text-xl text-purple-700 mb-4">
+          <h3 className="font-bangla font-bold text-xl text-black mb-4">
             আপনার কাজগুলোর পরিকল্পনা করুন
           </h3>
           <div className="flex gap-2">
@@ -307,7 +304,7 @@ export default function Page() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={handleAddTodo}
-              className="px-4 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg shadow-md flex items-center gap-2"
+              className="px-4 py-2 bg-black text-white rounded-lg shadow-md flex items-center gap-2"
             >
               <Plus size={20} />
               যোগ করুন
