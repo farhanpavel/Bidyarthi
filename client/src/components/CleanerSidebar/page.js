@@ -16,6 +16,7 @@ import {
   Cable,
   ListCheck,
   Building,
+  Map,
 } from "lucide-react";
 import {
   Tooltip,
@@ -32,9 +33,14 @@ import Cookies from "js-cookie";
 
 const navItems = [
   {
-    title: "স্থানসমূহ",
+    title: "ডেটা ",
     href: "/cleanerdashboard/entry",
     icon: <Building size={20} />,
+  },
+  {
+    title: "স্থানসমূহ",
+    href: "/cleanerdashboard/map",
+    icon: <Map size={20} />,
   },
 ];
 

@@ -28,8 +28,22 @@ model User {
   messagesSent     Message[] @relation("MessageSender") // Messages sent by the user
   messagesReceived Message[] @relation("MessageReceiver") // Messages received by the user
 
-  mailsSent     Mail[] @relation("MailFromUser")
-  mailsReceived Mail[] @relation("MailToUser")
+  mailsSent         Mail[]              @relation("MailFromUser")
+  mailsReceived     Mail[]              @relation("MailToUser")
+  garbageCollection GarbageCollection[]
+}
+
+model GarbageCollection {
+  id            String @id @default(uuid())
+  location      String
+  description   String
+  garbageType   String
+  garbageWeight String
+  garbagePic    String
+  userId        String
+  longitude     String
+  latitude      String
+  user          User   @relation(fields: [userId], references: [id])
 }
 
 // AI-Powered Chatbot for FAQs

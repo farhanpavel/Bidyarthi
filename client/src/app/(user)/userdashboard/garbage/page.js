@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { url } from "@/components/Url/page";
+import Cookies from "js-cookie";
 
 export default function Page() {
   const [files, setFiles] = useState([]);
@@ -15,7 +16,11 @@ export default function Page() {
   const [type, setType] = useState("");
   const [weight, setWeight] = useState("");
   const [location, setLocation] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [latitude, setLatitude] = useState(null); // State for latitude
+  const [longitude, setLongitude] = useState(null); // State for longitude
+  const [isLoading, setIsLoading] = useState(false); // For file upload
+  const [isSubmitting, setIsSubmitting] = useState(false); // For report submission
+  const [isAiGenerated, setIsAiGenerated] = useState(false); // Track if AI has generated text
 
   // Function to get the user's current GPS location and convert it to an address
   const getCurrentLocation = async () => {
@@ -26,6 +31,10 @@ export default function Page() {
         navigator.geolocation.getCurrentPosition(
           async (position) => {
             const { latitude, longitude } = position.coords;
+
+            // Set latitude and longitude
+            setLatitude(latitude);
+            setLongitude(longitude);
 
             // Fetch the address using OpenStreetMap Nominatim API
             try {
@@ -49,7 +58,7 @@ export default function Page() {
 
   const onDrop = useCallback(async (acceptedFiles) => {
     setFiles(acceptedFiles);
-    setIsLoading(true);
+    setIsLoading(true); // Set loading state for file upload
 
     try {
       // Get the user's current GPS location and convert it to an address
@@ -72,11 +81,12 @@ export default function Page() {
         setType(type);
         setWeight(weight);
         setDescription(description);
+        setIsAiGenerated(true); // Enable editing after AI generates text
       }
     } catch (error) {
       console.error("Error uploading image:", error);
     } finally {
-      setIsLoading(false);
+      setIsLoading(false); // Reset loading state for file upload
     }
   }, []);
 
@@ -84,6 +94,53 @@ export default function Page() {
     onDrop,
     accept: "image/*",
   });
+
+  // Function to handle the submission of the waste report
+  const handleSubmitReport = async () => {
+    if (files.length === 0) {
+      alert("Please upload an image first.");
+      return;
+    }
+
+    setIsSubmitting(true); // Set loading state for report submission
+
+    try {
+      const formData = new FormData();
+      formData.append("file", files[0]);
+      formData.append("location", location);
+      formData.append("description", description);
+      formData.append("garbageType", type);
+      formData.append("garbageWeight", weight);
+      formData.append("latitude", latitude); // Add latitude
+      formData.append("longitude", longitude); // Add longitude
+      const token = Cookies.get("token");
+      const response = await fetch(`${url}/api/waste/report/data`, {
+        method: "POST",
+        body: formData,
+        headers: {
+          Authorization: token,
+        },
+      });
+
+      if (response.ok) {
+        alert("Report submitted successfully!");
+        // Reset the form fields
+        setFiles([]);
+        setDescription("");
+        setType("");
+        setWeight("");
+        setLocation("");
+        setIsAiGenerated(false); // Disable editing after submission
+      } else {
+        alert("Failed to submit report. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting report:", error);
+      alert("An error occurred while submitting the report.");
+    } finally {
+      setIsSubmitting(false); // Reset loading state for report submission
+    }
+  };
 
   return (
     <div className="p-9">
@@ -115,7 +172,8 @@ export default function Page() {
               placeholder="আবর্জনার বিস্তারিত বিবরণ লিখুন"
               className="min-h-[120px] border-black/20"
               value={description}
-              readOnly
+              onChange={(e) => setDescription(e.target.value)}
+              readOnly={!isAiGenerated} // Enable editing only if AI has generated text
             />
           </div>
 
@@ -126,7 +184,8 @@ export default function Page() {
                 id="type"
                 placeholder="AI দ্বারা নির্ধারিত হবে"
                 value={type}
-                readOnly
+                onChange={(e) => setType(e.target.value)}
+                readOnly={!isAiGenerated} // Enable editing only if AI has generated text
                 className="bg-muted/30 border-black/20"
               />
             </div>
@@ -137,7 +196,8 @@ export default function Page() {
                 id="weight"
                 placeholder="AI দ্বারা নির্ধারিত হবে"
                 value={weight}
-                readOnly
+                onChange={(e) => setWeight(e.target.value)}
+                readOnly={!isAiGenerated} // Enable editing only if AI has generated text
                 className="bg-muted/30 border-black/20"
               />
             </div>
@@ -149,7 +209,7 @@ export default function Page() {
             className="border-dashed border-2 border-black/20 p-6 text-center cursor-pointer bg-gray-100 rounded-lg"
           >
             <input {...getInputProps()} />
-            {isLoading ? (
+            {isLoading ? ( // Show loader for file upload
               <Loader2 className="mx-auto text-3xl text-gray-500 animate-spin" />
             ) : (
               <>
@@ -174,8 +234,16 @@ export default function Page() {
           )}
 
           <div className="pt-4">
-            <Button className="w-full bg-black hover:bg-black/90 text-white">
-              রিপোর্ট জমা দিন
+            <Button
+              className="w-full bg-black hover:bg-black/90 text-white"
+              onClick={handleSubmitReport}
+              disabled={isLoading || isSubmitting} // Disable button during file upload or report submission
+            >
+              {isSubmitting ? ( // Show loader for report submission
+                <Loader2 className="animate-spin" />
+              ) : (
+                "রিপোর্ট জমা দিন"
+              )}
             </Button>
           </div>
         </Card>
