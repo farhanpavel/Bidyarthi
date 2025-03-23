@@ -17,7 +17,7 @@ export const initiatePayment = async (req, res) => {
     currency: "BDT",
     tran_id: uuidv4(),
     success_url: `http://192.168.0.106:4000/api/ssl/success?userId=${userId}&menuId=${menuId}&quantity=${quantity}&paid=${paid}`,
-    fail_url: "http://localhost:3000/userdashboard/meal",
+    fail_url: "https://bidyarthi.vercel.app/userdashboard/meal",
     cancel_url: "http://localhost:3030/cancel",
     ipn_url: "http://localhost:3030/ipn",
     shipping_method: "Courier",
@@ -133,5 +133,5 @@ export const successPayment = async (req, res) => {
   }
 };
 export const failedPayment = async (req, res) => {
-  res.redirect("http://localhost:3000/userdashboard/meal");
+  res.redirect("https://bidyarthi.vercel.app/userdashboard/meal");
 };

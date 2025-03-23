@@ -150,7 +150,7 @@ export const userLogin = async (req, res) => {
     return res.status(401).json({ message: "Invalid email or password" });
   }
   const token = generateToken(data);
-  res.status(200).json({ token, role: data.role }); 
+  res.status(200).json({ token, role: data.role });
 };
 const RefreshToken = async (req, res) => {
   const { refreshToken } = req.body;
@@ -212,17 +212,17 @@ export const makeNotification = async (req, res) => {
     topic: topic,
     webpush: {
       headers: {
-        TTL: "86400", 
+        TTL: "86400",
       },
       notification: {
-        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", 
-        click_action: "https://localhost:3000", 
+        icon: "https://i.ibb.co.com/q4y0gbw/logo.png",
+        click_action: "https://bidyarthi.vercel.app/",
       },
     },
     android: {
       notification: {
-        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", 
-        click_action: "https://localhost:3000", 
+        icon: "https://i.ibb.co.com/q4y0gbw/logo.png",
+        click_action: "https://bidyarthi.vercel.app/",
       },
     },
   };
@@ -269,11 +269,11 @@ export const sendNotification = async (
     data: data,
     webpush: {
       headers: {
-        TTL: "86400", 
+        TTL: "86400",
       },
       notification: {
-        icon: "https://i.ibb.co.com/q4y0gbw/logo.png", 
-        click_action: redirection, 
+        icon: "https://i.ibb.co.com/q4y0gbw/logo.png",
+        click_action: redirection,
       },
     },
   };

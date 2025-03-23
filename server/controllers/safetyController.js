@@ -30,7 +30,7 @@ export const publishEmergency = async (req, res) => {
                 emergencyLevel: emergencyLevel,
                 location: location
             },
-            "http://localhost:3000/userdashboard/notification"
+            "https://bidyarthi.vercel.app/userdashboard/notification"
         );
         }
         else {
@@ -47,7 +47,7 @@ export const publishEmergency = async (req, res) => {
                     emergencyLevel: emergencyLevel,
                     location: location
                 },
-                "http://localhost:3000/userdashboard/notification"
+                "https://bidyarthi.vercel.app/userdashboard/notification"
             );
         }
         res.status(201).json(publishedEmergency);
