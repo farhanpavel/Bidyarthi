@@ -24,7 +24,7 @@ app.get("/", (req, res) => {
   return res.send("hello");
 });
 
-app.listen(4000, "0.0.0.0", () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log("Server running on 0.0.0.0:4000");
 });
 
