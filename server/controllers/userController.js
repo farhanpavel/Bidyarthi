@@ -216,13 +216,13 @@ export const makeNotification = async (req, res) => {
       },
       notification: {
         icon: "https://i.ibb.co.com/q4y0gbw/logo.png",
-        click_action: "https://bidyarthi.vercel.app/",
+        click_action: "https://bidyarthi.vercel.app",
       },
     },
     android: {
       notification: {
         icon: "https://i.ibb.co.com/q4y0gbw/logo.png",
-        click_action: "https://bidyarthi.vercel.app/",
+        click_action: "https://bidyarthi.vercel.app",
       },
     },
   };
