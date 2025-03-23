@@ -7,7 +7,7 @@ import { sendDataMessage, sendNotification } from "./userController.js";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
-const genAI = new GoogleGenerativeAI("AIzaSyCzYKqfqW4-p1zavao-Bb3MVdYay7EHC7A");
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const analyzeGarbageImage = async (imageBuffer) => {

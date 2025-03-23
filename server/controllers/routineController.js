@@ -1,15 +1,13 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import multer from "multer";
 import prisma from "../db.js";
-
+import "dotenv/config";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-
-const genAI = new GoogleGenerativeAI("AIzaSyCzYKqfqW4-p1zavao-Bb3MVdYay7EHC7A"); // Replace with your Gemini API key
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY); // Replace with your Gemini API key
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
 
 export const extractRoutine = async (req, res) => {
   try {
@@ -19,15 +17,13 @@ export const extractRoutine = async (req, res) => {
       return res.status(400).json({ error: "No file uploaded" });
     }
 
-
     const imagePart = {
       inlineData: {
-        mimeType: file.mimetype, 
-        data: file.buffer.toString("base64"), 
+        mimeType: file.mimetype,
+        data: file.buffer.toString("base64"),
       },
     };
 
-    
     const prompt =
       "Extract the class routine from this image and return it in JSON format. The routine includes days of the week and corresponding classes. For example: { 'SATURDAY': '9:30 AM - RM Class, 10:00 AM - Jesmin Class', 'SUNDAY': '11:00 AM - General Class' }";
 
@@ -35,7 +31,6 @@ export const extractRoutine = async (req, res) => {
 
     const extractedText = result.response.text();
 
- 
     const schedule = parseRoutineText(extractedText);
 
     res.status(200).json({ schedule });
@@ -47,13 +42,11 @@ export const extractRoutine = async (req, res) => {
 
 const parseRoutineText = (text) => {
   try {
-   
     const cleanedText = text
       .replace(/```json/g, "")
       .replace(/```/g, "")
       .trim();
 
-   
     const schedule = JSON.parse(cleanedText);
     return schedule;
   } catch (error) {
@@ -79,7 +72,6 @@ export const saveRoutine = async (req, res) => {
     res.status(500).json({ error: "Failed to save routine" });
   }
 };
-
 
 export const getRoutine = async (req, res) => {
   const userId = req.user.id;

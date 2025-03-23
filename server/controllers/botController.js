@@ -1,8 +1,9 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import "dotenv/config";
 
 import prisma from "../db.js";
 import multer from "multer";
-const genAI = new GoogleGenerativeAI("AIzaSyCzYKqfqW4-p1zavao-Bb3MVdYay7EHC7A"); // Replace with your actual API key
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY); // Replace with your actual API key
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 export const postBot = async (req, res) => {
   const { description } = req.body;
@@ -15,13 +16,12 @@ export const postBot = async (req, res) => {
 };
 
 export const getBotResponse = async (req, res) => {
-  const { prompt } = req.body; 
+  const { prompt } = req.body;
 
   try {
-    
     const projectDescription = await prisma.chatbotInteraction.findFirst({
       orderBy: {
-        createdAt: "desc", 
+        createdAt: "desc",
       },
     });
 
@@ -29,17 +29,14 @@ export const getBotResponse = async (req, res) => {
       return res.status(404).json({ error: "No project description found" });
     }
 
-
     const fullPrompt = `
       Project Description: ${projectDescription.description}
       User Prompt: ${prompt}
       give response in just 1 line write in bangla
     `;
 
-
     const result = await model.generateContent(fullPrompt);
     const aiResponse = result.response.text();
-
 
     res.status(200).json({ response: aiResponse });
   } catch (error) {
