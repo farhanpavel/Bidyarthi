@@ -1,4 +1,3 @@
 node_modules
 ./google
-google-service.json
 .env
