@@ -3,9 +3,8 @@ import prisma from "../db.js";
 import { sendDataMessage, sendNotification } from "./userController.js";
 
 export const eventAssignforUser = async (req, res) => {
-  const userId = req.user.id; 
+  const userId = req.user.id;
   try {
-   
     const eventData = await prisma.eventRSVP.create({
       data: {
         userId,
@@ -19,7 +18,7 @@ export const eventAssignforUser = async (req, res) => {
         id: userId,
       },
     });
-  
+
     const event = await prisma.event.findFirst({
       where: {
         id: req.body.eventId,
@@ -35,20 +34,18 @@ export const eventAssignforUser = async (req, res) => {
       return res.status(404).json({ error: "Event not found" });
     }
 
-
     const clubMembership = await prisma.club.findFirst({
       where: {
-        id: event.clubId, 
+        id: event.clubId,
       },
       include: {
-        memberships: true, 
+        memberships: true,
       },
     });
 
     if (!clubMembership) {
       return res.status(404).json({ error: "Club membership not found" });
     }
-
 
     const notificationData = {
       userName: String(userData.name),
@@ -60,12 +57,10 @@ export const eventAssignforUser = async (req, res) => {
 
     console.log("Notification Data:", notificationData);
 
-
     await sendDataMessage(
       notificationData,
       `club-${clubMembership.memberships[0].userId}`
     );
-
 
     await sendNotification(
       {
@@ -102,12 +97,11 @@ export const getFlag = async (req, res) => {
 };
 
 export const getClubEventsWithRSVPs = async (req, res) => {
-  const userId = req.user.id; 
+  const userId = req.user.id;
   try {
-    
     const userData = await prisma.user.findUnique({
       where: {
-        id: userId, 
+        id: userId,
       },
       include: {
         clubMemberships: {
@@ -118,7 +112,7 @@ export const getClubEventsWithRSVPs = async (req, res) => {
                   include: {
                     rsvps: {
                       include: {
-                        user: true, 
+                        user: true,
                       },
                     },
                   },
@@ -130,11 +124,9 @@ export const getClubEventsWithRSVPs = async (req, res) => {
       },
     });
 
-  
     if (!userData || userData.clubMemberships.length === 0) {
       return res.status(404).json({ error: "No club found for the president" });
     }
-
 
     res.status(200).json(userData);
   } catch (error) {
