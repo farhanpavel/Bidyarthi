@@ -84,6 +84,8 @@ const FCMWrapper = ({ children }) => {
     message: "",
     overlayText: "",
     instructions: "",
+    longitude: "",
+    latitude: "",
   });
 
   // Request notification permission
@@ -164,6 +166,8 @@ const FCMWrapper = ({ children }) => {
                     payload.data.message ||
                     "Please follow the instructions from the authorities.",
                   emergencyLevel: payload.data.emergencyLevel || "MEDIUM",
+                  longitude: payload.data.longitude || "0",
+                  latitude: payload.data.latitude || "0",
                 });
                 setIsEmergencyPopupVisible(true);
               }
@@ -191,6 +195,8 @@ const FCMWrapper = ({ children }) => {
           message={emergencyData.message}
           overlayText={emergencyData.overlayText}
           instructions={emergencyData.instructions}
+          longitude={emergencyData.longitude}
+          latitude={emergencyData.latitude}
           onClose={() => setIsEmergencyPopupVisible(false)}
         />
       )}

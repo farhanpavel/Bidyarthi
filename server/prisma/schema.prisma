@@ -62,9 +62,8 @@ model Message {
   read       Boolean  @default(false) // Whether the message has been read
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-
-  sender   User @relation("MessageSender", fields: [senderId], references: [id])
-  receiver User @relation("MessageReceiver", fields: [receiverId], references: [id])
+  sender     User     @relation("MessageSender", fields: [senderId], references: [id])
+  receiver   User     @relation("MessageReceiver", fields: [receiverId], references: [id])
 }
 
 // model Student {
@@ -284,6 +283,8 @@ model SafetyAlert {
   id             String           @id @default(uuid())
   message        String
   location       String?
+  latitude       String?
+  longitude      String?
   emergencyLevel EmergencyLevel   @default(MEDIUM)
   type           AnnouncementType
   createdAt      DateTime         @default(now())
