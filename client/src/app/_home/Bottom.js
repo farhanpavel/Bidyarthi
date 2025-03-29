@@ -17,11 +17,11 @@ export default function Bottom() {
 
         <div className="bg-[#220F48] w-[40%] p-10 space-y-5 text-white rounded-r-lg">
           <Input
-            className="w-full px-4 py-3  rounded-sm text-white placeholder-white"
+            className="w-full px-4 py-3  rounded-sm text-white bg-white"
             placeholder="আপনার নাম লিখুন"
           />
           <Textarea
-            className="w-full px-4 py-3 bg-white rounded-sm resize-none text-white placeholder-white"
+            className="w-full px-4 py-3 bg-white rounded-sm resize-none text-white "
             placeholder="আপনার বার্তা লিখুন"
           />
           <Button className="rounded-full px-6 bg-yellow-500 text-white hover:bg-yellow-500">
