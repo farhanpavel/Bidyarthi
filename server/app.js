@@ -14,6 +14,8 @@ import safetyRouter from "./routes/safetyRoute.js";
 import botRoute from "./routes/botRoute.js";
 import { MailRouter } from "./routes/mailRoute.js";
 import wasteRouter from "./routes/wasteRoute.js";
+import readRouter from "./routes/readRoute.js";
+import idRouter from "./routes/idRoute.js";
 
 const app = express();
 app.use(cors());
@@ -41,3 +43,5 @@ app.use("/api/emergency", safetyRouter);
 app.use("/api/bot", botRoute);
 app.use("/api/mail", MailRouter);
 app.use("/api/waste", wasteRouter);
+app.use("/api/read", readRouter);
+app.use("/api/studentid", idRouter);

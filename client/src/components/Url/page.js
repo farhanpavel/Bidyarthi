@@ -1,1 +1,1 @@
-export const url = "https://bidyarthi-1.onrender.com";
+export const url = "http://localhost:4000";
