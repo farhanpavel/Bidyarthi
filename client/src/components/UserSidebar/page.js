@@ -13,6 +13,7 @@ import {
   Building2,
   Bell,
   Mail,
+  IndianRupeeIcon,
 } from "lucide-react";
 import {
   Tooltip,
@@ -59,6 +60,11 @@ const navItems = [
     title: "ইমেইল",
     href: "/userdashboard/talk",
     icon: <Mail size={20} />,
+  },
+  {
+    title: "ফি",
+    href: "/userdashboard/fee",
+    icon: <IndianRupeeIcon size={20} />,
   },
 ];
 

@@ -31,6 +31,7 @@ model User {
   mailsSent         Mail[]              @relation("MailFromUser")
   mailsReceived     Mail[]              @relation("MailToUser")
   garbageCollection GarbageCollection[]
+  pay               Pay[]
 }
 
 model Student {
@@ -326,4 +327,25 @@ model Mail {
   updatedAt  DateTime @updatedAt
   to         User     @relation(name: "MailToUser", fields: [toUserId], references: [id])
   from       User     @relation(name: "MailFromUser", fields: [fromUserId], references: [id])
+}
+
+// Feee
+
+model Fee {
+  id             String @id @default(uuid())
+  feeName        String
+  feeType        String
+  amount         String
+  feeDate        String
+  feeDescription String
+  pay            Pay[]
+}
+
+model Pay {
+  id     String  @id @default(uuid())
+  status Boolean @default(false)
+  feeId  String
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  fee    Fee     @relation(fields: [feeId], references: [id])
 }

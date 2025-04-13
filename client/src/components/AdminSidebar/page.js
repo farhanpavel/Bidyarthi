@@ -13,6 +13,7 @@ import {
   School,
   Anvil,
   Bell,
+  IndianRupee,
 } from "lucide-react";
 import {
   Tooltip,
@@ -52,6 +53,11 @@ const navItems = [
     title: "ক্লাব",
     href: "/admindashboard/clubs",
     icon: <Anvil size={20} />,
+  },
+  {
+    title: "ফি",
+    href: "/admindashboard/fee",
+    icon: <IndianRupee size={20} />,
   },
   {
     title: "নোটিফিকেশন",

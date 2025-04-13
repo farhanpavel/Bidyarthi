@@ -16,6 +16,7 @@ import { MailRouter } from "./routes/mailRoute.js";
 import wasteRouter from "./routes/wasteRoute.js";
 import readRouter from "./routes/readRoute.js";
 import idRouter from "./routes/idRoute.js";
+import feeRouter from "./routes/feeRoute.js";
 
 const app = express();
 app.use(cors());
@@ -45,3 +46,4 @@ app.use("/api/mail", MailRouter);
 app.use("/api/waste", wasteRouter);
 app.use("/api/read", readRouter);
 app.use("/api/studentid", idRouter);
+app.use("/api/fee", feeRouter);
