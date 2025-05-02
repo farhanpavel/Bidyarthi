@@ -17,6 +17,7 @@ import wasteRouter from "./routes/wasteRoute.js";
 import readRouter from "./routes/readRoute.js";
 import idRouter from "./routes/idRoute.js";
 import feeRouter from "./routes/feeRoute.js";
+import gateRouter from "./routes/gateRoute.js";
 
 const app = express();
 app.use(cors());
@@ -47,3 +48,4 @@ app.use("/api/waste", wasteRouter);
 app.use("/api/read", readRouter);
 app.use("/api/studentid", idRouter);
 app.use("/api/fee", feeRouter);
+app.use("/api/gate", gateRouter);
