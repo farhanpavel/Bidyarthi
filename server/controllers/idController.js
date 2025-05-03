@@ -40,9 +40,8 @@ export const submitStudentInfo = async (req, res) => {
       stream.end(req.file.buffer);
     });
 
-    // Generate QR code with regNo
-    const qrData = JSON.stringify({ regNo });
-    const qrCode = await QRCode.toDataURL(qrData);
+    // Generate QR code with JUST the regNo as plain text
+    const qrCode = await QRCode.toDataURL(regNo); // No JSON, just the regNo
 
     // Save to database
     const student = await prisma.student.create({
@@ -51,7 +50,8 @@ export const submitStudentInfo = async (req, res) => {
         classRoll,
         regNo,
         photoUrl: result.secure_url,
-        qrCode,
+        qrCode, // This is still base64 image for display
+        qrData: regNo, // Store raw regNo separately
         verified: true,
         userId,
         status: true,
@@ -106,18 +106,21 @@ export const getStudentQR = async (req, res) => {
       return res.status(404).json({ error: "Student not found" });
     }
 
-    // Generate new QR code with the original regNo each time
-    const qrData = JSON.stringify({ regNo: student.regNo });
-    const newQrCode = await QRCode.toDataURL(qrData);
+    // Generate new QR code with JUST the regNo
+    const newQrCode = await QRCode.toDataURL(student.regNo);
 
     student = await prisma.student.update({
       where: { id: student.id },
-      data: { qrCode: newQrCode },
+      data: {
+        qrCode: newQrCode,
+        qrData: student.regNo, // Keep raw regNo
+      },
     });
 
     res.status(200).json({
       success: true,
-      qrCode: student.qrCode,
+      qrCode: student.qrCode, // Base64 image for display
+      qrData: student.regNo, // Plain regNo for reference
       studentInfo: {
         name: student.name,
         classRoll: student.classRoll,
@@ -127,6 +130,31 @@ export const getStudentQR = async (req, res) => {
     });
   } catch (error) {
     console.error("Error getting student QR:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+export const verifyQRCode = async (req, res) => {
+  try {
+    const { scannedData } = req.body; // This will be just the regNo
+
+    const student = await prisma.student.findFirst({
+      where: { regNo: scannedData },
+    });
+
+    if (!student) {
+      return res.status(404).json({ error: "Student not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      student: {
+        name: student.name,
+        classRoll: student.classRoll,
+        regNo: student.regNo,
+        photoUrl: student.photoUrl,
+      },
+    });
+  } catch (error) {
     res.status(500).json({ error: "Internal server error" });
   }
 };
