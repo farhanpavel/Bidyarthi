@@ -4,6 +4,7 @@ import {
   getStudentQR,
   checkStudentStatus,
   upload,
+  handleQRScan,
 } from "../controllers/idController.js";
 import { jwtAuthentication } from "../middlewares/authMiddleware.js";
 
@@ -17,5 +18,5 @@ idRouter.post(
 );
 idRouter.get("/qr", jwtAuthentication, getStudentQR);
 idRouter.get("/check-status", jwtAuthentication, checkStudentStatus);
-
+idRouter.post("/scan", handleQRScan);
 export default idRouter;

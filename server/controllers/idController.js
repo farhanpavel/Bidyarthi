@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import QRCode from "qrcode";
-import { v4 as uuidv4 } from "uuid";
 import cloudinary from "../cloudinaryConfig.js";
 import multer from "multer";
 
@@ -29,9 +28,8 @@ export const submitStudentInfo = async (req, res) => {
       stream.end(req.file.buffer);
     });
 
-    // Generate QR code
-    const qrData = uuidv4();
-    const qrCode = await QRCode.toDataURL(qrData);
+    // Generate QR code containing only the regNo
+    const qrCode = await QRCode.toDataURL(regNo);
 
     // Save to database
     const student = await prisma.student.create({
@@ -95,18 +93,12 @@ export const getStudentQR = async (req, res) => {
       return res.status(404).json({ error: "Student not found" });
     }
 
-    // Generate new QR code each time
-    const newQrData = uuidv4();
-    const newQrCode = await QRCode.toDataURL(newQrData);
-
-    student = await prisma.student.update({
-      where: { id: student.id },
-      data: { qrCode: newQrCode },
-    });
+    // Generate QR code containing only the regNo (no need to update each time)
+    const qrCode = await QRCode.toDataURL(student.regNo);
 
     res.status(200).json({
       success: true,
-      qrCode: student.qrCode,
+      qrCode: qrCode,
       studentInfo: {
         name: student.name,
         classRoll: student.classRoll,
@@ -116,6 +108,38 @@ export const getStudentQR = async (req, res) => {
     });
   } catch (error) {
     console.error("Error getting student QR:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+// New endpoint to handle QR code scanning
+export const handleQRScan = async (req, res) => {
+  try {
+    const { regNo } = req.body; // The scanned QR code will contain the regNo
+
+    if (!regNo) {
+      return res.status(400).json({ error: "No registration number provided" });
+    }
+
+    // Find student by regNo
+    const student = await prisma.student.findFirst({
+      where: { regNo },
+      select: {
+        regNo: true, // Only return the registration number
+      },
+    });
+
+    if (!student) {
+      return res.status(404).json({ error: "Student not found" });
+    }
+
+    // Return only the registration number
+    res.status(200).json({
+      success: true,
+      regNo: student.regNo,
+    });
+  } catch (error) {
+    console.error("Error handling QR scan:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
