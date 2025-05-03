@@ -11,7 +11,18 @@ export const upload = multer({ storage });
 export const submitStudentInfo = async (req, res) => {
   try {
     const { name, classRoll, regNo } = req.body;
-    const userId = req.user.id; // From JWT middleware
+    const userId = req.user.id;
+
+    // Check if student already exists
+    const existingStudent = await prisma.student.findFirst({
+      where: { userId },
+    });
+
+    if (existingStudent) {
+      return res
+        .status(400)
+        .json({ error: "Student information already submitted" });
+    }
 
     if (!req.file) {
       return res.status(400).json({ error: "No image uploaded" });
@@ -29,8 +40,8 @@ export const submitStudentInfo = async (req, res) => {
       stream.end(req.file.buffer);
     });
 
-    // Generate QR code
-    const qrData = uuidv4();
+    // Generate QR code with regNo
+    const qrData = JSON.stringify({ regNo });
     const qrCode = await QRCode.toDataURL(qrData);
 
     // Save to database
@@ -95,9 +106,9 @@ export const getStudentQR = async (req, res) => {
       return res.status(404).json({ error: "Student not found" });
     }
 
-    // Generate new QR code each time
-    const newQrData = uuidv4();
-    const newQrCode = await QRCode.toDataURL(newQrData);
+    // Generate new QR code with the original regNo each time
+    const qrData = JSON.stringify({ regNo: student.regNo });
+    const newQrCode = await QRCode.toDataURL(qrData);
 
     student = await prisma.student.update({
       where: { id: student.id },
