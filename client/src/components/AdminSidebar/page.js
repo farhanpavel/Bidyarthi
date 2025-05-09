@@ -60,7 +60,7 @@ const navItems = [
     icon: <IndianRupee size={20} />,
   },
   {
-    title: "ফি",
+    title: "যাচাই",
     href: "/admindashboard/verify",
     icon: <IndianRupee size={20} />,
   },
