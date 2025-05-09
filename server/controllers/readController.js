@@ -53,7 +53,7 @@ export const processDocument = async (req, res) => {
 
     const result = await model.generateContent(request);
     const response = result.response;
-    const analysis = response.text();
+    let analysis = response.text();
     analysis = analysis.replace(/[*`]/g, "");
     analysis = analysis
       .split("\n")
