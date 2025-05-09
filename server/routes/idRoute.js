@@ -14,7 +14,7 @@ idRouter.post(
   "/submit",
   jwtAuthentication,
   upload.single("photo"),
-  submitStudentnfo
+  submitStudentInfo
 );
 idRouter.get("/qr", jwtAuthentication, getStudentQR);
 idRouter.get("/check-status", jwtAuthentication, checkStudentStatus);
