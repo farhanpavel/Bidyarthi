@@ -15,10 +15,25 @@ export const processDocument = async (req, res) => {
   try {
     const base64Image = req.file.buffer.toString("base64");
 
-    const prompt = `Analyze this document image and provide what the image is saying or the passage trying to say and if the pessage is a question the answer it. 
-    
-    Format your response in clear paragraphs.`;
+    const prompt = `Carefully analyze this document image and:
+    1. Detect if the document is in Bangla or English
+    2. If it's a form (application, registration, etc.):
+       - Extract all field names and values if filled
+       - For empty fields, provide example answers
+       - Format as: "Field Name: [Example Value]"
+    3. If it's informational content:
+       - Summarize the key points
+    4. If it contains questions:
+       - Answer them directly
+    5. Respond in the same language as the document (Bangla/English)
 
+    Example form response:
+    - Name: [John Doe]
+    - Date of Birth: [01/01/1990]
+    - Address: [123 Example Street]
+
+    Example informational response:
+    This is a notice about office closure during holidays...`;
     const request = {
       contents: [
         {
