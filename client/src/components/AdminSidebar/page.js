@@ -60,6 +60,11 @@ const navItems = [
     icon: <IndianRupee size={20} />,
   },
   {
+    title: "ফি",
+    href: "/admindashboard/verify",
+    icon: <IndianRupee size={20} />,
+  },
+  {
     title: "নোটিফিকেশন",
     href: "/admindashboard/notification",
     icon: <Bell size={20} />,
