@@ -13,18 +13,10 @@ export const submitStudentInfo = async (req, res) => {
     const userId = req.user.id; // From JWT middleware
 
     if (!req.file) {
-      return res.status(400).json({ error: "No image uploaded" });
-    }
-
-    // First check if regNo exists in Verify table
-    const verifiedRecord = await prisma.verify.findUnique({
-      where: { regNo },
-    });
-
-    if (!verifiedRecord) {
-      return res.status(403).json({
-        error: "Registration number not verified",
-        verified: false,
+      return res.status(400).json({
+        success: false,
+        error: "No image uploaded",
+        message: "Please upload a student photo",
       });
     }
 
@@ -34,9 +26,26 @@ export const submitStudentInfo = async (req, res) => {
     });
 
     if (existingStudent) {
-      return res.status(409).json({
-        error: "Student with this registration number already exists",
+      return res.status(500).json({
+        success: false,
+        error: "Duplicate registration",
+        message: "This registration number is already registered",
         exists: true,
+      });
+    }
+
+    // Check if regNo exists in Verify table
+    const verifiedRecord = await prisma.verify.findUnique({
+      where: { regNo },
+    });
+
+    if (!verifiedRecord) {
+      return res.status(400).json({
+        success: false,
+        error: "Not verified",
+        message:
+          "Registration number not verified. Please wait for admin approval",
+        verified: false,
       });
     }
 
@@ -71,18 +80,20 @@ export const submitStudentInfo = async (req, res) => {
 
     res.status(201).json({
       success: true,
+      message: "Student information submitted successfully",
       student,
       verified: true,
     });
   } catch (error) {
     console.error("Error submitting student info:", error);
     res.status(500).json({
+      success: false,
       error: "Internal server error",
+      message: "An unexpected error occurred. Please try again later",
       details: error.message,
     });
   }
 };
-
 export const checkStudentStatus = async (req, res) => {
   try {
     const userId = req.user.id; // From JWT middleware
