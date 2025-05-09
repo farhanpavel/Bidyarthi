@@ -21,26 +21,14 @@ export const submitStudentInfo = async (req, res) => {
     }
 
     // Check if student with this regNo already exists
-    const existingStudent = await prisma.student.findUnique({
-      where: { regNo },
-    });
-
-    if (existingStudent) {
-      return res.status(500).json({
-        success: false,
-        error: "Duplicate registration",
-        message: "This registration number is already registered",
-        exists: true,
-      });
-    }
 
     // Check if regNo exists in Verify table
-    const verifiedRecord = await prisma.verify.findUnique({
+    const verifiedRecord = await prisma.verify.findFirst({
       where: { regNo },
     });
 
     if (!verifiedRecord) {
-      return res.status(400).json({
+      return res.status(500).json({
         success: false,
         error: "Not verified",
         message:
