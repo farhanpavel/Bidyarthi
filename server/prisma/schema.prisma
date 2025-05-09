@@ -48,6 +48,11 @@ model Student {
   status    Boolean  @default(false)
 }
 
+model Verify {
+  id    String @id @default(uuid())
+  regNo String @unique
+}
+
 model GarbageCollection {
   id            String @id @default(uuid())
   location      String

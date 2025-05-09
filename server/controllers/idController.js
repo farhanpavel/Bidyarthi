@@ -16,6 +16,30 @@ export const submitStudentInfo = async (req, res) => {
       return res.status(400).json({ error: "No image uploaded" });
     }
 
+    // First check if regNo exists in Verify table
+    const verifiedRecord = await prisma.verify.findUnique({
+      where: { regNo },
+    });
+
+    if (!verifiedRecord) {
+      return res.status(403).json({
+        error: "Registration number not verified",
+        verified: false,
+      });
+    }
+
+    // Check if student with this regNo already exists
+    const existingStudent = await prisma.student.findUnique({
+      where: { regNo },
+    });
+
+    if (existingStudent) {
+      return res.status(409).json({
+        error: "Student with this registration number already exists",
+        exists: true,
+      });
+    }
+
     // Upload image to Cloudinary
     const result = await new Promise((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
@@ -48,6 +72,7 @@ export const submitStudentInfo = async (req, res) => {
     res.status(201).json({
       success: true,
       student,
+      verified: true,
     });
   } catch (error) {
     console.error("Error submitting student info:", error);

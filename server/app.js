@@ -19,6 +19,7 @@ import idRouter from "./routes/idRoute.js";
 import feeRouter from "./routes/feeRoute.js";
 import gateRouter from "./routes/gateRoute.js";
 import qrRouter from "./routes/qrRoute.js";
+import verifyRouter from "./routes/verifyRoute.js";
 
 const app = express();
 app.use(cors());
@@ -51,3 +52,4 @@ app.use("/api/studentid", idRouter);
 app.use("/api/fee", feeRouter);
 app.use("/api/gate", gateRouter);
 app.use("/api/qr", qrRouter);
+app.use("/api/verify", verifyRouter);
