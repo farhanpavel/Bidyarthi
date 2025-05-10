@@ -44,7 +44,7 @@ export const initiatePayment = async (req, res) => {
     total_amount: amount,
     currency: "BDT",
     tran_id: uuidv4(),
-    success_url: `http://192.168.0.106:4000/api/fee/success?feeId=${feeId}&userId=${userId}`,
+    success_url: `https://bidyarthi-server.vercel.app/api/fee/success?feeId=${feeId}&userId=${userId}`,
     fail_url: "http://localhost:3000/userdashboard/fee",
     cancel_url: "http://localhost:3030/cancel",
     ipn_url: "http://localhost:3030/ipn",
