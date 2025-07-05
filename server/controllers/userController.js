@@ -3,8 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 import admin from "firebase-admin";
+import serviceAccount from "../google-service.js";
 
-import serviceAccount from "../google-service.json" with { type: "json" };
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });

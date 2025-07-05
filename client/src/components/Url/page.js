@@ -1,1 +1,1 @@
-export const url = "https://bidyarthi-server.vercel.app";
+export const url = "http://localhost:4000";
