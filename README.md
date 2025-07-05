@@ -160,6 +160,9 @@ STORE_PASSWORD=
 GOOGLE_API_KEY="
 
 ```
+For Accessing Admin in Web use this:
+**Email** : admin@gmail.com
+**password** : admin
 
 ## 📜 License
 
