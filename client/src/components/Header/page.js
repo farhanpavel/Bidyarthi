@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import Image from "next/image";
 import { MenuIcon } from "lucide-react";
+import { MenuIcon, Download } from "lucide-react";
 export default function Header() {
   return (
     <header className="container mx-auto flex h-20 w-full shrink-0 justify-between items-center px-4 md:px-6 font-bangla ">
@@ -130,13 +131,13 @@ export default function Header() {
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-      <div>
+     <div>
   <Link
     href="https://drive.google.com/file/d/1ZiPtlhKUHTBjHNuAGZi3kQ3OR0qHCZ8I/view?usp=sharing"
     target="_blank"
-    className="bg-purple-700 uppercase text-lg px-7 py-2 text-white rounded-full font-medium 2xl:px-8 2xl:py-4"
+    className="bg-purple-700 uppercase text-lg px-7 py-2 text-white rounded-full font-medium 2xl:px-8 2xl:py-4 flex items-center gap-2"
   >
-    APK ডাউনলোড করুন
+    APK <Download size={20} />
   </Link>
 </div>
     </header>
