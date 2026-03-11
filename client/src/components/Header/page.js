@@ -8,7 +8,6 @@ import {
   NavigationMenuLink,
 } from "@/components/ui/navigation-menu";
 import Image from "next/image";
-import { MenuIcon } from "lucide-react";
 import { MenuIcon, Download } from "lucide-react";
 export default function Header() {
   return (
