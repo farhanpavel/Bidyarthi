@@ -130,13 +130,13 @@ export default function Header() {
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-     <div>
+    <div>
   <Link
     href="https://drive.google.com/file/d/1ZiPtlhKUHTBjHNuAGZi3kQ3OR0qHCZ8I/view?usp=sharing"
     target="_blank"
-    className="bg-purple-700 uppercase text-lg px-7 py-2 text-white rounded-full font-medium 2xl:px-8 2xl:py-4 flex items-center gap-2"
+    className="bg-purple-700 text-md px-7 py-2 text-white rounded-full font-medium 2xl:px-8 2xl:py-4 flex items-center gap-2"
   >
-    APK <Download size={20} />
+    অ্যাপ <Download size={16} />
   </Link>
 </div>
     </header>
