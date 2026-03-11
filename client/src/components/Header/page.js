@@ -131,13 +131,14 @@ export default function Header() {
         </NavigationMenu>
       </div>
       <div>
-        <Link
-          href="/signin"
-          className="bg-purple-700 uppercase text-lg px-7 py-2 text-white rounded-full font-medium 2xl:px-8 2xl:py-4"
-        >
-          লগইন
-        </Link>
-      </div>
+  <Link
+    href="https://drive.google.com/file/d/1ZiPtlhKUHTBjHNuAGZi3kQ3OR0qHCZ8I/view?usp=sharing"
+    target="_blank"
+    className="bg-purple-700 uppercase text-lg px-7 py-2 text-white rounded-full font-medium 2xl:px-8 2xl:py-4"
+  >
+    APK ডাউনলোড করুন
+  </Link>
+</div>
     </header>
   );
 }
